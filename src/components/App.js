@@ -19,10 +19,42 @@ import CheckAuth from "./CheckAuth";
 import ProtectedRoute from "./ProtectedRoutes";
 import './../css/styles.css'
 import ShopSearchResult from '../pages/shop/ShopSearchResult'
+import TestScroll from './TestScroll'
 
 function App() {
 
   const [query, setQuery] = useState('');
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  const [userInfo, setUserInfo] = useState({});
+let userInfos
+  console.log('loaded app.js')
+
+  async function loadUserInfo(){
+if(isAuthenticated){
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    await axios
+      .get("http://localhost:5000/users/checkIsLoggedIn", config)
+      .then((res) => {
+        if (res.data.statusCode === '200') {
+          userInfos = (res.data.user)
+          if(!userInfo) setUserInfo(userInfos)
+          console.log(userInfo)
+        } else if(res.data.statusCode === '401'){
+          localStorage.clear()
+          window.location.pathname = "/"
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  }
+
+  loadUserInfo()
+  
 
   function onSearch(query){
     console.log(query)
@@ -98,7 +130,7 @@ function App() {
           // paddingRight: "20px"
         }}>
 
-          <NavbarIndex onSearch={onSearch}/>
+          <NavbarIndex onSearch={onSearch} userInfo={userInfo}/>
           
           <button onClick={checkIsAuth}>Click me</button>
           <button onClick={handleLogOut}>Log Out</button>
@@ -109,6 +141,7 @@ function App() {
             <Route path="/register">
               <Register />
             </Route>
+            <Route path="/test" component={TestScroll}/>
             <ProtectedRoute path="/user" component={UserPage} />
 
             <Route path="/view/:id" children={<ShopItemInfo />} />

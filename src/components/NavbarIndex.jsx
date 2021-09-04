@@ -1,9 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { Navbar, Dropdown, Button, ButtonGroup } from "react-bootstrap";
+import axios from 'axios'
 
 function NavbarIndex(props) {
   const [query, setQuery] = useState("");
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  let userInfo;
+  if(isAuthenticated){
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .get("http://localhost:5000/users/checkIsLoggedIn", config)
+      .then((res) => {
+        if (res.data.statusCode === '200') {
+          userInfo = (res.data.user)          
+        } else if(res.data.statusCode === '401'){
+          localStorage.clear()
+          window.location.pathname = "/"
+          isAuthenticated=false
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   function handleOnSubmit(e) {
     e.preventDefault();
     // props.handleOnSubmit()
@@ -58,7 +82,7 @@ function NavbarIndex(props) {
             Forum
           </a>
         </li>
-        <li>
+        {!isAuthenticated && <li>
           <a
             className="nav-link"
             href="/register"
@@ -66,8 +90,8 @@ function NavbarIndex(props) {
           >
             Sign Up
           </a>
-        </li>
-        <li>
+        </li>}
+        {!isAuthenticated && <li>
           <a
             className="nav-link"
             href="/login"
@@ -75,9 +99,9 @@ function NavbarIndex(props) {
           >
             Login
           </a>
-        </li>
-        <Dropdown as={ButtonGroup}>
-          <Button variant="success">User001</Button>
+        </li>}
+        {isAuthenticated && <Dropdown as={ButtonGroup}>
+          <Button variant="success">My Profile</Button>
 
           <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
 
@@ -88,7 +112,7 @@ function NavbarIndex(props) {
             <Dropdown.Item href="#/action-4">Favourite List</Dropdown.Item>
             <Dropdown.Item href="#/action-5">Notifications</Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown>}
       </ul>
     </Navbar>
   );

@@ -8,8 +8,9 @@ import AreaSelect from "../../components/AreaSelect";
 
 function UploadBook(props) {
   const [isNotPosted, setIsNotPosted] = useState(true);
-  let statesChoice=-1;
-  const [errorMsg, setErrorMsg] = useState('');
+  let statesChoice = -1;
+  let areaLocationsChoice;
+  const [errorMsg, setErrorMsg] = useState("");
   const [data, setData] = useState({
     coverImg: "",
     img1: "",
@@ -26,8 +27,23 @@ function UploadBook(props) {
     year: "",
     quantity: 1,
     states: "",
-    location: "",
+    areaLocations: "",
     contactNumber: "",
+    whatsappLink: "",
+    messengerLink: "",
+    wechatLink: "",
+    instagramLink: "",
+  });
+  const [userInfo, setUserInfo] = useState({
+    _id: "",
+    firstName: "",
+    coverImg: "",
+    lastName: "",
+    email: "",
+    gender: "",
+    noTel: "",
+    states: "",
+    areaLocations: "",
     whatsappLink: "",
     messengerLink: "",
     wechatLink: "",
@@ -46,32 +62,79 @@ function UploadBook(props) {
     });
   }
 
-  function handleChangeSelect(name, value, statesChoices){
-    
-    if (name==='states') statesChoice = statesChoices
-console.log(statesChoice)
+  function handleChangeSelect(name, value, statesChoices) {
+    if (name === "states") statesChoice = statesChoices;
+    else if (name === "areaLocations") areaLocationsChoice = statesChoices;
+
     setData((prevValue) => {
       return { ...prevValue, [name]: value };
     });
   }
 
-  // useEffect(()=>{
-  //     console.log('updated')
-  // })
+  useEffect(() => {
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .get("http://localhost:5000/users/retrieveInfo", config)
+      .then((res) => {
+        console.log("ok");
+        console.log(res.data.noTel);
+        setUserInfo({ ...res.data, areaLocations: res.data.location });
+        setData({
+          coverImg: "",
+          img1: "",
+          img2: "",
+          title: "",
+          price: "",
+          description: "",
+          categories: "",
+          uploadedBy: "",
+          publishingCompany: "",
+          language: "",
+          isbn: 0,
+          coverType: "",
+          year: "",
+          quantity: 1,
+          states: res.data.states,
+          areaLocations: res.data.location,
+          contactNumber: '0'+res.data.noTel,
+          whatsappLink: res.data.whatsappLink,
+          messengerLink: res.data.messengerLink,
+          wechatLink: res.data.wechatLink,
+          instagramLink: res.data.instagramLink,
+        });
+        console.log(data)
+      })
+      .catch((err) => console.log(err));
+  }, [userInfo._id]);
 
-  function checkNoEmpty(){
-    if(!data.coverImg || !data.title || !data.price || !data.description || !data.categories || !data.language || !data.states || !data.location || !data.contactNumber){
-      setErrorMsg('Please Enter All Required Fields! ')
-      console.log(data)
-      return false
+  function checkNoEmpty() {
+    if (
+      !data.coverImg ||
+      !data.title ||
+      !data.price ||
+      !data.description ||
+      !data.categories ||
+      !data.language ||
+      !data.states ||
+      !data.areaLocations ||
+      !data.contactNumber
+    ) {
+      setErrorMsg("Please Enter All Required Fields! ");
+      console.log(data);
+      return false;
     }
 
-    return true
+    return true;
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(checkNoEmpty()){
+    if (checkNoEmpty()) {
       try {
         let formData = new FormData();
         formData.append("coverImg", data.coverImg);
@@ -82,7 +145,8 @@ console.log(statesChoice)
         formData.append("categories", data.categories);
         formData.append("states", data.states);
         formData.append("year", data.year);
-        formData.append("location", data.location);
+        formData.append("price", data.price);
+        formData.append("location", data.areaLocations);
         formData.append("contactNumber", data.contactNumber);
         formData.append("whatsappLink", data.whatsappLink);
         formData.append("instagramLink", data.instagramLink);
@@ -90,7 +154,7 @@ console.log(statesChoice)
         formData.append("wechatLink", data.wechatLink);
         formData.append("language", data.language);
         console.log(data);
-  
+
         const res = await fetch(`http://localhost:5000/sellers/upload`, {
           method: "POST",
           body: formData,
@@ -113,7 +177,7 @@ console.log(statesChoice)
             year: "",
             quantity: 1,
             states: "",
-            location: "",
+            areaLocations: "",
             contactNumber: "",
             whatsappLink: "",
             messengerLink: "",
@@ -127,46 +191,16 @@ console.log(statesChoice)
       } catch (error) {
         console.log(error);
       }
-    }else{
-
+    } else {
     }
-    
-    
   };
-  //   const res = await fetch(`http://localhost:5000/tryupload`, {
-  //     method: "POST",
-  //     body: formData,
-  //   });
-  //   if (res.ok) {
-  //       console.log('ok')
-  //     // setData({ name: "", image: "" });
-  //     // history.replace("/");
-  //   }
-  // const config = {
-  //     withCredentials: true,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   };
-
-  // axios
-  // .post("http://localhost:5000/tryupload", data, config)
-  // .then((res) => {
-  //   if (res.status === 200) {
-  //       console.log('ok', res.data)
-  //   }else{
-  //     console.log('not ok', res.data)
-
-  //   }
-  // })
-  // .catch((err) => console.log(err));
 
   return (
     <section
       className="h-100 h-custom gradient-custom-2"
       style={{ backgroundColor: "#eee" }}
     >
-      {errorMsg!='' && <p>{errorMsg}</p>}
+      {errorMsg != "" && <p>{errorMsg}</p>}
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-12">
@@ -301,6 +335,7 @@ console.log(statesChoice)
                                   Select a Categories
                                 </option>
                                 <option value="Art">Art</option>
+                                <option value="Fiction">Fiction</option>
                               </select>
                             </div>
                           </div>
@@ -349,7 +384,8 @@ console.log(statesChoice)
 
                         <div className="mb-4 pb-2">
                           <div className="form-outline form-white">
-                            <StatesSelect onChange={handleChangeSelect}/>
+                            {/* <StatesSelect onChange={handleChangeSelect} /> */}
+                            <StatesSelect onChange={handleChangeSelect} states = {data.states}/>
                             {/* <label htmlFor="states">States: </label>
                             <select
                               name="states"
@@ -371,8 +407,9 @@ console.log(statesChoice)
 
                         <div className="mb-4 pb-2">
                           <div className="form-outline form-white">
-                          <AreaSelect onChange={handleChangeSelect}/>
-                            {/* <label htmlFor="location">Area Location</label>
+                            {/* <AreaSelect onChange={handleChangeSelect} /> */}
+
+                            <AreaSelect states = {data.states} userAreaLocation={data.areaLocations} onChange={handleChangeSelect} />                            {/* <label htmlFor="location">Area Location</label>
                             <select
                               name="location"
                               onChange={handleOnChange}

@@ -1,35 +1,49 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import BookRow from "./BookRow";
 import "../../css/styles.css";
 import LoadingSkeletonBookRow from "./LoadingSkeletonBookRow";
+import useBookSearch from "../../components/useBookSearch";
 
 function ShopIndex() {
   const { query } = useParams();
-  console.log(query);
+  const [pageNumber, setPageNumber] = useState(1);
 
-  const [books, setBooks] = useState([]);
+  // const [books, setBooks] = useState([]);
   const [num, setNum] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
   const [noResult, setNoResult] = useState(false);
 
-  useEffect(() => {
-    axios.get("http://localhost:5000/search=" + query).then((res) => {
-      setBooks(res.data); //.slice(0, 10)
-      if (books.length == 0) setNoResult(true);
-      else setNoResult(false);
-    });
-  });
+  const { books, loading, error, hasMore } = useBookSearch(query, pageNumber);
 
+  const observer = useRef();
+  const lastBookElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevValue) => {
+            console.log(prevValue);
+            return prevValue + 1;
+          });
+          console.log(pageNumber);
+        }
+      });
+      if (node) observer.current.observe(node);
+      console.log(node);
+    },
+    [loading, hasMore]
+  );
+  // useEffect(() => {
+  //   axios.get("http://localhost:5000/search=" + query).then((res) => {
+  //     setBooks(res.data); //.slice(0, 10)
+  //     if (books.length == 0) setNoResult(true);
+  //     else setNoResult(false);
+  //   });
+  // });
 
-  /**
-   * 
-   * const obj = {
-   * woidth: '8px',
-   * height: '10px"
-   * }    backgroundColor
-  */
   return (
     <div>
       <section className="h-100" style={{ backgroundColor: "#eee" }}>
@@ -44,7 +58,14 @@ function ShopIndex() {
                         Search Result:
                       </p>
                       {books.length > 0 &&
-                        books.map((book) => {
+                        books.map((book, index) => {
+                          if (books.length === index + 1) {
+                            return (
+                              <div ref={lastBookElementRef}>
+                                <BookRow books={book} key={book._id} />
+                              </div>
+                            );
+                          }
                           return <BookRow books={book} key={book._id} />;
                         })}
 
@@ -57,7 +78,9 @@ function ShopIndex() {
                       )}
 
                       {noResult && books.length == 0 && <p>No Results</p>}
-
+                      {loading && <LoadingSkeletonBookRow />}
+                      {error && <div>Error</div>}
+                      {!hasMore && <div>Finished</div>}
                       {/* <%for(let i=0; i<books.length ; i++ ){%> */}
 
                       {/* <%}%>   */}
