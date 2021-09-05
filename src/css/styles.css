@@ -15,3 +15,16 @@
 .transparent{
     opacity: 0;
 }
+
+.content-sidebar{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content-sidebar > *:nth-child(1) {
+    flex: 1 1 20%;
+}
+
+.content-sidebar > *:nth-child(2) {
+    flex: 1 1 80%;
+}

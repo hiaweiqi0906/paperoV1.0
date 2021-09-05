@@ -37,8 +37,9 @@ function ShopIndex() {
         <div className="container-fluid py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-lg-12 col-xl-11">
+
               <div className="row">
-                <div className="col-lg-2 mb-4">
+                {/* <div className="col-lg-2 mb-4">
                   <div className="card text-black" style={{ borderRadius:"25px" }}>
                     <div className="card-body p-md-5">
                       <div className="row justify-content-center">
@@ -64,12 +65,54 @@ function ShopIndex() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-lg-10">
+                </div> */}
+
+                <div className="col-lg-12">
                   <div className="card text-black" style={{ borderRadius: "25px" }}>
                     <div className="card-body p-md-5">
                       <div className="row justify-content-center">
-                        <div className="">
+                        <div className="content-sidebar">
+                          <div className="col">
+                            <div className="card-body p-md-5">
+                              <div className="row justify-content-center">
+                                <div className="p-3">
+                                  <div className="mb-5">
+                                    <br /> <br /> 
+                                    <div
+                                    className="container-fluid"
+                                    style={{
+                                      backgroundColor: " lightgrey",
+                                      borderRadius: "5px",
+                                      marginBottom: "10px",
+                                    }}
+                                    >
+                                      <div className="p-3">
+                                        <form>
+                                          <p class="h4 fw-bold">Categories</p> <br />
+                                          <input type="checkbox" /><span>&emsp;Sci-Fi</span> <br />
+                                          <input type="checkbox" /><span>&emsp;Fantasy</span> <br />
+                                          <input type="checkbox" /><span>&emsp;Mystery</span> <br />
+                                          <input type="checkbox" /><span>&emsp;Romance</span> <br /> <br /> <br />
+
+                                          <p class="h4 fw-bold">Price</p> <br />
+                                          <input type="checkbox" /><span>&emsp;RM0 - RM10</span> <br />
+                                          <input type="checkbox" /><span>&emsp;RM10 - RM20</span> <br />
+                                          <input type="checkbox" /><span>&emsp;RM20 - RM30</span> <br />
+                                          <input type="checkbox" /><span>&emsp;RM30 - RM40</span> <br />
+                                          <input type="checkbox" /><span>&emsp;RM40 and above</span> <br /> <br /> <br />
+                                          <div className="text-center">
+                                            <button type="submit">Apply</button>
+                                          </div>
+                                        </form>
+                                      </div>  
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col">
+                          <div className="">
                           <p className="text-center h3 fw-bold mb-5 mx-1 mx-md-4 mt-4">
                             Search Result:
                           </p>  
@@ -90,11 +133,15 @@ function ShopIndex() {
 
                           {/* <%}%>   */}
                         </div>
+                          </div>
+                        </div>
+                        
                         <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2"></div>
                       </div>
                     </div>
                   </div>
                 </div>
+                
               </div>
             </div>
           </div>
