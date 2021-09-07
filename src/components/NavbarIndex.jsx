@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { Navbar, Dropdown, Button, ButtonGroup } from "react-bootstrap";
 import axios from 'axios'
+import UserFavourite from "../pages/user/UserFavourite";
 
 function NavbarIndex(props) {
   const [query, setQuery] = useState("");
@@ -23,6 +24,28 @@ function NavbarIndex(props) {
           localStorage.clear()
           window.location.pathname = "/"
           isAuthenticated=false
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleLogOut() {
+
+    const config = {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    axios
+      .get("http://localhost:5000/users/logout", config)
+      .then((res) => {
+        if (res.status === 200) {
+          localStorage.clear()
+          window.location.pathname = "/"
+        } else {
+          console.log('not ok', res.data)
         }
       })
       .catch((err) => console.log(err));
@@ -77,11 +100,11 @@ function NavbarIndex(props) {
             Upload Book
           </a>
         </li>
-        <li>
+        {/* <li>
           <a className="nav-link" href="/" style={{ color: "floralwhite" }}>
             Forum
           </a>
-        </li>
+        </li> */}
         {!isAuthenticated && <li>
           <a
             className="nav-link"
@@ -107,10 +130,10 @@ function NavbarIndex(props) {
 
           <Dropdown.Menu>
             <Dropdown.Item href="/user/setting">Setting</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">My Books</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Request Book</Dropdown.Item>
-            <Dropdown.Item href="#/action-4">Favourite List</Dropdown.Item>
-            <Dropdown.Item href="#/action-5">Notifications</Dropdown.Item>
+            <Dropdown.Item href="/user/info">My Books</Dropdown.Item>
+            {/* <Dropdown.Item href="#/action-3">Request Book</Dropdown.Item> */}
+            <Dropdown.Item href="/user/favourite">Favourite List</Dropdown.Item>
+            <Dropdown.Item onClick={handleLogOut}>Log Out</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>}
       </ul>

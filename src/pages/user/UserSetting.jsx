@@ -25,7 +25,7 @@ function UserSetting(props) {
   const [error, setError] = useState("");
 
   function handleChangeSelect(name, value, statesChoices) {
-    if (name === "states") statesChoice = statesChoices;
+    if (name === "states") {statesChoice = statesChoices; userInfo.areaLocations=''}
     else if (name === "areaLocations") areaLocationsChoice = statesChoices;
 
     setUserInfo((prevValue) => {
@@ -87,7 +87,7 @@ function UserSetting(props) {
       .then((res) => {
         console.log("ok");
         console.log(res.data);
-        setUserInfo({ ...res.data, areaLocations: res.data.location });
+        setUserInfo({ ...res.data, areaLocations: res.data.location, noTel: '0'+res.data.noTel });
       })
       .catch((err) => console.log(err));
   }, [userInfo._id]);
@@ -283,7 +283,8 @@ function UserSetting(props) {
                                   name="email"
                                   className="form-control"
                                   placeholder="Enter Email"
-                                  onChange={handleOnChange}
+                                  readOnly
+                                  // onChange={handleOnChange}
                                   value={userInfo.email ? userInfo.email : ""}
                                 />
                               </div>

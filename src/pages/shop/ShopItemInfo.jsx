@@ -13,6 +13,29 @@ function ShopItemInfo(props) {
     });
   }, [book.bookTitle]);
 
+  function handleOnSubmitFavouriteList(e){
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .post('http://localhost:5000/users/addFavourites&id='+book._id, {}, config)
+      .then((res) => {
+        if (res.data.statusCode === '200') {
+
+          console.log('res.data')
+
+        } else if(res.data.statusCode === '401'){
+
+          // window.location.pathname = "/"
+
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <div>
       {book.bookTitle ? (
@@ -26,10 +49,10 @@ function ShopItemInfo(props) {
                 >
                   <div className="card-body p-md-5">
                     <div className="row g-0">
-                      <form>
+                      <form action={`/user/${book.uploadedBy}`}>
                         <button type="submit"> Seller Info </button>
                       </form>
-                      <form>
+                      <form onSubmit={handleOnSubmitFavouriteList}>
                         <button type="submit"> Add to Wishlist </button>
                       </form>
                       <div className="col-lg-4">
@@ -42,12 +65,17 @@ function ShopItemInfo(props) {
                           </div>
                           {/* <%for(var i=1; i<4; i++){%>
                             <%if(files[i]){%> */}
+                            
                           <div className="custom-file mb-3">
-                            <img
-                              style={{ width: "50px", height: "50px" }}
-                              src=""
+                            {book.imageUri.map((img, index) => {
+                              return <img
+                              key={index}
+                              style={{ width: "100px", height: "140px", marginRight: '15px' }}
+                              src={img}
                               alt=""
                             />
+                            })}
+                            
                           </div>
                           {/* <%}%>
                         <%}%> */}

@@ -67,54 +67,7 @@ if(isAuthenticated){
   }
   function handleOnClick(){
     console.log('clicked')
-  }
-  function checkIsAuth() {
-    console.log(CheckAuth.isAuthenticated())
-    console.log('now checking req.body on server...')
-
-    const config = {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    axios
-      .get("http://localhost:5000/users/checkIsLoggedIn", config)
-      .then((res) => {
-        if (res.status === 200) {
-          console.log('logged in', res.data)
-        } else {
-          console.log('not ok', res.data)
-        }
-      })
-      .catch((err) => console.log(err));
-  }
-
-  function handleLogOut() {
-
-    const config = {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    axios
-      .get("http://localhost:5000/users/logout", config)
-      .then((res) => {
-        if (res.status === 200) {
-          localStorage.clear()
-          window.location.pathname = "/"
-          console.log('logged out', res.data)
-          CheckAuth.logout()
-          console.log(CheckAuth.isAuthenticated())
-        } else {
-          console.log('not ok', res.data)
-        }
-      })
-      .catch((err) => console.log(err));
-  }
+  }  
 
   return (
     <Router>
@@ -132,8 +85,7 @@ if(isAuthenticated){
 
           <NavbarIndex onSearch={onSearch} userInfo={userInfo}/>
           
-          <button onClick={checkIsAuth}>Click me</button>
-          <button onClick={handleLogOut}>Log Out</button>
+
           <Switch>
             <Route path="/login">
               <TestLogin />

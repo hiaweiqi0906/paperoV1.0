@@ -14,6 +14,11 @@ setBooks([])
 
   useEffect(() => {
       if(query==='') url=`http://localhost:5000/allBooks&page=${pageNumber}`
+      else if(query==='@@@@userFavourite') url = `http://localhost:5000/users/favourites&page=${pageNumber}`
+      else if(query==='@@@@userInfo') url = `http://localhost:5000/users/info&page=${pageNumber}`
+      else if(query.includes('@@@@userOtherInfo')) {
+        let email = query.substring(17)
+        url = `http://localhost:5000/users/info&email=:${email}&page=${pageNumber}`}
       else url=`http://localhost:5000/search=${query}&page=${pageNumber}`
     setLoading(true);
     setError(false);
@@ -21,10 +26,10 @@ setBooks([])
     axios({
       method: "GET",
       url: url,
+      withCredentials: true,
       cancelToken: new axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
-          console.log(res.data)
         setBooks((prevBooks) => {
           return [...prevBooks, ...res.data]
         });
@@ -41,5 +46,6 @@ setBooks([])
       });
     return () => cancel();
   }, [query, pageNumber]);
+  console.log(loading)
   return { loading, error, books, hasMore };
 }

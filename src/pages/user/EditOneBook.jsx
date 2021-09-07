@@ -1,53 +1,25 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import FormData from "form-data";
-import { Redirect } from "react-router-dom";
-import TestLogin from "./../index/TestLogin";
+import { Redirect, useParams } from "react-router-dom";
+import TestLogin from "../index/TestLogin";
 import StatesSelect from "../../components/StatesSelect";
 import AreaSelect from "../../components/AreaSelect";
 
-function UploadBook(props) {
+function EditOneBook(props) {
+  const { bookId } = useParams();
+  console.log(bookId);
   const [isNotPosted, setIsNotPosted] = useState(true);
   let statesChoice = -1;
   let areaLocationsChoice;
   const [errorMsg, setErrorMsg] = useState("");
   const [data, setData] = useState({
+    _id: "",
+    areaLocations: "",
     coverImg: "",
     img1: "",
     img2: "",
-    title: "",
-    price: "",
-    description: "",
-    categories: "",
-    uploadedBy: "",
-    publishingCompany: "",
-    language: "",
-    isbn: 0,
-    coverType: "",
-    year: "",
-    quantity: 1,
-    states: "",
-    areaLocations: "",
-    contactNumber: "",
-    whatsappLink: "",
-    messengerLink: "",
-    wechatLink: "",
-    instagramLink: "",
-  });
-  const [userInfo, setUserInfo] = useState({
-    _id: "",
-    firstName: "",
-    coverImg: "",
-    lastName: "",
-    email: "",
-    gender: "",
-    noTel: "",
-    states: "",
-    areaLocations: "",
-    whatsappLink: "",
-    messengerLink: "",
-    wechatLink: "",
-    instagramLink: "",
+    imgUri: [],
   });
 
   function handleOnChange(e) {
@@ -63,8 +35,10 @@ function UploadBook(props) {
   }
 
   function handleChangeSelect(name, value, statesChoices) {
-    if (name === "states") {statesChoice = statesChoices; areaLocationsChoice=''}
-    else if (name === "areaLocations") areaLocationsChoice = statesChoices;
+    if (name === "states") {
+      statesChoice = statesChoices;
+      data.areaLocations = "";
+    } else if (name === "areaLocations") areaLocationsChoice = statesChoices;
 
     setData((prevValue) => {
       return { ...prevValue, [name]: value };
@@ -79,48 +53,26 @@ function UploadBook(props) {
       },
     };
     axios
-      .get("http://localhost:5000/users/retrieveInfo", config)
+      .get("http://localhost:5000/view/" + bookId, config)
       .then((res) => {
-        console.log("ok");
-        console.log(res.data.noTel);
-        setUserInfo({ ...res.data, areaLocations: res.data.location });
         setData({
+          ...res.data,
+          areaLocations: res.data.location,
           coverImg: "",
           img1: "",
           img2: "",
-          title: "",
-          price: "",
-          description: "",
-          categories: "",
-          uploadedBy: "",
-          publishingCompany: "",
-          language: "",
-          isbn: 0,
-          coverType: "",
-          year: "",
-          quantity: 1,
-          states: res.data.states,
-          areaLocations: res.data.location,
-          contactNumber: '0'+res.data.noTel,
-          whatsappLink: res.data.whatsappLink,
-          messengerLink: res.data.messengerLink,
-          wechatLink: res.data.wechatLink,
-          instagramLink: res.data.instagramLink,
         });
-        console.log(data)
       })
       .catch((err) => console.log(err));
-  }, [userInfo._id]);
+  }, [data._id]);
 
   function checkNoEmpty() {
     if (
-      !data.coverImg ||
-      !data.title ||
+      !data.bookTitle ||
       !data.price ||
       !data.description ||
-      !data.categories ||
-      !data.year ||
-      !data.language ||
+      !data.category ||
+      !data.bookLanguage ||
       !data.states ||
       !data.areaLocations ||
       !data.contactNumber
@@ -135,67 +87,105 @@ function UploadBook(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (checkNoEmpty()) {
-      try {
-        let formData = new FormData();
-        formData.append("coverImg", data.coverImg);
-        formData.append("img1", data.img1);
-        formData.append("img2", data.img2);
-        formData.append("title", data.title);
-        formData.append("description", data.description);
-        formData.append("categories", data.categories);
-        formData.append("states", data.states);
-        formData.append("year", data.year);
-        formData.append("price", data.price);
-        formData.append("location", data.areaLocations);
-        formData.append("contactNumber", data.contactNumber);
-        formData.append("whatsappLink", data.whatsappLink);
-        formData.append("instagramLink", data.instagramLink);
-        formData.append("messengerLink", data.messengerLink);
-        formData.append("wechatLink", data.wechatLink);
-        formData.append("language", data.language);
-        console.log(data);
+    if (data.coverImg || data.img1 || data.img2) {
+      if (checkNoEmpty()) {
+        try {
+          let formData = new FormData();
+          // formData.append("coverImg", data.coverImg);
+          data.coverImg && formData.append("coverImg", data.coverImg);
+          data.img1 && formData.append("img1", data.img1);
+          data.img2 && formData.append("img2", data.img2);
+          formData.append("_id", data._id);
+          formData.append("bookTitle", data.bookTitle);
+          formData.append("imageUri", data.imageUri);
+          formData.append("imageId", data.imageId);
+          formData.append("description", data.description);
+          formData.append("category", data.category);
+          formData.append("states", data.states);
+          formData.append("year", data.year);
+          formData.append("price", data.price);
+          formData.append("location", data.areaLocations);
+          formData.append("noTel", data.contactNumber);
+          formData.append("whatsappLink", data.whatsappLink);
+          formData.append("instagramLink", data.instagramLink);
+          formData.append("messengerLink", data.messengerLink);
+          formData.append("wechatLink", data.wechatLink);
+          formData.append("bookLanguage", data.bookLanguage);
+          formData.append("coverImgUri", data.coverImgUri);
+          formData.append("coverImgId", data.bookLanguage);
+          formData.append("uploadedBy", data.uploadedBy);
+          formData.append("isbn", data.isbn);
+          formData.append("coverType:", data.coverType);
+          formData.append("quantity", data.quantity);
+          formData.append("publishingCompany", data.publishingCompany);
+          console.log(data);
 
-        const res = await fetch(`http://localhost:5000/sellers/upload`, {
-          method: "POST",
-          body: formData,
-          credentials: "include",
-        });
-        if (res.ok) {
-          setData({
-            coverImg: "",
-            img1: "",
-            img2: "",
-            title: "",
-            price: "",
-            description: "",
-            categories: "",
-            uploadedBy: "",
-            publishingCompany: "",
-            language: "",
-            isbn: 0,
-            coverType: "",
-            year: "",
-            quantity: 1,
-            states: "",
-            areaLocations: "",
-            contactNumber: "",
-            whatsappLink: "",
-            messengerLink: "",
-            wechatLink: "",
-            instagramLink: "",
-          });
-          setIsNotPosted(false);
-          window.location.pathname = "/";
-          console.log("ok");
+          const res = await fetch(
+            `http://localhost:5000/sellers/edit/${bookId}`,
+            {
+              method: "POST",
+              body: formData,
+              credentials: "include",
+            }
+          );
+          if (res.ok) {
+            setData({
+              coverImg: "",
+              img1: "",
+              img2: "",
+              title: "",
+              price: "",
+              description: "",
+              categories: "",
+              uploadedBy: "",
+              publishingCompany: "",
+              language: "",
+              isbn: 0,
+              coverType: "",
+              year: "",
+              quantity: 1,
+              states: "",
+              areaLocations: "",
+              contactNumber: "",
+              whatsappLink: "",
+              messengerLink: "",
+              wechatLink: "",
+              instagramLink: "",
+            });
+            setIsNotPosted(false);
+            window.location.pathname = "/";
+            console.log("ok");
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } 
     } else {
+      if (checkNoEmpty()) {
+
+        data.location = data.areaLocations;
+        console.log("data", data);
+        const config = {
+          withCredentials: true,
+          headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      axios
+      .post("http://localhost:5000/sellers/edit/" + bookId, data, config)
+      .then((res) => {
+        console.log(res.data)
+          if (res.data.msg === "Book Updated") {
+            window.location.pathname = "/";
+          } else if (res.data.statusCode === "401") {
+            window.location.pathname = "/"
+          }
+        })
+        .catch((err) => console.log(err));
+      }
     }
   };
-
+  
   return (
     <section
       className="h-100 h-custom gradient-custom-2"
@@ -214,10 +204,14 @@ function UploadBook(props) {
                   <div className="row g-0">
                     <div className="col-lg-6">
                       <div className="p-5">
-                        <h3 className="fw-normal mb-5">Upload Book</h3>
+                        <h3 className="fw-normal mb-5">Edit Book</h3>
                         <div className="row">
                           <div className="col-md-6 mb-2 pb-2">
                             <div className="custom-file mb-3">
+                              <img
+                                src={data.coverImgUri}
+                                style={{ height: "100px", width: "100px" }}
+                              />
                               <label
                                 htmlFor="file"
                                 className="custom-file-label"
@@ -238,8 +232,12 @@ function UploadBook(props) {
                         <div className="row">
                           <div className="col-md-6 mb-2 pb-2">
                             <div className="custom-file mb-3">
+                              <img
+                                src={data.imageUri ? data.imageUri[0] : ""}
+                                style={{ height: "100px", width: "100px" }}
+                              />
                               <label
-                                htmlFor="file"
+                                htmlFor="img1"
                                 className="custom-file-label"
                               >
                                 {" "}
@@ -256,13 +254,18 @@ function UploadBook(props) {
                           </div>
                           <div className="col-md-6 mb-2 pb-2">
                             <div className="custom-file mb-3">
+                              <img
+                                src={data.imageUri ? data.imageUri[1] : ""}
+                                style={{ height: "100px", width: "100px" }}
+                              />
                               <label
-                                htmlFor="file"
+                                htmlFor="img2"
                                 className="custom-file-label"
                               >
                                 {" "}
                                 Choose Photo 2:
                               </label>
+
                               <input
                                 type="file"
                                 name="img2"
@@ -279,10 +282,10 @@ function UploadBook(props) {
                               <label htmlFor="title">Title</label>
                               <input
                                 type="text"
-                                id="title"
-                                value={data.title}
+                                id="bookTitle"
+                                value={data.bookTitle}
                                 onChange={handleOnChange}
-                                name="title"
+                                name="bookTitle"
                                 className="form-control"
                                 placeholder="Enter Title"
                               />
@@ -320,16 +323,18 @@ function UploadBook(props) {
                         <div className="row">
                           <div className="col-md-4 mb-2 pb-2">
                             <div className="form-group">
-                              <label htmlFor="categories">Categories: </label>
+                              <label htmlFor="category">Categories: </label>
                               <select
-                                name="categories"
+                                name="category"
                                 id="categories"
                                 className="form-control"
                                 onChange={handleOnChange}
+                                value={data.category}
                               >
                                 <option
                                   value="none"
                                   defaultValue
+                                  disabled
                                   hidden
                                 >
                                   Select a Categories
@@ -341,16 +346,18 @@ function UploadBook(props) {
                           </div>
                           <div className="col-md-4 mb-2 pb-2">
                             <div className="form-group">
-                              <label htmlFor="language">Language: </label>
+                              <label htmlFor="bookLanguage">Language: </label>
                               <select
-                                name="language"
+                                name="bookLanguage"
                                 onChange={handleOnChange}
-                                id="language"
+                                id="bookLanguage"
+                                value={data.bookLanguage}
                                 className="form-control"
                               >
                                 <option
                                   value="none"
                                   defaultValue
+                                  disabled
                                   hidden
                                 >
                                   Select a Language
@@ -384,7 +391,10 @@ function UploadBook(props) {
                         <div className="mb-4 pb-2">
                           <div className="form-outline form-white">
                             {/* <StatesSelect onChange={handleChangeSelect} /> */}
-                            <StatesSelect onChange={handleChangeSelect} states = {data.states}/>
+                            <StatesSelect
+                              onChange={handleChangeSelect}
+                              states={data.states}
+                            />
                             {/* <label htmlFor="states">States: </label>
                             <select
                               name="states"
@@ -407,8 +417,12 @@ function UploadBook(props) {
                         <div className="mb-4 pb-2">
                           <div className="form-outline form-white">
                             {/* <AreaSelect onChange={handleChangeSelect} /> */}
-
-                            <AreaSelect states = {data.states} userAreaLocation={data.areaLocations} onChange={handleChangeSelect} />                            {/* <label htmlFor="location">Area Location</label>
+                            <AreaSelect
+                              states={data.states}
+                              userAreaLocation={data.areaLocations}
+                              onChange={handleChangeSelect}
+                            />{" "}
+                            {/* <label htmlFor="location">Area Location</label>
                             <select
                               name="location"
                               onChange={handleOnChange}
@@ -435,7 +449,7 @@ function UploadBook(props) {
                               type="text"
                               id="contactNumber"
                               name="contactNumber"
-                              value={data.contactNumber}
+                              value={"0" + data.contactNumber}
                               onChange={handleOnChange}
                               className="form-control"
                             />
@@ -525,4 +539,4 @@ function UploadBook(props) {
   );
 }
 
-export default UploadBook;
+export default EditOneBook;
