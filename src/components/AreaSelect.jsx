@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 function AreaSelect(props) {
   const [states, setStates] = useState([
-    "Johor",
+    ["Johor","Muar"],
     "Kedah",
     "Kelantan",
     "Kuala Lumpur",
