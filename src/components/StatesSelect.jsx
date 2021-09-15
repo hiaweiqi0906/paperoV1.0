@@ -28,12 +28,12 @@ function StatesSelect(props) {
       <select
         name="states"
         onChange={(e)=>{
-    props.onChange(e.target.name, e.target.value, states.indexOf(e.target.value))
-  }}
+          props.onChange(e.target.name, e.target.value, states.indexOf(e.target.value))
+        }}
         id="states"
         className="form-control"
       >
-          <option>test</option> 
+          
           {states.map((state)=>{
               return <option key={state} value={state}>{state}</option>
           })}
