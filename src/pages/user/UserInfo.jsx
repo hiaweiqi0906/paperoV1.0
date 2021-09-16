@@ -1,19 +1,32 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import BookRow from "./BookRow";
+import BookRowFavourites from "./../shop/BookRowFavourites";
 import "../../css/styles.css";
-import LoadingSkeletonBookRow from "./LoadingSkeletonBookRow";
+import BookRowEditable from "./../shop/BookRowEditable";
+import LoadingSkeletonBookRow from "./../shop/LoadingSkeletonBookRow";
 import useBookSearch from "../../components/useBookSearch";
+import EditOneBook from './EditOneBook'
 
-function ShopIndex() {
-  const { query } = useParams();
-  const [pageNumber, setPageNumber] = useState(1);
-
-  // const [books, setBooks] = useState([]);
+export default function UserInfo() {
   const [num, setNum] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
+  const [pageNumber, setPageNumber] = useState(1);
   let noResult = false;
+  const [userInfo, setUserInfo] = useState({
+    _id: "",
+    firstName: "",
+    coverImg: "",
+    lastName: "",
+    email: "",
+    gender: "",
+    noTel: "",
+    states: "",
+    whatsappLink: "",
+    messengerLink: "",
+    wechatLink: "",
+    instagramLink: "",
+  });
+  let query = "@@@@userInfo";
   const { books, loading, error, hasMore } = useBookSearch(query, pageNumber);
   if (books.length === 0) noResult = true;
 
@@ -36,13 +49,22 @@ function ShopIndex() {
     },
     [loading, hasMore]
   );
-  // useEffect(() => {
-  //   axios.get("http://localhost:5000/search=" + query).then((res) => {
-  //     setBooks(res.data); //.slice(0, 10)
-  //     if (books.length == 0) setNoResult(true);
-  //     else setNoResult(false);
-  //   });
-  // });
+
+  useEffect(() => {
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .get("http://localhost:5000/users/retrieveInfo", config)
+      .then((res) => {
+        console.log('here', res.data);
+        setUserInfo({ ...res.data});
+      })
+      .catch((err) => console.log(err));
+  }, [userInfo._id]);
 
   return (
     <div>
@@ -55,18 +77,18 @@ function ShopIndex() {
                   <div className="row justify-content-center">
                     <div className="">
                       <p className="text-center h3 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                        Search Result:
+                        Your Uploaded Books
                       </p>
                       {books.length > 0 &&
                         books.map((book, index) => {
                           if (books.length === index + 1) {
                             return (
                               <div ref={lastBookElementRef}>
-                                <BookRow books={book} key={book._id} />
+                                <BookRowEditable bookId={book._id} books={book} key={book._id} />
                               </div>
                             );
                           }
-                          return <BookRow books={book} key={book._id} />;
+                          return <BookRowEditable bookId={book._id} books={book} key={book._id} />;
                         })}
 
                       {books.length == 0 && !noResult && (
@@ -76,6 +98,7 @@ function ShopIndex() {
                           })}
                         </React.Fragment>
                       )}
+
                       {loading && <LoadingSkeletonBookRow />}
                       {noResult && !loading && <p>No Results</p>}
                       {error && <div>Error</div>}
@@ -95,5 +118,3 @@ function ShopIndex() {
     </div>
   );
 }
-
-export default ShopIndex;

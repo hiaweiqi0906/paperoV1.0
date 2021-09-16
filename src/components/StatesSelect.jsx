@@ -26,6 +26,7 @@ function StatesSelect(props) {
     <>
       <label htmlFor="states">States</label>
       <select
+      value={props.states? props.states : ""}
         name="states"
         onChange={(e)=>{
           props.onChange(e.target.name, e.target.value, states.indexOf(e.target.value))
@@ -33,7 +34,7 @@ function StatesSelect(props) {
         id="states"
         className="form-control"
       >
-          
+          <option defaultValue disabled >Select a States</option> 
           {states.map((state)=>{
               return <option key={state} value={state}>{state}</option>
           })}

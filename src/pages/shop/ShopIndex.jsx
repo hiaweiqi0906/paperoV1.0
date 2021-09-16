@@ -1,19 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useCallback  } from "react";
 import { useState } from "react";
 import axios from "axios";
 import BookRow from "./BookRow";
 import "../../css/styles.css";
 import LoadingSkeletonBookRow from "./LoadingSkeletonBookRow";
+import useBookSearch from "../../components/useBookSearch";
 
 function ShopIndex() {
-  const [books, setBooks] = useState([]);
+  // const [books, setBooks] = useState([]);
   const [num, setNum] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
+  const [pageNumber, setPageNumber] = useState(1);
 
-  useEffect(() => {
-    axios.get("http://localhost:5000/allBooks").then((res) => {
-      setBooks(res.data);//.slice(0, 10)
-    });
-  });
+  let query=''
+  const { books, loading, error, hasMore } = useBookSearch(query, pageNumber);
+  const observer = useRef();
+  const lastBookElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevValue) => {
+            console.log(prevValue);
+            return prevValue + 1;
+          });
+          console.log(pageNumber);
+        }
+      });
+      if (node) observer.current.observe(node);
+      console.log(node);
+    },
+    [loading, hasMore]
+  );
+  // useEffect(() => {
+  //   axios.get("http://localhost:5000/allBooks").then((res) => {
+  //     setBooks(res.data);//.slice(0, 10)
+  //   });
+  // });
   return (
     <div>
       
@@ -29,7 +52,14 @@ function ShopIndex() {
                         Book Recommended
                       </p>
                       {books.length > 0 ? (
-                        books.map((book) => {
+                        books.map((book, index) => {
+                          if (books.length === index + 1) {
+                            return (
+                              <div ref={lastBookElementRef}>
+                                <BookRow books={book} key={book._id} />
+                              </div>
+                            );
+                          }
                           return <BookRow books={book} key={book._id} />;
                         })
                       ) : (
@@ -39,7 +69,9 @@ function ShopIndex() {
                           })}
                         </React.Fragment>
                       )}
-
+{loading && <LoadingSkeletonBookRow />}
+                      {error && <div>Error</div>}
+                      {!hasMore && <div>Finished</div>}
                       {/* <%for(let i=0; i<books.length ; i++ ){%> */}
 
                       {/* <%}%>   */}

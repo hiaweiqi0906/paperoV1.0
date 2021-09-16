@@ -7,6 +7,10 @@ import {
 } from "react-router-dom";
 import UploadBook from "./UploadBook";
 import UserSetting from "./UserSetting";
+import UserFavourite from "./UserFavourite";
+import UserInfo from "./UserInfo";
+import EditOneBook from "./EditOneBook";
+import OtherUserInfo from "./OtherUserInfo";
 import axios from "axios";
 
 function UserPage() {
@@ -48,6 +52,16 @@ function UserPage() {
           <Route path="/user/setting">
             <UserSetting userInfo={userInfo} />
           </Route>
+          <Route path="/user/favourite">
+            <UserFavourite userInfo={userInfo} />
+          </Route>
+          <Route exact path="/user/info">
+            <UserInfo userInfo={userInfo} />
+          </Route>
+          <Route exact path="/user/edit/:bookId">
+            <EditOneBook userInfo={userInfo} />
+          </Route>
+          <Route path="/user/:email" children={<OtherUserInfo />} />
           <Route path="/">
             <Redirect to="/" />
           </Route>

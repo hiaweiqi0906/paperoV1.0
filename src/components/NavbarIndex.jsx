@@ -1,9 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { Navbar, Dropdown, Button, ButtonGroup } from "react-bootstrap";
+import axios from 'axios'
+import UserFavourite from "../pages/user/UserFavourite";
 
 function NavbarIndex(props) {
   const [query, setQuery] = useState("");
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  let userInfo;
+  if(isAuthenticated){
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .get("http://localhost:5000/users/checkIsLoggedIn", config)
+      .then((res) => {
+        if (res.data.statusCode === '200') {
+          userInfo = (res.data.user)          
+        } else if(res.data.statusCode === '401'){
+          localStorage.clear()
+          window.location.pathname = "/"
+          isAuthenticated=false
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleLogOut() {
+
+    const config = {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    axios
+      .get("http://localhost:5000/users/logout", config)
+      .then((res) => {
+        if (res.status === 200) {
+          localStorage.clear()
+          window.location.pathname = "/"
+        } else {
+          console.log('not ok', res.data)
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   function handleOnSubmit(e) {
     e.preventDefault();
     // props.handleOnSubmit()
@@ -53,12 +100,12 @@ function NavbarIndex(props) {
             Upload Book
           </a>
         </li>
-        <li>
+        {/* <li>
           <a className="nav-link" href="/" style={{ color: "floralwhite" }}>
             Forum
           </a>
-        </li>
-        <li>
+        </li> */}
+        {!isAuthenticated && <li>
           <a
             className="nav-link"
             href="/register"
@@ -66,8 +113,8 @@ function NavbarIndex(props) {
           >
             Sign Up
           </a>
-        </li>
-        <li>
+        </li>}
+        {!isAuthenticated && <li>
           <a
             className="nav-link"
             href="/login"
@@ -75,20 +122,20 @@ function NavbarIndex(props) {
           >
             Login
           </a>
-        </li>
-        <Dropdown as={ButtonGroup}>
-          <Button variant="success">User001</Button>
+        </li>}
+        {isAuthenticated && <Dropdown as={ButtonGroup}>
+          <Button variant="success">My Profile</Button>
 
           <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
 
           <Dropdown.Menu>
             <Dropdown.Item href="/user/setting">Setting</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">My Books</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Request Book</Dropdown.Item>
-            <Dropdown.Item href="#/action-4">Favourite List</Dropdown.Item>
-            <Dropdown.Item href="#/action-5">Notifications</Dropdown.Item>
+            <Dropdown.Item href="/user/info">My Books</Dropdown.Item>
+            {/* <Dropdown.Item href="#/action-3">Request Book</Dropdown.Item> */}
+            <Dropdown.Item href="/user/favourite">Favourite List</Dropdown.Item>
+            <Dropdown.Item onClick={handleLogOut}>Log Out</Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown>}
       </ul>
     </Navbar>
   );

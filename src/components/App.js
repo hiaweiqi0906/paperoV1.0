@@ -19,10 +19,42 @@ import CheckAuth from "./CheckAuth";
 import ProtectedRoute from "./ProtectedRoutes";
 import './../css/styles.css'
 import ShopSearchResult from '../pages/shop/ShopSearchResult'
+import TestScroll from './TestScroll'
 
 function App() {
 
   const [query, setQuery] = useState('');
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  const [userInfo, setUserInfo] = useState({});
+let userInfos
+  console.log('loaded app.js')
+
+  async function loadUserInfo(){
+if(isAuthenticated){
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    await axios
+      .get("http://localhost:5000/users/checkIsLoggedIn", config)
+      .then((res) => {
+        if (res.data.statusCode === '200') {
+          userInfos = (res.data.user)
+          if(!userInfo) setUserInfo(userInfos)
+          console.log(userInfo)
+        } else if(res.data.statusCode === '401'){
+          localStorage.clear()
+          window.location.pathname = "/"
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  }
+
+  loadUserInfo()
+  
 
   function onSearch(query){
     console.log(query)
@@ -35,54 +67,7 @@ function App() {
   }
   function handleOnClick(){
     console.log('clicked')
-  }
-  function checkIsAuth() {
-    console.log(CheckAuth.isAuthenticated())
-    console.log('now checking req.body on server...')
-
-    const config = {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    axios
-      .get("http://localhost:5000/users/checkIsLoggedIn", config)
-      .then((res) => {
-        if (res.status === 200) {
-          console.log('logged in', res.data)
-        } else {
-          console.log('not ok', res.data)
-        }
-      })
-      .catch((err) => console.log(err));
-  }
-
-  function handleLogOut() {
-
-    const config = {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    axios
-      .get("http://localhost:5000/users/logout", config)
-      .then((res) => {
-        if (res.status === 200) {
-          localStorage.clear()
-          window.location.pathname = "/"
-          console.log('logged out', res.data)
-          CheckAuth.logout()
-          console.log(CheckAuth.isAuthenticated())
-        } else {
-          console.log('not ok', res.data)
-        }
-      })
-      .catch((err) => console.log(err));
-  }
+  }  
 
   return (
     <Router>
@@ -98,10 +83,9 @@ function App() {
           // paddingRight: "20px"
         }}>
 
-          <NavbarIndex onSearch={onSearch}/>
+          <NavbarIndex onSearch={onSearch} userInfo={userInfo}/>
           
-          <button onClick={checkIsAuth}>Click me</button>
-          <button onClick={handleLogOut}>Log Out</button>
+
           <Switch>
             <Route path="/login">
               <TestLogin />
@@ -109,6 +93,7 @@ function App() {
             <Route path="/register">
               <Register />
             </Route>
+            <Route path="/test" component={TestScroll}/>
             <ProtectedRoute path="/user" component={UserPage} />
 
             <Route path="/view/:id" children={<ShopItemInfo />} />
