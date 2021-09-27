@@ -19,23 +19,27 @@ function UserPage() {
   let userInfo;
 
   useEffect(() => {
+    const authToken = localStorage.getItem("authToken") || "empty";
     const config = {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
       },
     };
 
     axios
       .get("http://localhost:5000/users/checkIsLoggedIn", config)
       .then((res) => {
-        if (res.data.statusCode === '200') {
-          userInfo = (res.data.user)
-          console.log(userInfo)
+        console.log("status", res.status);
+        if (res.status === 200) {
+          console.log(res.data);
+          userInfo = res.data.user;
+          console.log(userInfo);
           setIsLoggedIn(true);
-        } else if(res.data.statusCode === '401'){
-          localStorage.clear()
-          window.location.pathname = "/"
+        } else if (res.data.statusCode === "401") {
+          localStorage.clear();
+          window.location.pathname = "/";
           setIsLoggedIn(false);
         }
       })
@@ -66,7 +70,9 @@ function UserPage() {
             <Redirect to="/" />
           </Route>
         </Switch>
-      ) : <div style={{height:"500px"}}></div>}
+      ) : (
+        <div style={{ height: "500px" }}></div>
+      )}
     </Router>
   );
 }

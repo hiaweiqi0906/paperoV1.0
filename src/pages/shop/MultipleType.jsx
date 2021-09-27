@@ -8,10 +8,13 @@ import LoadingSkeletonBookRow from "./LoadingSkeletonBookRow";
 import useBookSearch from "../../components/useBookSearch";
 import FilterSection from "../../components/FilterSection";
 
-function ShopSearchResult() {
-  const { query } = useParams();
-  const searchKeyword = query.includes('&')?query.substr(7, query.indexOf('&')-7) : query
-  const allFilter = query.split('&')
+function MultipleType(props) {
+//   const { query } = useParams();
+let { query } = useParams();
+query = query ? query : props.type
+// console.log(query)
+
+  const allFilter = query ? query.split('&') : []
   const filterObj ={}
   allFilter.map((filter)=>{
     if(filter != ''){
@@ -19,8 +22,11 @@ function ShopSearchResult() {
       filterObj[objPair[0]] = objPair[1]
     }
   })
-
+  // const query = '@@@@'+props.type
+  query+='@@@@'+props.type
+  console.log(query)
   const [pageNumber, setPageNumber] = useState(1);
+
 
   // const [books, setBooks] = useState([]);
   const [num, setNum] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
@@ -36,8 +42,10 @@ function ShopSearchResult() {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setPageNumber((prevValue) => {
+            console.log(prevValue);
             return prevValue + 1;
           });
+          console.log(pageNumber);
         }
       });
       if (node) observer.current.observe(node);
@@ -54,12 +62,11 @@ function ShopSearchResult() {
   // });
 
   return (
-    <>
-      <FilterSection type="searchResult" filter={filterObj}/>
+    <><FilterSection type={props.type} filter={filterObj}/>
       <section id="other-books">
         <div className="other-books-from-this-seller">
           <div className="section-label">
-            <h3 className="uf-h3 uf-section-title">Search Result: </h3>
+            <h3 className="uf-h3 uf-section-title">{props.type === 'uploadedRecently' ? 'Uploaded Recently' : 'Preferred Books'}: </h3>
           </div>
           <div className="">
             <div className="row gx-2 margin-top-30">
@@ -97,4 +104,4 @@ function ShopSearchResult() {
   );
 }
 
-export default ShopSearchResult;
+export default MultipleType;

@@ -3,7 +3,7 @@ import { Redirect, Route } from "react-router-dom";
 import axios from 'axios'
 
 function ProtectedRoute({ component: Component, ...restOfProps }) {
-  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  const isAuthenticated = localStorage.getItem("authToken");
   
 
   return (

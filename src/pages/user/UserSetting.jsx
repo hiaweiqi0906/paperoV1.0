@@ -2,10 +2,48 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StatesSelect from "../../components/StatesSelect";
 import AreaSelect from "../../components/AreaSelect";
-
+import "../../css/finalCss.css";
 function UserSetting(props) {
   let statesChoice;
   let areaLocationsChoice;
+  const authToken = localStorage.getItem("authToken") || "empty";
+  const [avatarUri, setAvatarUri] = useState('');
+  const [states, setStates] = useState([
+    "Johor",
+    "Kedah",
+    "Kelantan",
+    "Kuala Lumpur",
+    "Labuan",
+    "Malacca",
+    "Negeri Sembilan",
+    "Pahang",
+    "Penang",
+    "Perak",
+    "Perlis",
+    "Putrajaya",
+    "Sabah",
+    "Sarawak",
+    "Selangor",
+    "Terengganu",
+  ]);
+  const [areaLocations, setAreaLocations] = useState([
+    ["Ayer Baloi", "Ayer Hitam", "Bakri", "Batu Anam", "Batu Pahat", "Bekok", "Benut", "Bukit Gambir", "Bukit Pasir", "Chaah", "Endau", "Gelang Patah", "Gerisek", "Gugusan Taib Andak", "Jementah", "Johor Bahru", "Kahang", "Kampung Kenangan Tun Dr Ismail", "Kluang", "Kota Tinggi", "Kukup", "Kulai", "Labis", "Layang Layang", "Masai", "Mersing", "Muar", "Iskandar Puteri", "Pagoh", "Paloh", "Panchor", "Parit Jawa", "Parit Raja", "Parit Sulong", "Pasir Gudang", "Pekan Nanas", "Pengerang", "Permas Jaya", "Plentong", "Pontian", "Rengam", "Rengit", "Segamat", "Semerah", "Senai", "Senggarang", "Senibong", "Seri Gading", "Setia Indah", "Setia Tropika", "Simpang Rengam", "Skudai", "Sungai Mati", "Tampoi", "Tangkak", "Ulu Tiram", "Yong Peng", "Others"],
+    ["Alor Setar", "Ayer Hitam", "Baling", "Bandar Baharu", "Bukit Kayu Hitam", "Changloon", "Guar Chempedak", "Gurun", "Jitra", "Karangan", "Kepala Batas", "Kodiang", "Kota Sarang Semut", "Kuala Kedah", "Kuala Ketil", "Kuala Muda", "Kuala Nerang", "Kubang Pasu", "Kulim", "Lunas", "Merbok", "Padang Serai", "Padang Terap", "Pendang", "Pokok Sena", "Pulau Langkawi", "Serdang", "Sik", "Simpang Empat", "Sungai Petani", "University Utara", "Yan", "Bedong", "Langgar"],
+    ["Ayer Lanas", "Bachok", "Cherang Ruku", "Dabong", "Gua Musang", "Jeli", "Kem Desa Pahwalan", "Ketereh", "Kok Lanas", "Kota Bharu", "Kuala Balah", "Kuala Kerai", "Kubang Kerian", "Machang", "Melor", "Pasir Mas", "Pasir Puteh", "Pulai Chondong", "Rantau Panjang", "Selising", "Tanah Merah", "Tawang", "Temangan", "Tumpat", "Wakaf Baru"],
+    ["Ampang Hilir", "Bandar Damai Perdana", "Bandar Menjalara", "Bandar Tasik Selatan", "Bangsar", "Bangsar South", "Batu", "Brickfields", "Bukit Bintang", "Bukit Jalil", "Bukit Ledang", "Bukit Persekutuan", "Bukit Tunku", "Cheras", "City Centre", "Country Heights", "Country Heights Damansara", "Damansara", "Damansara Heights", "Desa Pandan", "Desa ParkCity", "Desa Petaling", "Gombak", "Jalan Ampang", "Jalan Ipoh", "Jalan Kuching", "Jalan Sultan Ismail", "Jinjang", "Kenny Hills", "Kepong", "Keramat", "KL City", "KL Sentral", "KLCC", "Kuchai Lama", "Mid Valley City", "Mont Kiara", "Old Klang Road", "OUG", "Pandan Indah", "Pandan Jaya", "Pandan Perdana", "Pantai", "Pekan Batu", "Puchong", "Salak Selatan", "Segambut", "Sentul", "Seputeh", "Serdang", "Setapak", "Setia Eco Park", "Setiawangsa", "Solaris Dutamas", "Sri Damansara", "Sri Hartamas", "Sri Petaling", "Sungai Besi", "Sungai Penchala", "Taman Desa", "Taman Duta", "Taman Melawati", "Taman Tun Dr Ismail", "Taman Permata", "Titiwangsa", "TPM", "Wangsa Maju"],
+    ["Batu Arang", "Batu Manikar", "Bebuloh", "Belukut", "Bukit Kalam", "Bukit Kuda", "Durian Tunjung", "Ganggarak / Merinding", "Gersik / Saguking / Jawa / Parit", "Kilan / Kilan Pulau Akar", "Lajau", "Layang-Layangan", "Lubok Temiang", "Nagalang / Kerupang", "Pantai", "Patau-Patau 1", "Patau-Patau 2", "Pohon Batu", "Rancha-Rancha", "Sungai Bedaun", "Sungai Bangat", "Sungai Buton", "Sungai Keling", "Sungai Lada", "Sungai Labu", "Sungai Miri / Pagar", "Tanjung Aru"],
+    ["Alor Gajah", "Asahan", "Ayer Keroh", "Bandar Hilir", "Batu Berendam", "Bemban", "Bukit Beruang", "Durian Tunggal", "Jasin", "Kuala Linggi", "Kuala Sungai Baru", "Lubok China", "Masjid Tanah", "Melaka Tengah", "Merlimau", "Selandar", "Sungai Rambai", "Sungai Udang", "Tanjong Kling", "Ujong Pasir"],
+    ["Bahau", "Bandar Baru Serting", "Batang Melaka", "Batu Kikir", "Gemas", "Gemencheh", "Jelebu", "Jempol", "Johol", "Juasseh", "Kota", "Kuala Klawang", "Kuala Pilah", "Labu", "Lenggeng", "Linggi", "Mantin", "Nilai", "Pasir Panjang", "Pedas", "Port Dickson", "Rantau", "Rembau", "Rompin", "Senawang", "Seremban", "Siliau", "Simpang Durian", "Simpang Pertang", "Sri Menanti", "Si Rusa", "Tampin", "Tanjong Ipoh"],
+    ["Balok", "Bandar Pusat Jengka", "Bandar Tun Abdul Razak", "Benta", "Bentong", "Bera", "Brinchang", "Bukit Fraser", "Cameron Highlands", "Chenor", "Daerah Rompin", "Damak", "Dong", "Genting Highlands", "Jerantut", "Karak", "Kuala Lipis", "Kuala Rompin", "Kuantan", "Lanchang", "Lurah Bilut", "Maran", "Mengkarak", "Mentakab", "Muadzam Shah", "Padang Tengku", "Pekan", "Raub", "Ringlet", "Rompin", "Sega", "Sungai Koyan", "Sungai Lembing", "Sungai Ruan", "Tanah Rata", "Temerloh", "Triang"],
+    ["Air Tawar", "Alma", "Ayer Itam", "Bagan Ajam", "Bagan Jermal", "Bagan Lalang", "Balik Pulau", "Bandar Perda", "Batu Ferringhi", "Batu Kawan", "Batu Maung", "Batu Uban", "Bayan Baru", "Bayan Lepas", "Berapit", "Bertam", "Bukit Dumbar", "Bukit Jambul", "Bukit Mertajam", "Bukit Minyak", "Bukit Tambun", "Bukit Tengah", "Butterworth", "Gelugor", "Georgetown", "Gertak Sangul", "Greenlane", "Jawi", "Jelutong", "Juru", "Kepala Batas", "Kubang Semang", "Mak Mandin", "Minden Heights", "Nibong Tebal", "Pauh Jaya", "Paya Terubong", "Penaga", "Penang Hill", "Penanti", "Perai", "Permatang Kuching", "Permatang Pauh", "Permatang Tinggi", "Persiaran Gurney", "Prai", "Pulau Betong", "Pulau Tikus", "Raja Uda", "Relau", "Scotland", "Seberang Jaya", "Seberang Perai", "Simpang Ampat", "Sungai Ara", "Sungai Bakap", "Sungai Dua", "Sungai Jawi", "Sungai Nibong", "Sungai Pinang", "Tanjong Tokong", "Tanjung Bungah", "Tasek Gelugor", "Teluk Bahang", "Teluk Kumbar", "USM", "Valdor"],
+    ["Ayer Tawar", "Bagan Datoh", "Bagan Serai", "Batu Gajah", "Batu Kuraugit ", "Behrang Stesen", "Beruas", "Bidor", "Bota", "Changkat Jering", "Changkat Keruing", "Chemor", "Chenderiang", "Chenderong Balai", "Chikus", "Enggor", "Gerik", "Gopeng", "Hutan Melintang", "Intan", "Ipoh", "Jeram", "Kampar", "Kampong Gajah", "Kampong Kepayang", "Kamunting", "Kuala Kangsar", "Kuala Kurau", "Kuala Sepatang", "Lahat", "Lambor Kanan", "Langkap", "Lenggong", "Lumut", "Malim Nawar", "Mambang Diawan", "Manong", "Matang", "Menglembu", "Padang Rengas", "Pangkor", "Pantai Remis", "Parit", "Parit Buntar", "Pengkalan Hulu", "Pusing", "Rantau Panjang", "Sauk", "Selama", "Selekoh", "Selinsing", "Semanggol", "Seri Manjong", "Seri Iskandar", "Simpang", "Sitiawan", "Slim River", "Sungai Siput", "Sungai Sumun", "Sungkai", "Taiping", "Tanjong Piandang", "Tanjong Rambutan", "Tanjong Tualang", "Tanjung Malim", "Tapah", "Teluk Intan", "Temoh", "TLDM Lumut", "Trolak", "Trong", "Tronoh", "Ulu Bernam", "Ulu Kinta"],
+    ["Arau", "Kaki Bukit", "Kangar", "Kuala Perlis", "Padang Besar", "Pauh", "Simpang Ampat"],
+    ["Putrajaya"],
+    ["Beaufort", "Beluran", "Bongawan", "Keningau", "Kota Belud", "Kota Kinabalu", "Kota Kinabatangan", "Kota Marudu", "Kuala Penyu", "Kudat", "Kunak", "Lahad Datu", "Likas", "Membakut", "Menumbok", "Nabawan", "Pamol", "Papar", "Penampang", "Pitas", "Putatan", "Ranau", "Sandakan", "Semporna", "Sipitang", "Tambunan", "Tamparuli", "Tawau", "Tenom", "Tuaran", "Telupid"],
+    ["Asajaya", "Balingian", "Baram", "Bau", "Bekenu", "Belaga", "Belawai", "Betong", "Bintangor", "Bintulu", "Dalat", "Daro", "Debak", "Engkilili", "Julau", "Kabong", "Kanowit", "Kapit", "Kota Samarahan", "Kuching", "Lawas", "Limbang", "Lingga", "Long Lama", "Lubok Antu", "Lundu", "Lutong", "Maradong", "Marudi", "Matu", "Miri", "Mukah", "Nanga Medamit", "Niah", "Pusa", "Roban", "Saratok", "Sarikei", "Sebauh", "Sebuyau", "Serian", "Sibu", "Simunjan", "Song", "Spaoh", "Sri Aman", "Sundar", "Tanjung Kidurong", "Tatau"],
+    ["Alam Impian", "Aman Perdana", "Ampang", "Ambang Botanic", "Ara Damansara", "Balakong", "Bandar Botanic", "Bandar Bukit Raja", "Bandar Bukit Tinggi", "Bandar Kinrara", "Bandar Puteri Klang", "Bandar Puteri Puchong", "Bandar Saujana Putra", "Bandar Sungai Long", "Bandar Sunway", "Bandar Utama", "Bangi", "Banting", "Batang Berjuntai", "Batang Kali", "Batu Arang", "Batu Caves", "Beranang", "Bukit Antarabangsa", "Bukit Beruntung", "Bukit Jelutong", "Bukit Rahman Putra", "Bukit Rotan", "Bukit Subang", "Cheras", "Country Heights", "Cyberjaya", "Damansara Damai", "Damansara Intan", "Damansara Jaya", "Damansara Kim", "Damansara Perdana", "Damansara Utama", "Denai Alam", "Dengkil", "Glenmarie", "Gombak", "Hulu Langat", "Hulu Selangor", "Jenjarom", "Kajang", "Kapar", "Kayu Ara", "Kelana Jaya", "Kerling", "Klang", "Kota Damansara", "Kota Emerald", "Kota Kemuning", "Kuala Kubu Baru", "Kuala Langat", "Kuala Selangor", "Kuang", "Mutiara Damansara", "Petaling Jaya", "Port Klang", "Puchong", "Puchong South", "Pulau Indah (Pulau Lumut)", "Pulau Carey", "Pulau Ketam", "Puncak Alam", "Puncak Jalil", "Putra Heights", "Rasa", "Rawang", "Sabak Bernam", "Salak Tinggi", "Saujana", "Saujana Utama", "Sekinchan", "Selayang", "Semenyih", "Sepang", "Serdang", "Serendah", "Seri Kembangan", "Setia Alam", "Setia Eco Park", "Shah Alam", "SierraMas", "SS2", "Subang Bestari", "Subang Heights", "Subang Jaya", "Subang Perdana", "Sungai Ayer Tawar", "Sungai Besar", "Sungai Buloh", "Sungai Pelek", "Taman TTDI Jaya", "Tanjong Karang", "Tanjong Sepat", "Telok Panglima Garang", "Tropicana", "Ulu Klang", "USJ", "USJ Heights", "Valencia"],
+    ["Besut", "Dungun", "Hulu Terengganu", "Kemaman", "Kuala Terengganu", "Marang", "Setiu", "Kuala Nerus"],
+  ]);
   const [userInfo, setUserInfo] = useState({
     _id: "",
     firstName: "",
@@ -21,12 +59,20 @@ function UserSetting(props) {
     wechatLink: "",
     instagramLink: "",
   });
-  const [password, setPassword] = useState({oldPassword: '', newPassword1: '', newPassword2: ''});
+  const [areasToShow, setAreasToShow] = useState([]);
+
+  const [password, setPassword] = useState({
+    oldPassword: "",
+    newPassword1: "",
+    newPassword2: "",
+  });
   const [error, setError] = useState("");
 
   function handleChangeSelect(name, value, statesChoices) {
-    if (name === "states") {statesChoice = statesChoices; userInfo.areaLocations=''}
-    else if (name === "areaLocations") areaLocationsChoice = statesChoices;
+    if (name === "states") {
+      statesChoice = statesChoices;
+      userInfo.areaLocations = "";
+    } else if (name === "areaLocations") areaLocationsChoice = statesChoices;
 
     setUserInfo((prevValue) => {
       return { ...prevValue, [name]: value };
@@ -34,24 +80,29 @@ function UserSetting(props) {
     console.log(userInfo);
   }
 
-  function checkPassword(e){
-    if (!password.oldPassword || !password.newPassword1 || !password.newPassword2){
-      setError('Please Enter All Required Fields')
-      return false
-    }else if(password.newPassword1 !== password.newPassword2){
-      setError('New Passwords Does Not Matched')
-      return false
+  function checkPassword(e) {
+    if (
+      !password.oldPassword ||
+      !password.newPassword1 ||
+      !password.newPassword2
+    ) {
+      setError("Please Enter All Required Fields");
+      return false;
+    } else if (password.newPassword1 !== password.newPassword2) {
+      setError("New Passwords Does Not Matched");
+      return false;
     }
-    return true
+    return true;
   }
 
-  function handleOnSubmitPassword(e){
-    e.preventDefault()
+  function handleOnSubmitPassword(e) {
+    e.preventDefault();
 
     const config = {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
       },
     };
 
@@ -59,7 +110,11 @@ function UserSetting(props) {
       .post("http://localhost:5000/users/changePassword", password, config)
       .then((res) => {
         if (res.status === 200) {
-          console.log(res);
+          if (res.data.msg === "Password Changed") {
+            window.location.pathname = "/";
+          } else {
+          }
+          console.log(res.data);
         } else {
           console.log("not ok", res.data);
         }
@@ -80,6 +135,7 @@ function UserSetting(props) {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
       },
     };
     axios
@@ -87,7 +143,13 @@ function UserSetting(props) {
       .then((res) => {
         console.log("ok");
         console.log(res.data);
-        setUserInfo({ ...res.data, areaLocations: res.data.location, noTel: '0'+res.data.noTel });
+        setUserInfo({
+          ...res.data,
+          areaLocations: res.data.location,
+          noTel: "0" + res.data.noTel,
+        });
+        setAreasToShow(areaLocations[states.indexOf(res.data.states)]);
+        setAvatarUri(res.data.avatarUri)
       })
       .catch((err) => console.log(err));
   }, [userInfo._id]);
@@ -100,9 +162,18 @@ function UserSetting(props) {
       !userInfo.gender ||
       !userInfo.noTel ||
       !userInfo.states ||
-      !userInfo.areaLocations
+      userInfo.areaLocations == "test"
     ) {
-      console.log('somethings wrong', userInfo.firstName ,userInfo.lastName ,userInfo.email,userInfo.gender,userInfo.noTel,userInfo.states,userInfo.areaLocations)
+      console.log(
+        "somethings wrong",
+        userInfo.firstName,
+        userInfo.lastName,
+        userInfo.email,
+        userInfo.gender,
+        userInfo.noTel,
+        userInfo.states,
+        userInfo.areaLocations
+      );
       setError("Please Enter All Required Fields! ");
       return false;
     }
@@ -110,6 +181,7 @@ function UserSetting(props) {
   }
 
   const handleSubmitInfo = async (e) => {
+    alert(userInfo.gender);
     e.preventDefault();
     if (checkNoEmpty()) {
       try {
@@ -180,365 +252,381 @@ function UserSetting(props) {
   function handleOnChange(e) {
     const name = e.target.name;
     const value = name === "coverImg" ? e.target.files[0] : e.target.value;
-
+    if(name==="coverImg"){
+      setAvatarUri(URL.createObjectURL(e.target.files[0]))
+    }
+    if (name == "states") {
+      setUserInfo((prevValue) => {
+        return { ...prevValue, [name]: value, [areaLocations]: "" };
+      });
+      setAreasToShow(areaLocations[states.indexOf(value)]);
+    }
     setUserInfo((prevValue) => {
       return { ...prevValue, [name]: value };
     });
 
     console.log(userInfo);
   }
-  
+
   return (
     <>
       {userInfo ? (
-        <section
-          className="h-100 h-custom gradient-custom-2"
-          style={{ backgroundColor: "#eee" }}
-        >
-          <div className="container py-5 h-100">
-            <div className="row d-flex justify-content-center align-items-center h-100">
-              <div className="col-12">
-                <div
-                  className="card card-registration card-registration-2"
-                  style={{ borderRadius: "15px" }}
-                >
-                  {error !== "" && <p>{error}</p>}
-                  <div className="card-body p-0">
-                    <div className="row g-0">
-                      <div className="col-lg-6">
-                        <div className="p-5">
-                          <h3 className="fw-normal mb-5">User Setting</h3>
-                          <form
-                            encType="multipart/form-data"
-                            onSubmit={handleSubmitInfo}
-                          >
-                            <div className="circle-img img-circle mb-4 pb-6">
-                              <img
-                                style={{ width: "100px", height: "100px" }}
-                                src={userInfo.avatarUri}
-                                className="rounded-circle"
-                              />
-                              <div className="col-md-6 mb-2 pb-2">
-                                <div className="custom-file mb-3">
-                                  <label
-                                    htmlFor="coverImg"
-                                    className="custom-file-label"
-                                  >
-                                    {" "}
-                                    Choose Photo 1:
-                                  </label>
-                                  <input
-                                    type="file"
-                                    name="coverImg"
-                                    id="coverImg"
-                                    onChange={handleOnChange}
-                                    className="custom-file-input"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="row">
-                              <div className="col-md-6 mb-2 pb-2">
-                                <div className="form-outline">
-                                  <label htmlFor="firstName">First Name</label>
-                                  <input
-                                    type="text"
-                                    id="firstName"
-                                    name="firstName"
-                                    className="form-control"
-                                    placeholder="Enter First Name"
-                                    value={
-                                      userInfo.firstName
-                                        ? userInfo.firstName
-                                        : ""
-                                    }
-                                    onChange={handleOnChange}
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-md-6 mb-2 pb-2">
-                                <div className="form-outline">
-                                  <label htmlFor="lastName">Last Name</label>
-                                  <input
-                                    type="text"
-                                    id="lastName"
-                                    name="lastName"
-                                    className="form-control"
-                                    placeholder="Enter Last Name"
-                                    onChange={handleOnChange}
-                                    value={
-                                      userInfo.lastName ? userInfo.lastName : ""
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="mb-4 pb-2">
-                              <div className="form-outline">
-                                <label htmlFor="email">Email</label>
-                                <input
-                                  type="email"
-                                  id="email"
-                                  name="email"
-                                  className="form-control"
-                                  placeholder="Enter Email"
-                                  readOnly
-                                  // onChange={handleOnChange}
-                                  value={userInfo.email ? userInfo.email : ""}
-                                />
-                              </div>
-                            </div>
-
-                            <div className="row">
-                              <div className="col-md-6 mb-2 pb-2">
-                                <div className="form-outline">
-                                  <label htmlFor="noTel">No. Tel</label>
-                                  <input
-                                    type="number"
-                                    id="noTel"
-                                    name="noTel"
-                                    className="form-control"
-                                    onChange={handleOnChange}
-                                    value={userInfo.noTel ? userInfo.noTel : ""}
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-md-6 mb-2 pb-2">
-                                <div className="form-outline">
-                                  <label htmlFor="gender">Gender</label>
-                                  <select
-                                    name="gender"
-                                    id="gender"
-                                    className="form-control"
-                                    onChange={handleOnChange}
-                                  >
-                                    {/* <%var options = [ "Male", "Female", "Prefer Not to Say" ];
-                              for ( var i = 0; i < options.length; i++ )
-                              {
-                                  var selected = ( user.gender == options[i] ) ? "selected" : "";
-                                  %><option value="<%=options[ i ] %>" <%=selected %>><%=options[ i ] %></option><%
-                              }
-                              %> */}
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="row">
-                              <div className="col-md-6 mb-2 pb-2">
-                                <div className="form-outline">
-                                  <StatesSelect onChange={handleChangeSelect} states = {userInfo.states}/>
-                                  {/* <label htmlFor="states">States</label> */}
-                                  {/* <select
-                                    name="states"
-                                    id="states"
-                                    className="form-control"
-                                    onChange={handleOnChange}
-                                  >
-                                    <option value="P. Pinang">P. Pinang</option>
-                                    <option value="K. Lumpur">K. Lumpur</option>
-                                    {/* <%
-                              var options = [ "Penang", "Johor" ];
-                              for ( var i = 0; i < options.length; i++ )
-                              {
-                                  var selected = ( user.states == options[i] ) ? "selected" : "";
-                                  %><option value="<%=options[ i ] %>" <%=selected %>><%=options[ i ] %></option><%
-                              }
-                              %>
-                               
-                                  </select> */}
-                                </div>
-                              </div>
-                              <div className="col-md-6 mb-2 pb-2">
-                                <div className="form-outline">
-                                  <AreaSelect states = {userInfo.states} userAreaLocation={userInfo.areaLocations} onChange={handleChangeSelect} />
-                                  {/* <label htmlFor="location">
-                                    Area Location
-                                  </label>
-                                  <select
-                                    name="location"
-                                    id="location"
-                                    className="form-control"
-                                    onChange={handleOnChange}
-                                  >
-                                    <option value="Alma">Alma</option>
-                                    <option value="BTM">BTM</option>
-                                    {/* <%var options = [ "Simpang Ampat", "Butterworth" ];
-                              for ( var i = 0; i < options.length; i++ )
-                              {
-                                  var selected = ( user.location == options[i]) ? "selected" : "";
-                                  %><option value="<%=options[ i ] %>" <%=selected %>><%=options[ i ] %></option><%
-                              }
-                              %> 
-                                  </select> */}
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="mb-4 pb-2">
-                              <div className="form-outline">
-                                <label htmlFor="whatsappLink">
-                                  Whatsapp Link:{" "}
-                                </label>
-                                <input
-                                  type="text"
-                                  id="whatsappLink"
-                                  name="whatsappLink"
-                                  onChange={handleOnChange}
-                                  value={
-                                    userInfo.whatsappLink
-                                      ? userInfo.whatsappLink
-                                      : ""
-                                  }
-                                  className="form-control"
-                                  placeholder="Enter if you have one!"
-                                />
-                              </div>
-                            </div>
-                            <div className="mb-4 pb-2">
-                              <div className="form-outline">
-                                <label htmlFor="instagramLink">
-                                  Instagram Link:{" "}
-                                </label>
-                                <input
-                                  type="text"
-                                  id="instagramLink"
-                                  name="instagramLink"
-                                  onChange={handleOnChange}
-                                  value={
-                                    userInfo.instagramLink
-                                      ? userInfo.instagramLink
-                                      : ""
-                                  }
-                                  className="form-control"
-                                  placeholder="Enter if you have one!"
-                                />
-                              </div>
-                            </div>
-                            <div className="mb-4 pb-2">
-                              <div className="form-outline">
-                                <label htmlFor="messengerLink">
-                                  Messenger Link:{" "}
-                                </label>
-                                <input
-                                  type="text"
-                                  id="messengerLink"
-                                  name="messengerLink"
-                                  onChange={handleOnChange}
-                                  value={
-                                    userInfo.messengerLink
-                                      ? userInfo.messengerLink
-                                      : ""
-                                  }
-                                  className="form-control"
-                                  placeholder="Enter if you have one!"
-                                />
-                              </div>
-                            </div>
-                            <div className="mb-4 pb-2">
-                              <div className="form-outline">
-                                <label htmlFor="wechatLink">
-                                  Wechat Link:{" "}
-                                </label>
-                                <input
-                                  type="text"
-                                  id="wechatLink"
-                                  onChange={handleOnChange}
-                                  name="wechatLink"
-                                  value={
-                                    userInfo.wechatLink
-                                      ? userInfo.wechatLink
-                                      : ""
-                                  }
-                                  className="form-control"
-                                  placeholder="Enter link if you have one!"
-                                />
-                              </div>
-                            </div>
-                            <button
-                              type="submit"
-                              className="btn btn-primary btn-block"
-                              // onClick={handleOnClick}
-                            >
-                              Update
-                            </button>
-                          </form>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 bg-indigo text-black">
-                        <div className="p-5">
-                          <form encType="multipart/form-data" onSubmit={handleOnSubmitPassword}>
-                            <h3 className="fw-normal mb-5">Change Password</h3>
-
-                            <div className="mb-4 pb-2">
-                              <div className="form-outline form-white">
-                                <label htmlFor="oldPassword">Password</label>
-                                <input
-                            type="password"
-                            id="oldPassword"
-                            name="oldPassword"
-                            className="form-control"
-                            placeholder="Enter Old Password"
-                            onChange={handleOnChangePassword}
-
-                            value={password.oldPassword}
+        <div className="container">
+          <section id="us-main-upload-part">
+            <div className="us-main-upload-part">
+              <form encType="multipart/form-data" onSubmit={handleSubmitInfo}>
+                <section id="us-basic-info">
+                  <div className="us-basic-info">
+                    <div
+                      id="book-images"
+                      className="row us-label-input-prop justify-content-md-center"
+                    >
+                      <div className="col-md-auto">
+                        <label for="coverImg">
+                          <input
+                            type="file"
+                            name="coverImg"
+                            id="coverImg"
+                            onChange={handleOnChange}
+                            style={{ display: "none" }}
                           />
-                              </div>
-                            </div>
-
-                            <div className="mb-4 pb-2">
-                              <div className="form-outline form-white">
-                                <label htmlFor="newPassword1">
-                                  New Password
-                                </label>
-                                <input
-                            type="password"
-                            id="newPassword1"
-                            name="newPassword1"
-                            className="form-control"
-                            onChange={handleOnChangePassword}
-                            placeholder="Enter New Password"
-                            value={password.newPassword1}
+                          <img
+                            id="img-coverImg"
+                            className="us-img-coverImg"
+                            src={avatarUri}
                           />
-                              </div>
-                            </div>
-
-                            <div className="mb-4 pb-2">
-                              <div className="form-outline form-white">
-                                <label htmlFor="newPassword2">
-                                  Confirm New Password
-                                </label>
-                                <input
-                            type="password"
-                            id="newPassword2"
-                            name="newPassword2"
-                            className="form-control"
-                            onChange={handleOnChangePassword}
-                            placeholder="Confirm Password"
-                            value={password.newPassword2}
-                          />
-                              </div>
-                            </div>
-
-                            <button
-                              type="submit"
-                              className="btn btn-primary btn-block"
-                            >
-                              Change Password
-                            </button>
-                          </form>
-                        </div>
+                        </label>
                       </div>
                     </div>
+                    <h3 className="us-h3" style={{ "margin-bottom": "30px" }}>
+                      Basic Information:{" "}
+                    </h3>
+                    <div id="book-title" className="row us-label-input-prop">
+                      <div className="us-label col-2">
+                        <label for="">First Name: </label>
+                      </div>
+                      <div className="col-4">
+                        <input
+                          style={{ width: " 100%" }}
+                          type="text"
+                          id="firstName"
+                          name="firstName"
+                          value={userInfo.firstName ? userInfo.firstName : ""}
+                          onChange={handleOnChange}
+                        />
+                      </div>
+                      <div className="us-label col-2">
+                        <label for="">Last Name: </label>
+                      </div>
+                      <div className="col-4">
+                        <input
+                          style={{ width: " 100%" }}
+                          type="text"
+                          id="lastName"
+                          name="lastName"
+                          onChange={handleOnChange}
+                          value={userInfo.lastName ? userInfo.lastName : ""}
+                        />
+                      </div>
+                    </div>
+                    <div id="book-title" className="row us-label-input-prop">
+                      <div className="us-label col-2">
+                        <label for="">Email: </label>
+                      </div>
+                      <div className="col-4">
+                        <input
+                          readonly
+                          style={{ width: " 100%" }}
+                          type="text"
+                          id="email"
+                          name="email"
+                          value={userInfo.email ? userInfo.email : ""}
+                        />
+                      </div>
+                      <div className="us-label col-2">
+                        <label for="">Gender: </label>
+                      </div>
+                      <div className="col-4">
+                        <select
+                          style={{ width: " 100%" }}
+                          value={userInfo.gender ? userInfo.gender : ""}
+                          name="gender"
+                          id="gender"
+                          onChange={handleOnChange}
+                        >
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div id="book-title" className="row us-label-input-prop">
+                      <div className="us-label col-2">
+                        <label for="">States: </label>
+                      </div>
+                      <div className="col-4">
+                        <select
+                          className="us-select"
+                          style={{ width: " 100%" }}
+                          value={userInfo.states ? userInfo.states : ""}
+                          name="states"
+                          onChange={handleOnChange}
+                          id="states"
+                        >
+                          <option defaultValue disabled>
+                            Select a States
+                          </option>
+                          {states.map((state) => {
+                            return (
+                              <option key={state} value={state}>
+                                {state}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
+                      <div className="us-label col-6"></div>
+                    </div>
+                    <div id="book-title" className="row us-label-input-prop">
+                      <div className="us-label col-2">
+                        <label for="">Location: </label>
+                      </div>
+                      <div className="col-4">
+                        <select
+                          className="us-select"
+                          style={{ width: " 100%" }}
+                          name="areaLocations"
+                          value={
+                            areasToShow.includes(userInfo.areaLocations)
+                              ? userInfo.areaLocations
+                              : userInfo.areaLocations
+                          }
+                          onChange={handleOnChange}
+                          id="areaLocations"
+                        >
+                          <option>test</option>
+                          {areasToShow.map((location) => {
+                            return (
+                              <option key={location} value={location}>
+                                {location}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
+                      <div className="us-label col-6"></div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </section>
+                <hr />
+                <section id="us-contact-info">
+                  <div className="us-contact-info">
+                    <h3 className="us-h3" style={{ margin: "30px 0px" }}>
+                      Contact Information:{" "}
+                    </h3>
+
+                    <div id="contact-hp" className="row us-label-input-prop">
+                      <div className="us-label col-2">
+                        <label for="">H/P Number: </label>
+                      </div>
+                      <div className="col-6">
+                        <input
+                          style={{ width: " 100%" }}
+                          type="text"
+                          id="noTel"
+                          name="noTel"
+                          onChange={handleOnChange}
+                          value={userInfo.noTel ? userInfo.noTel : ""}
+                        />
+                      </div>
+                      <div className="col-4"></div>
+                    </div>
+                    <div
+                      id="contact-wechat"
+                      className="row us-label-input-prop"
+                    >
+                      <div className="us-label col-2">
+                        <label for="">WeChat: </label>
+                      </div>
+                      <div className="col-6">
+                        <input
+                          style={{ width: " 100%" }}
+                          type="text"
+                          id="wechatLink"
+                          onChange={handleOnChange}
+                          name="wechatLink"
+                          value={userInfo.wechatLink ? userInfo.wechatLink : ""}
+                        />
+                      </div>
+                      <div className="col-4"></div>
+                    </div>
+                    <div
+                      id="contact-whatsapp"
+                      className="row us-label-input-prop"
+                    >
+                      <div className="us-label col-2">
+                        <label for="">Whatsapp: </label>
+                      </div>
+                      <div className="col-6">
+                        <input
+                          style={{ width: " 100%" }}
+                          type="text"
+                          id="whatsappLink"
+                          name="whatsappLink"
+                          onChange={handleOnChange}
+                          value={
+                            userInfo.whatsappLink ? userInfo.whatsappLink : ""
+                          }
+                        />
+                      </div>
+                      <div className="col-4"></div>
+                    </div>
+                    <div
+                      id="contact-messenger"
+                      className="row us-label-input-prop"
+                    >
+                      <div className="us-label col-2">
+                        <label for="">Messenger: </label>
+                      </div>
+                      <div className="col-6">
+                        <input
+                          style={{ width: " 100%" }}
+                          type="text"
+                          id="messengerLink"
+                          name="messengerLink"
+                          onChange={handleOnChange}
+                          value={
+                            userInfo.messengerLink ? userInfo.messengerLink : ""
+                          }
+                        />
+                      </div>
+                      <div className="col-4"></div>
+                    </div>
+                    <div
+                      id="contact-instagram"
+                      className="row us-label-input-prop"
+                    >
+                      <div className="us-label col-2">
+                        <label for="">Instagram: </label>
+                      </div>
+                      <div className="col-6">
+                        <input
+                          style={{ width: " 100%" }}
+                          type="text"
+                          id="instagramLink"
+                          name="instagramLink"
+                          onChange={handleOnChange}
+                          value={
+                            userInfo.instagramLink ? userInfo.instagramLink : ""
+                          }
+                        />
+                      </div>
+                      <div className="col-4"></div>
+                    </div>
+                  </div>
+                  <section id="buttons">
+                    <div className="row">
+                      <div className="col-9"></div>
+                      <div className="col-3">
+                        <button
+                          className="us-primary-btn"
+                          style={{ width: "80%" }}
+                          type="submit"
+                        >
+                          Update
+                        </button>
+                      </div>
+                    </div>
+                  </section>
+                </section>
+              </form>
+              <hr />
+              <form
+                encType="multipart/form-data"
+                onSubmit={handleOnSubmitPassword}
+              >
+                <section id="us-change-password">
+                  <div className="us-change-password">
+                    <h3 className="us-h3" style={{ margin: " 30px 0px" }}>
+                      Change Password:{" "}
+                    </h3>
+
+                    <div id="contact-hp" className="row us-label-input-prop">
+                      <div className="us-label col-2">
+                        <label for="">Old Password: </label>
+                      </div>
+                      <div className="col-6">
+                        <input
+                          style={{ width: " 100%" }}
+                          type="password"
+                          id="oldPassword"
+                          name="oldPassword"
+                          placeholder="Enter Old Password"
+                          onChange={handleOnChangePassword}
+                          value={password.oldPassword}
+                        />
+                      </div>
+                      <div className="col-4"></div>
+                    </div>
+                    <div
+                      id="contact-wechat"
+                      className="row us-label-input-prop"
+                    >
+                      <div className="us-label col-2">
+                        <label for="">New Password: </label>
+                      </div>
+                      <div className="col-6">
+                        <input
+                          style={{ width: " 100%" }}
+                          type="password"
+                          id="newPassword1"
+                          name="newPassword1"
+                          onChange={handleOnChangePassword}
+                          placeholder="Enter New Password"
+                          value={password.newPassword1}
+                        />
+                      </div>
+                      <div className="col-4"></div>
+                    </div>
+                    <div
+                      id="contact-whatsapp"
+                      className="row us-label-input-prop"
+                    >
+                      <div className="us-label col-2">
+                        <label for="">Re-enter Again: </label>
+                      </div>
+                      <div className="col-6">
+                        <input
+                          style={{ width: " 100%" }}
+                          type="password"
+                          id="newPassword2"
+                          name="newPassword2"
+                          onChange={handleOnChangePassword}
+                          placeholder="Confirm Password"
+                          value={password.newPassword2}
+                        />
+                      </div>
+                      <div className="col-4"></div>
+                    </div>
+                  </div>
+                </section>
+                <section id="buttons">
+                  <div className="row">
+                    <div className="col-9"></div>
+                    <div className="col-3">
+                      <button
+                        className="us-primary-btn"
+                        type="submit"
+                        style={{ width: "80%" }}
+                      >
+                        Publish
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              </form>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
       ) : (
         <></>
       )}

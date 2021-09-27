@@ -17,96 +17,92 @@ import UserPage from '../pages/user/UserPage'
 import { Button } from "react-bootstrap";
 import CheckAuth from "./CheckAuth";
 import ProtectedRoute from "./ProtectedRoutes";
-import './../css/styles.css'
 import ShopSearchResult from '../pages/shop/ShopSearchResult'
+import MultipleType from '../pages/shop/MultipleType'
 import TestScroll from './TestScroll'
 
 function App() {
 
   const [query, setQuery] = useState('');
-  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  const authToken = localStorage.getItem("authToken") || 'empty';
   const [userInfo, setUserInfo] = useState({});
-let userInfos
+  let userInfos
   console.log('loaded app.js')
 
-  async function loadUserInfo(){
-if(isAuthenticated){
-    const config = {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    await axios
-      .get("http://localhost:5000/users/checkIsLoggedIn", config)
-      .then((res) => {
-        if (res.data.statusCode === '200') {
-          userInfos = (res.data.user)
-          if(!userInfo) setUserInfo(userInfos)
-          console.log(userInfo)
-        } else if(res.data.statusCode === '401'){
-          localStorage.clear()
-          window.location.pathname = "/"
-        }
-      })
-      .catch((err) => console.log(err));
-  }
+  async function loadUserInfo() {
+    if (authToken) {
+      const config = {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${authToken}`
+
+        },
+      };
+      await axios
+        .get("http://localhost:5000/users/checkIsLoggedIn", config)
+        .then((res) => {
+          console.log(res.status)
+          if (res.status === 200) {
+            // userInfos = (res.data.user)
+            // if (!userInfo) setUserInfo(userInfos)
+            console.log('200')
+          } else if (res.status === '400') {
+            console.log('400')
+            localStorage.clear()
+            window.location.pathname = "/"
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   }
 
   loadUserInfo()
-  
 
-  function onSearch(query){
-    console.log(query)
+
+  function onSearch(query) {
     setQuery(query)
-    window.location.pathname = `/search/${query}`
+    window.location.pathname = `/search/search=${query}`
   }
 
-  function handleOnChange(e){
+  function handleOnChange(e) {
     console.log('changed', e.target.value)
   }
-  function handleOnClick(){
+  function handleOnClick() {
     console.log('clicked')
-  }  
+  }
 
   return (
     <Router>
-      <div style={{
-        height: "100%",
-        width: " 100%",
-        overflowY: "hidden"
-      }}>
-        <div style={{
-          height: "100%",
-          width: "100%",
-          overflowY: "auto",
-          // paddingRight: "20px"
-        }}>
 
-          <NavbarIndex onSearch={onSearch} userInfo={userInfo}/>
-          
 
-          <Switch>
-            <Route path="/login">
-              <TestLogin />
-            </Route>
-            <Route path="/register">
-              <Register />
-            </Route>
-            <Route path="/test" component={TestScroll}/>
-            <ProtectedRoute path="/user" component={UserPage} />
+      <NavbarIndex onSearch={onSearch} userInfo={userInfo} />
 
-            <Route path="/view/:id" children={<ShopItemInfo />} />
-            <Route exact path="/">
-              <ShopIndex />
-            </Route>
-            <Route path="/search/:query" children={<ShopSearchResult />} />
-            <Route path="*">
-              <TestRegister />
-            </Route>
-          </Switch>
-        </div>
-      </div>
+
+      <Switch>
+        <Route path="/login">
+          <TestLogin />
+        </Route>
+        <Route path="/register">
+          <Register />
+        </Route>
+        <Route path="/test" component={TestScroll} />
+        <ProtectedRoute path="/user" component={UserPage} />
+
+        <Route path="/view/:id" children={<ShopItemInfo />} />
+        <Route exact path="/">
+          <ShopIndex />
+        </Route>
+        <Route path="/search/:query" children={<ShopSearchResult />} />
+        <Route path="/preferredBooks/:query" children={<MultipleType type='preferredBooks' />} />
+        <Route path="/preferredBooks" children={<MultipleType type='preferredBooks' />} />
+        <Route path="/uploadedRecently/:query" children={<MultipleType type='uploadedRecently' />} />
+        <Route path="/uploadedRecently" children={<MultipleType type='uploadedRecently' />} />
+        <Route path="*">
+          <TestRegister />
+        </Route>
+      </Switch>
+
     </Router>
   );
 }

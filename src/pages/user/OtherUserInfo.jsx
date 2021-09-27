@@ -6,10 +6,14 @@ import BookRowFavourites from "./../shop/BookRowFavourites";
 import "../../css/styles.css";
 import LoadingSkeletonBookRow from "./../shop/LoadingSkeletonBookRow";
 import useBookSearch from "../../components/useBookSearch";
+import BookRow from "../shop/BookRow";
 
 export default function OtherUserInfo() {
   const [num, setNum] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
   const [pageNumber, setPageNumber] = useState(1);
+  const authToken = localStorage.getItem("authToken") || "empty";
+  const [blurStyle, setBlurStyle] = useState({});
+
   const { email } = useParams();
   let noResult = false;
   const [userInfo, setUserInfo] = useState({
@@ -27,7 +31,7 @@ export default function OtherUserInfo() {
     instagramLink: "",
   });
 
-  let query = "@@@@userOtherInfo"+email;
+  let query = "@@@@userOtherInfo" + email;
   const { books, loading, error, hasMore } = useBookSearch(query, pageNumber);
   if (books.length === 0) noResult = true;
 
@@ -51,71 +55,129 @@ export default function OtherUserInfo() {
     [loading, hasMore]
   );
 
+  function handleOnUnblur() {
+    setBlurStyle({
+      "WebkitFilter": "blur(0px)",
+      "MozFilter": "blur(0px)",
+      "OFilter": "blur(0px)",
+      "msFilter": "blur(0px)",
+      filter: "blur(0px)",
+      "backgroundColor": " #fff",
+    });
+  }
+
   useEffect(() => {
     const config = {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
       },
     };
     axios
-      .get("http://localhost:5000/users/retrieveOthersInfo/"+email, config)
+      .get("http://localhost:5000/users/retrieveOthersInfo/" + email, config)
       .then((res) => {
-        console.log('here', res.data);
-        setUserInfo({ ...res.data});
+        setUserInfo({ ...res.data });
       })
       .catch((err) => console.log(err));
   }, [userInfo._id]);
 
   return (
-    <div>
-      <section className="h-100" style={{ backgroundColor: "#eee" }}>
-        <div className="container-fluid py-5 h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100">
-            <div className="col-lg-12 col-xl-11">
-              <div className="card text-black" style={{ borderRadius: "25px" }}>
-                <div className="card-body p-md-5">
-                  <div className="row justify-content-center">
-                    <div className="">
-                      <p className="text-center h3 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                        Uploaded Books
-                      </p>
-                      {books.length > 0 &&
-                        books.map((book, index) => {
-                          if (books.length === index + 1) {
-                            return (
-                              <div ref={lastBookElementRef}>
-                                <BookRowFavourites bookId={book._id} books={book} key={book._id} />
-                              </div>
-                            );
-                          }
-                          return <BookRowFavourites bookId={book._id} books={book} key={book._id} />;
-                        })}
+    <>
+      <div className="container">
+        <section id="seller-info">
+          <div className="si-horizontal-ads">si-horizontal-ads</div>
+          <div className="si-seller-info-block si-border">
+            <div className="row hundred-row">
+              <div className="col-2 si-center-vertical">
+                <div>
+                  <img
+                    style={{
+                      display: "block",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }}
+                    className="si-userAvatar"
+                    src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d0/JaketheDog.png/220px-JaketheDog.png"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div className="col-4 si-center-vertical">
+                <div className="info-spacing">
+                  <h3 className="si-h3">{userInfo.firstName+" "+userInfo.lastName}</h3>
+                </div>
+                <div className="info-spacing">
+                  <h3 className="si-h3">Location: {userInfo.location}, {userInfo.states}</h3>
+                </div>
+                <div className="info-spacing">
+                  <h3 className="si-h3">Joined: one month ago...</h3>
+                </div>
+              </div>
+              <div className="col-3 si-center-vertical">
+                <h3 className="si-h3">Contact Num: </h3>
+                <div className="si-blurred-contact-info" style={blurStyle}>
+                  <div className="si-all-contact">
+                    <p>H/P Num: 012-3456 789</p>
+                    <p>H/P Num: 012-3456 789</p>
+                  </div>
+                </div>
+              </div>
 
-                      {books.length == 0 && !noResult && (
-                        <React.Fragment>
-                          {num.map((number, index) => {
-                            return <LoadingSkeletonBookRow key={index} />;
-                          })}
-                        </React.Fragment>
-                      )}
-
-                      {loading && <LoadingSkeletonBookRow />}
-                      {noResult && !loading && <p>No Results</p>}
-                      {error && <div>Error</div>}
-                      {!noResult && !hasMore && <div>Finished</div>}
-                      {/* <%for(let i=0; i<books.length ; i++ ){%> */}
-
-                      {/* <%}%>   */}
-                    </div>
-                    <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2"></div>
+              <div
+                className="col-3 si-center-vertical"
+                style={{ height: "100%", position: "relative" }}
+              >
+                <div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "20px",
+                      right: "30px",
+                    }}
+                  >
+                    <button id="btn-show-contact" onClick={handleOnUnblur} className="si-primary-btn">
+                      Show Contact info
+                    </button>
+                    <button className="si-secondary-btn">
+                      Report Inappropriate User
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+        <section id="other-books">
+          <div className="si-other-books-from-this-seller">
+            <div className="section-label">
+              <h3 className="si-h3 si-section-title">
+                Other Books from This Seller
+              </h3>
+            </div>
+            <div className="">
+              <div className="row gx-2 margin-top-30">
+                {books.length > 0 &&
+                  books.map((book, index) => {
+                    if (books.length === index + 1) {
+                      return (
+                        <BookRow
+                          ref={lastBookElementRef}
+                          bookId={book._id}
+                          books={book}
+                          key={book._id}
+                        />
+                      );
+                    }
+                    return (
+                      <BookRow bookId={book._id} books={book} key={book._id} />
+                    );
+                  })}{" "}
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
   );
 }

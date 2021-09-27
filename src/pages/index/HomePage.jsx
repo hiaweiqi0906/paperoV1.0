@@ -14,7 +14,7 @@ function HomePage() {
     <Router>
       
 
-      <div>
+      
         <Switch>
           <Route path="/login">
             <TestLogin />
@@ -26,7 +26,7 @@ function HomePage() {
             <Redirect to="/" />
           </Route>
         </Switch>
-      </div>
+      
     </Router>
   );
 }

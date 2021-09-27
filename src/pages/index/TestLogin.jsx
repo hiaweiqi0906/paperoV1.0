@@ -35,19 +35,16 @@ function TestLogin() {
       .post("http://localhost:5000/users/login", user, config)
       .then((res) => {
         if (res.status === 200) {
-          localStorage.setItem("isAuthenticated", "true");
+          localStorage.setItem("authToken", res.data.authToken);
           window.location.pathname = "/";
           console.log("ok");
           setIsLoggedIn(true);
-          CheckAuth.login();
-          console.log(CheckAuth.isAuthenticated());
         } else {
           console.log("not ok", res.data);
           setIsLoggedIn(false);
         }
       })
       .catch((err) => console.log(err));
-
     setUser({ email: "", password: "" });
   }
 
