@@ -15,9 +15,6 @@ class Auth {
   }
 
   isAuthenticated() {
-    // if(!this.authenticated && this.haventCheck){
-    //     axios.get('http://localhost:5000/isLogin')
-    // }
     console.log("here ", this.authenticated);
     return this.authenticated;
   }

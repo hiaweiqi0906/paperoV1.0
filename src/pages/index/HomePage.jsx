@@ -1,5 +1,4 @@
 import React from "react";
-import NavbarIndex from "../../components/NavbarIndex";
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,8 +11,6 @@ import TestRegister from "./TestRegister";
 function HomePage() {
   return (
     <Router>
-      
-
       
         <Switch>
           <Route path="/login">

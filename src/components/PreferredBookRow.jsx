@@ -8,7 +8,7 @@ export default function PreferredBookRow() {
     axios.get("http://localhost:5000/preferredBook").then((res) => {
       setBooks(res.data);
     });
-  }, books.length);
+  }, [books.length]);
 
   return (
     <div className="sid-mt-80">

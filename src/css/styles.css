@@ -61,7 +61,7 @@ li a:hover {
   font-size: 20px;
 }
 
-.filter {
+/* .filter {
   display: none;
   padding: 0;
   margin: 0;
@@ -76,9 +76,9 @@ li a:hover {
   #mobile-filter {
     display: none;
   }
-}
+} */
 
-@media (min-width: 768px) and (max-width: 991px) {
+/* @media (min-width: 768px) and (max-width: 991px) {
   .card-img-top {
     width: 230px;
     height: 210px;
@@ -138,4 +138,4 @@ li a:hover {
   #mobile-filter {
     padding: 10px;
   }
-}
+} */

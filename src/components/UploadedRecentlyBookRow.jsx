@@ -8,7 +8,7 @@ export default function UploadedRecentlyBookRow() {
     axios.get("http://localhost:5000/recentUpload").then((res) => {
       setBooks(res.data);
     });
-  },books.length);
+  },[books.length]);
 
   return (
     <>

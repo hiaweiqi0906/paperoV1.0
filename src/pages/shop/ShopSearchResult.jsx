@@ -1,28 +1,30 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import BookRow from "./BookRow";
 import "../../css/styles.css";
-import LoadingSkeletonBookRow from "./LoadingSkeletonBookRow";
+import LoadingIllustration from "./LoadingIllustration";
+import NoResultIllustration from "./NoResultIllustration";
+import FinishedIllustration from "./FinishedIllustration";
+import ErrorIllustration from "./ErrorIllustration";
 import useBookSearch from "../../components/useBookSearch";
 import FilterSection from "../../components/FilterSection";
 
 function ShopSearchResult() {
   const { query } = useParams();
-  const searchKeyword = query.includes('&')?query.substr(7, query.indexOf('&')-7) : query
-  const allFilter = query.split('&')
-  const filterObj ={}
-  allFilter.map((filter)=>{
-    if(filter != ''){
-      var objPair = filter.split('=')
-      filterObj[objPair[0]] = objPair[1]
+  const searchKeyword = query.includes("&")
+    ? query.substr(7, query.indexOf("&") - 7)
+    : query;
+  const allFilter = query.split("&");
+  const filterObj = {};
+  allFilter.map((filter) => {
+    if (filter != "") {
+      var objPair = filter.split("=");
+      filterObj[objPair[0]] = objPair[1];
     }
-  })
+  });
 
   const [pageNumber, setPageNumber] = useState(1);
-
-  // const [books, setBooks] = useState([]);
   const [num, setNum] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
   let noResult = false;
   const { books, loading, error, hasMore } = useBookSearch(query, pageNumber);
@@ -45,17 +47,10 @@ function ShopSearchResult() {
     },
     [loading, hasMore]
   );
-  // useEffect(() => {
-  //   axios.get("http://localhost:5000/search=" + query).then((res) => {
-  //     setBooks(res.data); //.slice(0, 10)
-  //     if (books.length == 0) setNoResult(true);
-  //     else setNoResult(false);
-  //   });
-  // });
 
   return (
     <>
-      <FilterSection type="searchResult" filter={filterObj}/>
+      <FilterSection type="searchResult" filter={filterObj} />
       <section id="other-books">
         <div className="other-books-from-this-seller">
           <div className="section-label">
@@ -81,15 +76,15 @@ function ShopSearchResult() {
               {books.length == 0 && !noResult && (
                 <React.Fragment>
                   {num.map((number, index) => {
-                    return <LoadingSkeletonBookRow key={index} />;
+                    return <LoadingIllustration key={index} />;
                   })}
                 </React.Fragment>
               )}
             </div>
-            {loading && <LoadingSkeletonBookRow />}
-            {noResult && !loading && <p>No Results</p>}
-            {error && <div>Error</div>}
-            {!noResult && !hasMore && <div>Finished</div>}
+            {loading && <LoadingIllustration />}
+            {noResult && !loading  && !error && <NoResultIllustration />}
+            {error && <ErrorIllustration />}
+            {!noResult && !hasMore && <FinishedIllustration />}
           </div>
         </div>
       </section>

@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { useState } from "react";
 import axios from "axios";
-import BookRowFavourites from "./../shop/BookRowFavourites";
 import "../../css/styles.css";
 import BookRowEditable from "./../shop/BookRowEditable";
-import LoadingSkeletonBookRow from "./../shop/LoadingSkeletonBookRow";
+import HorizontalAds from "../../components/HorizontalAds";
 import useBookSearch from "../../components/useBookSearch";
-import EditOneBook from "./EditOneBook";
 
 export default function UserInfo() {
   const [num, setNum] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
@@ -85,10 +83,10 @@ export default function UserInfo() {
     <>
       <div className="container">
         <section id="seller-info">
-          <div className="uhp-horizontal-ads">uhp-horizontal-ads</div>
+          <HorizontalAds />
           <div className="uhp-seller-info-block border">
             <div className="row hundred-row">
-              <div className="col-2 uhp-center-vertical">
+              <div className="col-md-2 uhp-center-vertical">
                 <div>
                   <img
                     style={{
@@ -97,43 +95,110 @@ export default function UserInfo() {
                       marginRight: "auto",
                     }}
                     className="uhp-userAvatar"
-                    src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d0/JaketheDog.png/220px-JaketheDog.png"
+                    src={userInfo.avatarUri!=""? userInfo.avatarUri: 'https://res.cloudinary.com/papero/image/upload/v1633250954/user_tbyq9p.png'}
                     alt=""
                   />
                 </div>
               </div>
-              <div className="col-4 uhp-center-vertical">
+              <div className="col-md-4 uhp-center-vertical">
                 <div className="info-spacing">
-                  <h3 className="uhp-h3">Wei Qi Hia</h3>
+                  <h3 className="uhp-h3">{userInfo.firstName} {userInfo.lastName}</h3>
                 </div>
                 <div className="info-spacing">
-                  <h3 className="uhp-h3">Location: Simpang Ampat, P. Pinang</h3>
+                  <h3 className="uhp-h3">Location: {userInfo.location}, {userInfo.states}</h3>
                 </div>
                 <div className="info-spacing">
                   <h3 className="uhp-h3">Joined: one month ago...</h3>
                 </div>
               </div>
-              <div className="col-3">
+              <div className="col-md-3">
                 <h3 className="uhp-h3">Contact Num: </h3>
                 <div className="uhp-blurred-contact-info" style={blurStyle}>
                   <div className="uhp-all-contact">
-                    <p>H/P Num: 012-3456 789</p>
-                    <p>H/P Num: 012-3456 789</p>
+                    <p style={{ marginBottom: "5px" }}>H/P Num: 0{userInfo.noTel}</p>
+                    <div className="row">
+                      {userInfo.instagramLink != "" ? (
+                        <div className="col-md-2 col-3 dropup">
+                          <a href={userInfo.instagramLink} target="_blank">
+                            <i className="fab fa-instagram dropbtn"></i>
+                          </a>
+                        </div>
+                      ) : (
+                        <div
+                          className="col-md-2 col-3 dropup"
+                          style={{ pointerEvents: "none" }}
+                        >
+                          <a href={userInfo.instagramLink} target="_blank">
+                            <i className="fab fa-instagram dropbtn"></i>
+                          </a>
+                        </div>
+                      )}
+                      {userInfo.wechatLink != "" ? (
+                        <div className="col-md-2 col-3 dropup">
+                          <a href={userInfo.wechatLink} target="_blank">
+                            <i className="fab fa-weixin dropbtn"></i>
+                          </a>
+                        </div>
+                      ) : (
+                        <div
+                          className="col-md-2 col-3 dropup"
+                          style={{ pointerEvents: "none" }}
+                        >
+                          <a>
+                            <i
+                              className="fab fa-weixin dropbtn"
+                              style={{ color: "#9d9d9d " }}
+                            ></i>
+                          </a>
+                        </div>
+                      )}
+
+                      {userInfo.whatsappLink != "" ? (
+                        <div className="col-md-2 col-3 dropup">
+                          <a href={userInfo.whatsappLink} target="_blank">
+                            <i className="fab fa-whatsapp dropbtn"></i>
+                          </a>
+                        </div>
+                      ) : (
+                        <div
+                          className="col-md-2 col-3 dropup"
+                          style={{ pointerEvents: "none" }}
+                        >
+                          <a href={userInfo.whatsappLink} target="_blank">
+                            <i className="fab fa-whatsapp dropbtn"></i>
+                          </a>
+                        </div>
+                      )}
+
+                      {userInfo.messengerLink != "" ? (
+                        <div className="col-md-2 col-3  dropup">
+                          <a href={userInfo.messengerLink} target="_blank">
+                            <i className="fab fa-facebook-messenger dropbtn"></i>
+                          </a>
+                        </div>
+                      ) : (
+                        <div
+                          className="col-md-2 col-3 dropup"
+                          style={{ pointerEvents: "none" }}
+                        >
+                          <a href={userInfo.messengerLink} target="_blank">
+                            <i className="fab fa-facebook-messenger dropbtn"></i>
+                          </a>
+                        </div>
+                      )}
+                    </div>
+
                   </div>
                 </div>
               </div>
 
               <div
-                className="col-3 uhp-center-vertical"
-                style={{ height: "100%", position: "relative" }}
+                className="col-md-3 si-btn-groups-parent uhp-center-vertical"
+                
               >
                 <div>
                   <div
-                    style={{
-                      position: "absolute",
-                      bottom: "20px",
-                      right: "30px",
-                    }}
+                    className="si-btn-groups"
                   >
                     <button
                       id="btn-show-contact"
@@ -142,9 +207,7 @@ export default function UserInfo() {
                     >
                       Show Contact info
                     </button>
-                    <button className="uhp-secondary-btn">
-                      Report Inappropriate User
-                    </button>
+                    
                   </div>
                 </div>
               </div>

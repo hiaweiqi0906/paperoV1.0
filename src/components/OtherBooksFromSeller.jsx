@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react";
 import BookRow from "../pages/shop/BookRow";
 import axios from "axios";
 
-export default function UploadedRecentlyBookRow(props) {
+export default function OtherBooksFromSeller(props) {
   const [books, setBooks] = useState([]);
+  console.log(props.email)
   useEffect(() => {
     axios
       .get(`http://localhost:5000/othersFromSeller-${props.email}`)
       .then((res) => {
+        console.log(res.data)
         setBooks(res.data);
       });
-  },books.length);
+  }, [props.email]);
 
   return (
     <>

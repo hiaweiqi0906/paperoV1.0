@@ -6,7 +6,7 @@
   margin: 0px;
 }
 
-.filter{
+.filter {
   font-size: 14px;
 }
 
@@ -24,11 +24,11 @@
   text-align: justified;
 }
 
-.filter-label{
+.filter-label {
   margin: 0px;
 }
 
-.filter-margin-top-30{
+.filter-margin-top-30 {
   margin-top: 20px;
 }
 
@@ -48,9 +48,10 @@
 .ii-border {
   width: 100%;
   height: auto;
-  border: 1px solid grey;
+
   padding: 25px;
 }
+
 .eb-primary-btn {
   color: white;
   margin-top: 5px;
@@ -115,7 +116,7 @@ textarea:focus {
 .eb-label {
   text-align: right;
   padding: 0px;
-  padding-right: 30px ;
+  padding-right: 30px;
 }
 
 .eb-main-upload-part {
@@ -141,12 +142,93 @@ input[type="file"] {
   font-size: 14px;
 }
 
+.navbar-bg {
+  font-size: 16px;
+  height: 64px;
+  background: #91091e;
+  width: calc(100% + 18vw);
+  margin: -90px -9vw 0;
+}
+
+.btn-transparent-bg,
+.btn-transparent-bg:focus,
+.btn-transparent-bg:hover,
+.btn-transparent-bg:active {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none !important;
+  border-color: transparent;
+}
+
+/* .nav-logo{
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+} */
+
+.nav-logo-svg {
+  background: white;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.nav-logo-h1 {
+  color: white;
+  font-size: 36px;
+  margin: 0px 0 0;
+  font-family: "ZCOOL QingKe HuangYou", cursive;
+}
+
+.navbar-center-align {
+  margin: auto 0;
+}
+
+.navbar-link {
+  color: white;
+  margin: 0 5px;
+  font-size: 15px;
+  text-decoration: inherit;
+}
+
+.navbar-link:hover {
+  color: #c4c4c4;
+  text-decoration: inherit;
+}
+
+.navbar-upload-book:hover {
+  color: #9d9d9d;
+}
+
+.search-area-text-input:focus {
+  border: none;
+  border-color: transparent;
+  outline: none;
+}
+
+.navbar-upload-book {
+  background-color: white;
+  color: #91091e;
+  border-radius: 15px;
+  border: 1px #91091e;
+  padding: 10px;
+}
+
+.search-area {
+  background-color: white;
+  border-radius: 5px;
+}
+
 .ii-horizontal-ads {
   width: 100%;
   height: 200px;
   background: white;
   margin-bottom: 30px;
 }
+
 .ii-primary-btn {
   color: white;
   background-color: #91091e;
@@ -162,6 +244,7 @@ input[type="file"] {
   width: 48%;
   margin: 5px;
 }
+
 .ii-secondary-btn {
   color: #91091e;
   background-color: white;
@@ -179,11 +262,13 @@ input[type="file"] {
   width: 48%;
   margin: 5px;
 }
+
 .ii-seller-info {
   margin-top: 20px;
   background: white;
   padding: 10x;
 }
+
 .ii-book-slot {
   height: 260px;
   background: #ffffff;
@@ -191,6 +276,7 @@ input[type="file"] {
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
 .ii-description {
   overflow-y: scroll;
   background: white;
@@ -199,22 +285,26 @@ input[type="file"] {
 .ii-item-title-and-ii-price {
   padding: 3px;
 }
+
 .ii-img-carousel {
   width: 100%;
   height: 400px;
   object-fit: contain;
 }
+
 .ii-carousel-control-next,
 .ii-carousel-control-prev {
   height: 30%;
   margin: auto 0px;
   background: #00000050;
 }
+
 .ii-ads {
   padding: 30px;
   background: white;
   height: 100%;
 }
+
 .ii-carousel-img {
   max-width: 450px !important;
   max-height: 600px;
@@ -224,6 +314,7 @@ input[type="file"] {
   font-size: 14px;
   line-height: 25px;
 }
+
 .ii-h3 {
   font-family: "Montserrat";
   font-size: 18px;
@@ -235,10 +326,12 @@ input[type="file"] {
   margin-bottom: 7.5px;
   margin-top: 7.5px;
 }
+
 .ii-h1 {
   font-family: "Montserrat";
   font-weight: 600;
 }
+
 .ii-h2 {
   font-family: "Montserrat";
   font-size: 30px;
@@ -250,6 +343,7 @@ input[type="file"] {
   margin-bottom: 7.5px;
   margin-top: 7.5px;
 }
+
 .ii-userAvatar {
   width: 120px;
   height: 120px;
@@ -257,9 +351,11 @@ input[type="file"] {
   border-radius: 50%;
   border: solid 1px black;
 }
+
 .ii-description::-webkit-scrollbar {
   display: none;
 }
+
 /* Hide scrollbar for IE, Edge and Firefox */
 .ii-description {
   -ms-overflow-style: none;
@@ -267,6 +363,7 @@ input[type="file"] {
   scrollbar-width: none;
   /* Firefox */
 }
+
 .sticky-ii-description {
   position: -webkit-sticky;
   /* Safari */
@@ -274,6 +371,7 @@ input[type="file"] {
   top: 0;
   background: white;
 }
+
 .ii-section-title {
   font-family: Montserrat;
   font-size: 18px;
@@ -315,6 +413,7 @@ input[type="file"] {
   -ms-filter: blur(5px);
   filter: blur(5px);
   background-color: #fff;
+  pointer-events: none;
 }
 
 .ii-all-contact {
@@ -362,6 +461,7 @@ input[type="file"] {
 .ii-pd-10 {
   padding: 10px;
 }
+
 .si-book-slot {
   height: 260px;
   background: #ffffff;
@@ -370,10 +470,24 @@ input[type="file"] {
   margin-bottom: 15px;
 }
 
+.si-btn-groups-parent {
+  height: 100%;
+  position: relative;
+}
+
+.si-btn-groups {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+}
+.si-seller-info-block {
+  height: 175px;
+  background-color: white;
+}
+
 .si-border {
   width: 100%;
   /* height: auto; */
-  border: 1px solid black;
   padding: 0px;
 }
 
@@ -396,7 +510,7 @@ input[type="file"] {
   margin-top: 48px;
 }
 
-.container{
+.container {
   margin-top: 90px;
 }
 
@@ -439,6 +553,7 @@ input[type="file"] {
   -ms-filter: blur(5px);
   filter: blur(5px);
   background-color: #fff;
+  pointer-events: none;
 }
 
 .si-img {
@@ -456,8 +571,8 @@ input[type="file"] {
   line-height: 30px;
   letter-spacing: 0em;
   text-align: justified;
-  margin-bottom: 7.5px;
-  margin-top: 7.5px;
+  margin-bottom: 0px;
+  margin-top: 15px;
 }
 
 .si-seller-info-block {
@@ -538,6 +653,7 @@ input[type="file"] {
   height: 400px;
   object-fit: contain;
 }
+
 body {
   background: #ededed80;
   padding: 0px 9vw;
@@ -624,6 +740,8 @@ body {
   height: 175px;
   object-fit: contain;
   padding: 3px;
+  font-size: 1em;
+   text-align: center;
 }
 
 .categories-sid-slot-img {
@@ -631,9 +749,26 @@ body {
   height: 64px;
 }
 
+.sid-slot-img-category{
+  height: 60px;
+  padding: 10px;
+  font-size: 0.7em;
+  text-align: center;
+}
+
+.text-align-fgt-pswd{
+  text-align: right;
+}
+
 .sid-categories-slot {
   background: white;
-  height: 140px;
+  height: 110px;
+}
+
+.sid-categories-slot:hover {
+  background-color: #91091e;
+  color: white;
+  border-radius: 5px;
 }
 
 .sid-categories-text {
@@ -901,8 +1036,8 @@ input[type="file"] {
   line-height: 30px;
   letter-spacing: 0em;
   text-align: justified;
-  margin-bottom: 7.5px;
-  margin-top: 7.5px;
+  margin-bottom: 0px;
+  margin-top: 15px;
 }
 
 .uhp-seller-info-block {
@@ -1024,4 +1159,186 @@ input[type="file"] {
 
 input[type="file"] {
   display: none;
+}
+
+/* Dropup Button */
+.dropbtn {
+  color: #91091e;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* Dropup Button */
+.greyDropbtn {
+  color: #5e5b5b;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  pointer-events: none;
+}
+
+/* The container <div> - needed to position the dropup content */
+.dropup {
+  position: relative;
+  display: inline-block;
+}
+
+/* Change the background color of the dropup button when the dropup content is shown */
+.dropup:hover .dropbtn {
+  background-color: #91091e;
+  color: white;
+}
+
+.register-illu {
+  padding-top: 100px;
+}
+
+.img-register {
+  display: block;
+  margin: auto;
+  width: 70%;
+}
+
+.filter-laptop{
+  display: block;
+}
+
+.filter-phone{
+  display: none;
+}
+
+.register-form-style {
+  margin-top: 90px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 50px;
+}
+
+@media (max-width: 576px) {
+  .ii-primary-btn {
+    font-size: 10px;
+    width: 45%;
+  }
+  .ii-secondary-btn {
+    font-size: 10px;
+    width: 45%;
+  }
+
+  .ii-h3,
+  .si-h3,
+  .uhp-h3 {
+    font-family: "Montserrat";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: justified;
+    margin-bottom: 7.5px;
+    margin-top: 7.5px;
+  }
+
+  .ii-section-title {
+    font-family: Montserrat;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: justified;
+  }
+
+  .uhp-price {
+    font-size: 15px;
+  }
+
+  .eb-label,
+  .ub-label,
+  .us-label {
+    text-align: left;
+    padding-right: 30px;
+  }
+
+  .si-seller-info-block,
+  .uhp-seller-info-block {
+    height: auto;
+    background-color: white;
+  }
+
+  .si-btn-groups {
+    position: static;
+  }
+
+  .sid-show-on-desktop {
+    display: none;
+  }
+
+  .sid-index-carousel,
+  .sid-img-carousel {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: -20px;
+  }
+
+  .disappear-mobile {
+    display: none;
+  }
+
+  .sid-categories-slot {
+    background: white;
+    height: 120px;
+  }
+
+  .register-illu {
+    padding-top: 0px;
+  }
+
+  .img-register {
+    display: block;
+    margin: auto;
+    width: 100%;
+  }
+
+  .register-form-style {
+    margin-top: 90px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+  }
+
+  .text-align-fgt-pswd{
+    text-align: left;
+  }
+}
+
+.navbar-mobile {
+  display: none;
+}
+
+.navbar-desktop {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .navbar-mobile {
+    display: block;
+  }
+
+  .navbar-desktop {
+    display: none;
+  }
+
+  .filter-laptop{
+    display: none;
+  }
+
+  .filter-phone-select{
+    margin-bottom: 10px;
+  }
+  
+  .filter-phone{
+    display: block;
+  }
 }

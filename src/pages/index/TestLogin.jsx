@@ -1,13 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
   Redirect,
 } from "react-router-dom";
-import CheckAuth from "../../components/CheckAuth";
 
 function TestLogin() {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -22,14 +17,6 @@ function TestLogin() {
         "Content-Type": "application/json",
       },
     };
-    // axios({
-    //     method: "POST",
-    //     data: user,
-    //     withCredentials: true,
-    //     url: "http://localhost:5000/login",
-    //   }).then((res) => {
-    //     setIsLoggedIn(true)
-    //     console.log(res)});
 
     axios
       .post("http://localhost:5000/users/login", user, config)
@@ -39,33 +26,14 @@ function TestLogin() {
           window.location.pathname = "/";
           console.log("ok");
           setIsLoggedIn(true);
+          setUser({ email: "", password: "" });
         } else {
           console.log("not ok", res.data);
           setIsLoggedIn(false);
         }
       })
       .catch((err) => console.log(err));
-    setUser({ email: "", password: "" });
   }
-
-  // function handleGoogleAuth(){
-  // axios
-  //     .get("http://localhost:5000//auth/google", config)
-  //     .then((res) => {
-  //       if (res.status === 200) {
-  //           console.log('ok')
-  //           setIsLoggedIn(true)
-  //           CheckAuth.login()
-  //           console.log(CheckAuth.isAuthenticated())
-  //       }else{
-  //         console.log('not ok', res.data)
-  //           setIsLoggedIn(false)
-  //       }
-  //     })
-  //     .catch((err) => console.log(err));
-
-  //   setUser({ email: "", password: "" });
-  // }
 
   function handleOnChange(e) {
     const { name, value } = e.target;
@@ -76,67 +44,86 @@ function TestLogin() {
   }
 
   return (
-    <div className="container mt-5">
-      {isLoggedIn && <Redirect to="/" />}
-      <h1>Login</h1>
+    <>
+      <div className="container">
+        <form  onSubmit={handleFormSubmit}>
+          <div
+            className="row register-form-style"
+            
+          >
+            <div className="col-md-7 col-12">
+              <div className="register-illu">
+                <img
+                  src="https://res.cloudinary.com/papero/image/upload/v1633151633/undraw_reading_time_gvg0_snfmbp.svg"
+                  className="img-register"
+                  alt="Papero Login"
+                />
+              </div>
+            </div>
+            <div className="col-md-5 col-12">
+              <section id="register-form">
+                <h2 className="ii-h2 ">Log In</h2>
+                <div style={{ margin: "50px 0" }}>
+                  <div className="row" style={{ marginBottom: "10px" }}>
+                    <div className="col-md-12  col-12">
+                      <label className="ii-h3" for="email">
+                        Email:{" "}
+                      </label>
+                    </div>
+                    <div className="col-md-12 col-12">
+                      <input
+                        style={{ width: "100%" }}
+                        type="email"
+                        onChange={handleOnChange}
+                        value={user.email}
+                      name="email"
+                        id=""
+                      />
+                    </div>
+                  </div>
 
-      <div className="row">
-        <div className="col-sm-8">
-          <div className="card">
-            <div className="card-body">
-              <form onSubmit={handleFormSubmit}>
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    onChange={handleOnChange}
-                    name="email"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="password">Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    onChange={handleOnChange}
-                    name="password"
-                  />
-                </div>
-                <button type="submit" className="btn btn-dark">
-                  Login
+                  <div className="row" style={{ marginBottom: "10px" }}>
+                    <div className="col-md-12">
+                      <label className="ii-h3" for="password">
+                        Password:{" "}
+                      </label>
+                    </div>
+                    <div className="col-md-12">
+                      <input
+                        style={{ width: "100%" }}
+                        type="password"
+                        onChange={handleOnChange}
+                        value={user.password}
+                      name="password"
+                        id=""
+                      />
+                    </div>
+                  </div>
+                                  </div>
+
+                <button
+                  type="submit"
+                  className=" us-primary-btn"
+                  style={{ width: "50%", display: "block", margin: "0 auto" }}
+                >
+                  Log In
                 </button>
-              </form>
-            </div>
-          </div>
-        </div>
+                <div style={{marginTop: '50px'}} className="row">
+                  <div className="col-md-6">
 
-        <div className="col-sm-4">
-          <div className="card">
-            <div className="card-body">
-              <a
-                className="btn btn-block btn-social btn-google"
-                href="/auth/google"
-                role="button"
-              >
-                <i className="fab fa-google"></i>
-                Sign In with Google
-              </a>
-            </div>
-            <div className="card-body">
-              <a
-                className="btn btn-block btn-social btn-facebook"
-                href="/auth/facebook"
-                role="button"
-              >
-                <i className="fab fa-facebook"></i>
-                Sign In with Facebook
-              </a>
+                  <a href="/register">Register account!</a> 
+                  </div>
+                  <div className="col-md-6 text-align-fgt-pswd">
+
+                  <a href="/resetPassword">Fotgot Password? </a>
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
-        </div>
+        </form>
       </div>
-    </div>
+    </>
   );
 }
 

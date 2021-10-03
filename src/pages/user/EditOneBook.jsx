@@ -1,597 +1,13 @@
-// import axios from "axios";
-// import React, { useEffect, useState } from "react";
-// import FormData from "form-data";
-// import { Redirect, useParams } from "react-router-dom";
-// import TestLogin from "../index/TestLogin";
-// import StatesSelect from "../../components/StatesSelect";
-// import AreaSelect from "../../components/AreaSelect";
-
-// function EditOneBook(props) {
-//   const { bookId } = useParams();
-//   console.log(bookId);
-//   const [isNotPosted, setIsNotPosted] = useState(true);
-//   let statesChoice = -1;
-
-//   const authToken = localStorage.getItem("authToken")|| 'empty';
-
-//   let areaLocationsChoice;
-//   const [errorMsg, setErrorMsg] = useState("");
-//   const [data, setData] = useState({
-//     _id: "",
-//     areaLocations: "",
-//     coverImg: "",
-//     img1: "",
-//     img2: "",
-//     imgUri: [],
-//   });
-
-//   function handleOnChange(e) {
-//     const name = e.target.name;
-//     const value =
-//       name === "coverImg" || name === "img1" || name === "img2"
-//         ? e.target.files[0]
-//         : e.target.value;
-
-//     setData((prevValue) => {
-//       return { ...prevValue, [name]: value };
-//     });
-//   }
-
-//   function handleChangeSelect(name, value, statesChoices) {
-//     if (name === "states") {
-//       statesChoice = statesChoices;
-//       data.areaLocations = "";
-//     } else if (name === "areaLocations") areaLocationsChoice = statesChoices;
-
-//     setData((prevValue) => {
-//       return { ...prevValue, [name]: value };
-//     });
-//   }
-
-//   useEffect(() => {
-//     const config = {
-//       withCredentials: true,
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     };
-//     axios
-//       .get("http://localhost:5000/view/" + bookId, config)
-//       .then((res) => {
-//         setData({
-//           ...res.data,
-//           areaLocations: res.data.location,
-//           coverImg: "",
-//           img1: "",
-//           img2: "",
-//         });
-//       })
-//       .catch((err) => console.log(err));
-//   }, [data._id]);
-
-//   function checkNoEmpty() {
-//     if (
-//       !data.bookTitle ||
-//       !data.price ||
-//       !data.description ||
-//       !data.category ||
-//       !data.bookLanguage ||
-//       !data.states ||
-//       !data.areaLocations ||
-//       !data.contactNumber
-//     ) {
-//       setErrorMsg("Please Enter All Required Fields! ");
-//       console.log(data);
-//       return false;
-//     }
-
-//     return true;
-//   }
-
-//   function handleOnRemove(e) {
-//     // e.preventDefault()
-//     const config = {
-//       withCredentials: true,
-//       headers: {
-//         "Content-Type": "application/json",
-//         "Authorization": `Bearer ${authToken}`
-//       },
-//     };
-
-//     axios
-//       .post(
-//         "http://localhost:5000/users/removeUpload&id=" + props.bookId,
-//         {},
-//         config
-//       )
-//       .then((res) => {
-//         if (res.data.statusCode === "200") {
-//           console.log("res.data");
-//         } else if (res.data.statusCode === "401") {
-//           // window.location.pathname = "/"
-//         }
-//       })
-//       .catch((err) => console.log(err));
-//     // axios.post('http://localhost:5000/removeFavourites&id='+props.bookId, {  })
-//     // console.log(props.bookId)
-//   }
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     if (data.coverImg || data.img1 || data.img2) {
-//       if (checkNoEmpty()) {
-//         try {
-//           let formData = new FormData();
-//           formData.append("coverImg", data.coverImg);
-//           // data.coverImg && formData.append("coverImg", data.coverImg);
-//           // data.img1 && formData.append("img1", data.img1);
-//           // data.img2 && formData.append("img2", data.img2);
-//           formData.append("_id", data._id);
-//           formData.append("bookTitle", data.bookTitle);
-//           formData.append("imageUri", data.imageUri);
-//           formData.append("imageId", data.imageId);
-//           formData.append("description", data.description);
-//           formData.append("category", data.category);
-//           formData.append("uploadedBy", data.uploadedBy);
-//           formData.append("states", data.states);
-//           formData.append("year", data.year);
-//           formData.append("price", data.price);
-//           formData.append("location", data.areaLocations);
-//           formData.append("noTel", data.contactNumber);
-//           formData.append("whatsappLink", data.whatsappLink);
-//           formData.append("instagramLink", data.instagramLink);
-//           formData.append("messengerLink", data.messengerLink);
-//           formData.append("wechatLink", data.wechatLink);
-//           formData.append("bookLanguage", data.bookLanguage);
-//           formData.append("coverImgUri", data.coverImgUri);
-//           formData.append("coverImgId", data.bookLanguage);
-//           formData.append("uploadedBy", data.uploadedBy);
-//           formData.append("isbn", data.isbn);
-//           formData.append("coverType:", data.coverType);
-//           formData.append("quantity", data.quantity);
-//           formData.append("publishingCompany", data.publishingCompany);
-//           console.log(data);
-
-//           const res = await fetch(
-//             `http://localhost:5000/sellers/edit/${bookId}`,
-//             {
-//               method: "POST",
-//               body: formData,
-//               credentials: "include",
-//               headers: {
-//                 "Content-Type": "application/json",
-//                 // "Authorization": `Bearer ${authToken}`
-//               },
-//             }
-//           );
-//           if (res.ok) {
-//             setData({
-//               coverImg: "",
-//               img1: "",
-//               img2: "",
-//               title: "",
-//               price: "",
-//               description: "",
-//               categories: "",
-//               uploadedBy: "",
-//               publishingCompany: "",
-//               language: "",
-//               isbn: 0,
-//               coverType: "",
-//               year: "",
-//               quantity: 1,
-//               states: "",
-//               areaLocations: "",
-//               contactNumber: "",
-//               whatsappLink: "",
-//               messengerLink: "",
-//               wechatLink: "",
-//               instagramLink: "",
-//             });
-//             setIsNotPosted(false);
-//             window.location.pathname = "/";
-//             console.log("ok");
-//           }
-//         } catch (error) {
-//           console.log(error);
-//         }
-//       }
-//     } else {
-//       if (checkNoEmpty()) {
-//         data.location = data.areaLocations;
-//         console.log("data", data);
-//         const config = {
-//           withCredentials: true,
-//           headers: {
-//             "Content-Type": "application/json",
-//             "Authorization": `Bearer ${authToken}`
-//           },
-//         };
-//         axios
-//           .post("http://localhost:5000/sellers/edit/" + bookId, data, config)
-//           .then((res) => {
-//             console.log(res.data);
-//             if (res.data.msg === "Book Updated") {
-//               window.location.pathname = "/";
-//             } else if (res.data.statusCode === "401") {
-//               window.location.pathname = "/";
-//             }
-//           })
-//           .catch((err) => console.log(err));
-//       }
-//     }
-//   };
-
-//   return (
-//     <section
-//       className="h-100 h-custom gradient-custom-2"
-//       style={{ backgroundColor: "#eee" }}
-//     >
-//       {errorMsg != "" && <p>{errorMsg}</p>}
-//       <div className="container py-5 h-100">
-//         <div className="row d-flex justify-content-center align-items-center h-100">
-//           <div className="col-12">
-//             <div
-//               className="card card-registration card-registration-2"
-//               style={{ borderRadius: "15px" }}
-//             >
-//               <form encType="multipart/form-data" onSubmit={handleSubmit}>
-//                 <div className="card-body p-0">
-//                   <div className="row g-0">
-//                     <div className="col-lg-6">
-//                       <div className="p-5">
-//                         <h3 className="fw-normal mb-5">Edit Book</h3>
-//                         <div className="row">
-//                           <div className="col-md-6 mb-2 pb-2">
-//                             <div className="custom-file mb-3">
-//                               <img
-//                                 src={data.coverImgUri}
-//                                 style={{ height: "100px", width: "100px" }}
-//                               />
-//                               <label
-//                                 htmlFor="file"
-//                                 className="custom-file-label"
-//                               >
-//                                 {" "}
-//                                 Choose Cover Photo:
-//                               </label>
-//                               <input
-//                                 type="file"
-//                                 name="coverImg"
-//                                 onChange={handleOnChange}
-//                                 id="file"
-//                                 className="custom-file-input"
-//                               />
-//                             </div>
-//                           </div>
-//                         </div>
-//                         <div className="row">
-//                           <div className="col-md-6 mb-2 pb-2">
-//                             <div className="custom-file mb-3">
-//                               <img
-//                                 src={data.imageUri ? data.imageUri[0] : ""}
-//                                 style={{ height: "100px", width: "100px" }}
-//                               />
-//                               <label
-//                                 htmlFor="img1"
-//                                 className="custom-file-label"
-//                               >
-//                                 {" "}
-//                                 Choose Photo 1:
-//                               </label>
-//                               <input
-//                                 type="file"
-//                                 name="img1"
-//                                 id="file"
-//                                 onChange={handleOnChange}
-//                                 className="custom-file-input"
-//                               />
-//                             </div>
-//                           </div>
-//                           <div className="col-md-6 mb-2 pb-2">
-//                             <div className="custom-file mb-3">
-//                               <img
-//                                 src={data.imageUri ? data.imageUri[1] : ""}
-//                                 style={{ height: "100px", width: "100px" }}
-//                               />
-//                               <label
-//                                 htmlFor="img2"
-//                                 className="custom-file-label"
-//                               >
-//                                 {" "}
-//                                 Choose Photo 2:
-//                               </label>
-
-//                               <input
-//                                 type="file"
-//                                 name="img2"
-//                                 id="file"
-//                                 onChange={handleOnChange}
-//                                 className="custom-file-input"
-//                               />
-//                             </div>
-//                           </div>
-//                         </div>
-//                         <div className="row">
-//                           <div className="col-md-6 mb-4 pb-2">
-//                             <div className="form-group">
-//                               <label htmlFor="title">Title</label>
-//                               <input
-//                                 type="text"
-//                                 id="bookTitle"
-//                                 value={data.bookTitle}
-//                                 onChange={handleOnChange}
-//                                 name="bookTitle"
-//                                 className="form-control"
-//                                 placeholder="Enter Title"
-//                               />
-//                             </div>
-//                           </div>
-//                           <div className="col-md-6 mb-4 pb-2">
-//                             <div className="form-group">
-//                               <label htmlFor="price">Price</label>
-//                               <input
-//                                 type="text"
-//                                 id="price"
-//                                 value={data.price}
-//                                 onChange={handleOnChange}
-//                                 name="price"
-//                                 className="form-control"
-//                                 placeholder="Enter Price"
-//                               />
-//                             </div>
-//                           </div>
-//                         </div>
-//                         <div className="col-md-6 mb-4 pb-2">
-//                           <div className="form-group">
-//                             <label htmlFor="description">Description</label>
-//                             <input
-//                               type="text"
-//                               id="description"
-//                               value={data.description}
-//                               onChange={handleOnChange}
-//                               name="description"
-//                               className="form-control"
-//                               placeholder="Enter Description"
-//                             />
-//                           </div>
-//                         </div>
-//                         <div className="row">
-//                           <div className="col-md-4 mb-2 pb-2">
-//                             <div className="form-group">
-//                               <label htmlFor="category">Categories: </label>
-//                               <select
-//                                 name="category"
-//                                 id="categories"
-//                                 className="form-control"
-//                                 onChange={handleOnChange}
-//                                 value={data.category}
-//                               >
-//                                 <option
-//                                   value="none"
-//                                   defaultValue
-//                                   disabled
-//                                   hidden
-//                                 >
-//                                   Select a Categories
-//                                 </option>
-//                                 <option value="Art">Art</option>
-//                                 <option value="Fiction">Fiction</option>
-//                               </select>
-//                             </div>
-//                           </div>
-//                           <div className="col-md-4 mb-2 pb-2">
-//                             <div className="form-group">
-//                               <label htmlFor="bookLanguage">Language: </label>
-//                               <select
-//                                 name="bookLanguage"
-//                                 onChange={handleOnChange}
-//                                 id="bookLanguage"
-//                                 value={data.bookLanguage}
-//                                 className="form-control"
-//                               >
-//                                 <option
-//                                   value="none"
-//                                   defaultValue
-//                                   disabled
-//                                   hidden
-//                                 >
-//                                   Select a Language
-//                                 </option>
-//                                 <option value="Chinese">Chinese</option>
-//                                 <option value="English">English</option>
-//                               </select>
-//                             </div>
-//                           </div>
-//                           <div className="col-md-4 mb-2 pb-2">
-//                             <div className="form-group">
-//                               <label htmlFor="year">Year Published: </label>
-//                               <input
-//                                 type="text"
-//                                 id="year"
-//                                 name="year"
-//                                 value={data.year}
-//                                 onChange={handleOnChange}
-//                                 className="form-control"
-//                                 placeholder="Enter Year Published"
-//                               />
-//                             </div>
-//                           </div>
-//                         </div>
-//                       </div>
-//                     </div>
-//                     <div className="col-lg-6 bg-indigo text-black">
-//                       <div className="p-5">
-//                         <h3 className="fw-normal mb-5">Personal Details</h3>
-
-//                         <div className="mb-4 pb-2">
-//                           <div className="form-outline form-white">
-//                             {/* <StatesSelect onChange={handleChangeSelect} /> */}
-//                             <StatesSelect
-//                               onChange={handleChangeSelect}
-//                               states={data.states}
-//                             />
-//                             {/* <label htmlFor="states">States: </label>
-//                             <select
-//                               name="states"
-//                               id="states"
-//                               onChange={handleOnChange}
-//                               className="form-control"
-//                             >
-//                               {/* <%
-//                                     var options = [ "Penang", "Johor" ];
-//                                     htmlFor ( var i = 0; i < options.length; i++ )
-//                                     {
-//                                         var selected = ( user.states == options[i] ) ? "selected" : "";
-//                                         %><option value="<%=options[ i ]%>" <%=selected %>><%=options[ i ] %></option><%
-//                                     }
-//                                     %>
-//                             </select> */}
-//                           </div>
-//                         </div>
-
-//                         <div className="mb-4 pb-2">
-//                           <div className="form-outline form-white">
-//                             {/* <AreaSelect onChange={handleChangeSelect} /> */}
-//                             <AreaSelect
-//                               states={data.states}
-//                               userAreaLocation={data.areaLocations}
-//                               onChange={handleChangeSelect}
-//                             />{" "}
-//                             {/* <label htmlFor="location">Area Location</label>
-//                             <select
-//                               name="location"
-//                               onChange={handleOnChange}
-//                               id="location"
-//                               className="form-control"
-//                             >
-//                               {/* <%var options = [ "Simpang Ampat", "Butterworth" ];
-//                                         htmlFor ( var i = 0; i < options.length; i++ )
-//                                         {
-//                                             var selected = ( user.location == options[i]) ? "selected" : "";
-//                                             %><option value="<%=options[ i ]%>" <%=selected %>><%=options[ i ] %></option><%
-//                                         }
-//                                         %>
-//                             </select> */}
-//                           </div>
-//                         </div>
-
-//                         <div className="mb-4 pb-2">
-//                           <div className="form-outline form-white">
-//                             <label htmlFor="contactNumber">
-//                               Contact Number:{" "}
-//                             </label>
-//                             <input
-//                               type="text"
-//                               id="contactNumber"
-//                               name="contactNumber"
-//                               value={"0" + data.contactNumber}
-//                               onChange={handleOnChange}
-//                               className="form-control"
-//                             />
-//                           </div>
-//                         </div>
-
-//                         <div className="mb-4 pb-2">
-//                           <div className="form-outline form-white">
-//                             <label htmlFor="whatsappLink">
-//                               Whatsapp Link:{" "}
-//                             </label>
-//                             <input
-//                               type="text"
-//                               id="whatsappLink"
-//                               name="whatsappLink"
-//                               value={data.whatsappLink}
-//                               onChange={handleOnChange}
-//                               className="form-control"
-//                               placeholder="Enter if you have one!"
-//                             />
-//                           </div>
-//                         </div>
-
-//                         <div className="mb-4 pb-2">
-//                           <div className="form-outline form-white">
-//                             <label htmlFor="instagramLink">
-//                               Instagram Link:{" "}
-//                             </label>
-//                             <input
-//                               type="text"
-//                               id="instagramLink"
-//                               name="instagramLink"
-//                               value={data.instagramLink}
-//                               onChange={handleOnChange}
-//                               className="form-control"
-//                               placeholder="Enter link if you have one!"
-//                             />
-//                           </div>
-//                         </div>
-
-//                         <div className="mb-4 pb-2">
-//                           <div className="form-outline form-white">
-//                             <label htmlFor="messengerLink">
-//                               Messenger Link:{" "}
-//                             </label>
-//                             <input
-//                               type="text"
-//                               id="messengerLink"
-//                               name="messengerLink"
-//                               value={data.messengerLink}
-//                               onChange={handleOnChange}
-//                               className="form-control"
-//                               placeholder="Enter if you have one!"
-//                             />
-//                           </div>
-//                         </div>
-
-//                         <div className="mb-4 pb-2">
-//                           <div className="form-outline form-white">
-//                             <label htmlFor="wechatLink">WeChat Link: </label>
-//                             <input
-//                               type="text"
-//                               id="wechatLink"
-//                               name="wechatLink"
-//                               value={data.wechatLink}
-//                               onChange={handleOnChange}
-//                               className="form-control"
-//                               placeholder="Enter if you have one!"
-//                             />
-//                           </div>
-//                         </div>
-//                       </div>
-//                     </div>
-//                   </div>
-//                 </div>
-//                 <div className="text-center mb-4">
-//                   <button type="submit" className="btn btn-primary btn-lg">
-//                     Upload
-//                   </button>
-//                 </div>
-//               </form>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
-// export default EditOneBook;
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import FormData from "form-data";
-import { Redirect, useParams } from "react-router-dom";
-import TestLogin from "../index/TestLogin";
-import StatesSelect from "../../components/StatesSelect";
-import AreaSelect from "../../components/AreaSelect";
+import { useParams } from "react-router-dom";
 import "../../css/finalCss.css";
 
 function EditOneBook(props) {
   const { bookId } = useParams();
   console.log(bookId);
   const [isNotPosted, setIsNotPosted] = useState(true);
-  let statesChoice = -1;
-  let areaLocationsChoice;
   const [coverImgPreview, setCoverImgPreview] = useState("");
   const [imgPreview1, setImgPreview1] = useState('');
   const [imgPreview2, setImgPreview2] = useState('');
@@ -614,6 +30,38 @@ function EditOneBook(props) {
     "Selangor",
     "Terengganu",
   ]);
+  const allLanguages = ['Chinese', 'English', 'Bahasa Melayu', 'Bahasa Indonesia', 'Vietnamese', 'Thai', 'Portugese', 'B. Arab', 'Others']
+  const allCategories = [
+    "Arts & Music",
+    "Biography",
+    "Business",
+    "Comics",
+    "Computers & Tech",
+    "Cooking",
+    "Edu & Reference",
+    "Entertainment",
+    "Health & Fitness",
+    "History",
+    "Hobbies & Crafts",
+    "Home & Garden",
+    "Horror",
+    "Kids",
+    "Literature & Fiction",
+    "Medical",
+    "Mysteries",
+    "Parenting",
+    "Religion",
+    "Romance",
+    "Sci-Fi & Fantasy",
+    "Science & Math",
+    "Self Help & Improvements",
+    "Social Sciences",
+    "Sports",
+    "Teen",
+    "Travel",
+    "True Crime",
+    "Westerns",
+  ];
   const [areaLocations, setAreaLocations] = useState([
     ["Ayer Baloi", "Ayer Hitam", "Bakri", "Batu Anam", "Batu Pahat", "Bekok", "Benut", "Bukit Gambir", "Bukit Pasir", "Chaah", "Endau", "Gelang Patah", "Gerisek", "Gugusan Taib Andak", "Jementah", "Johor Bahru", "Kahang", "Kampung Kenangan Tun Dr Ismail", "Kluang", "Kota Tinggi", "Kukup", "Kulai", "Labis", "Layang Layang", "Masai", "Mersing", "Muar", "Iskandar Puteri", "Pagoh", "Paloh", "Panchor", "Parit Jawa", "Parit Raja", "Parit Sulong", "Pasir Gudang", "Pekan Nanas", "Pengerang", "Permas Jaya", "Plentong", "Pontian", "Rengam", "Rengit", "Segamat", "Semerah", "Senai", "Senggarang", "Senibong", "Seri Gading", "Setia Indah", "Setia Tropika", "Simpang Rengam", "Skudai", "Sungai Mati", "Tampoi", "Tangkak", "Ulu Tiram", "Yong Peng", "Others"],
     ["Alor Setar", "Ayer Hitam", "Baling", "Bandar Baharu", "Bukit Kayu Hitam", "Changloon", "Guar Chempedak", "Gurun", "Jitra", "Karangan", "Kepala Batas", "Kodiang", "Kota Sarang Semut", "Kuala Kedah", "Kuala Ketil", "Kuala Muda", "Kuala Nerang", "Kubang Pasu", "Kulim", "Lunas", "Merbok", "Padang Serai", "Padang Terap", "Pendang", "Pokok Sena", "Pulau Langkawi", "Serdang", "Sik", "Simpang Empat", "Sungai Petani", "University Utara", "Yan", "Bedong", "Langgar"],
@@ -676,17 +124,6 @@ function EditOneBook(props) {
     });
   }
 
-  function handleChangeSelect(name, value, statesChoices) {
-    if (name === "states") {
-      statesChoice = statesChoices;
-      data.areaLocations = "";
-    } else if (name === "areaLocations") areaLocationsChoice = statesChoices;
-
-    setData((prevValue) => {
-      return { ...prevValue, [name]: value };
-    });
-  }
-
   useEffect(() => {
     const config = {
       withCredentials: true,
@@ -698,18 +135,18 @@ function EditOneBook(props) {
       .get("http://localhost:5000/view/" + bookId, config)
       .then((res) => {
         setData({
-          ...res.data,
-          areaLocations: res.data.location,
+          ...res.data.book,
+          areaLocations: res.data.book.location,
           coverImg: "",
           img1: "",
           img2: "",
         });
-        setAreasToShow(areaLocations[states.indexOf(res.data.states)]);
-        setCoverImgPreview(res.data.coverImgUri);
+        setAreasToShow(areaLocations[states.indexOf(res.data.book.states)]);
+        setCoverImgPreview(res.data.book.coverImgUri);
       
-        res.data.imgUri[0] ? setImgPreview1(res.data.imgUri[0]) : setImgPreview1('')
-        res.data.imgUri[1] ? setImgPreview2(res.data.imgUri[1]) : setImgPreview2('')
-        res.data.imgUri[2] ? setImgPreview3(res.data.imgUri[2]) : setImgPreview3('')
+        res.data.book.imgUri[0] ? setImgPreview1(res.data.book.imgUri[0]) : setImgPreview1('')
+        res.data.book.imgUri[1] ? setImgPreview2(res.data.book.imgUri[1]) : setImgPreview2('')
+        res.data.book.imgUri[2] ? setImgPreview3(res.data.book.imgUri[2]) : setImgPreview3('')
       })
       .catch((err) => console.log(err));
   }, [data._id]);
@@ -823,10 +260,10 @@ function EditOneBook(props) {
         axios
           .post("http://localhost:5000/sellers/edit/" + bookId, data, config)
           .then((res) => {
-            console.log(res.data);
-            if (res.data.msg === "Book Updated") {
+            console.log(res.data.book);
+            if (res.data.book.msg === "Book Updated") {
               window.location.pathname = "/";
-            } else if (res.data.statusCode === "401") {
+            } else if (res.data.book.statusCode === "401") {
               window.location.pathname = "/";
             }
           })
@@ -847,22 +284,22 @@ function EditOneBook(props) {
                     Basic Information:{" "}
                   </h3>
                   <div id="book-images" className="row eb-label-input-prop">
-                    <div className="eb-label col-3">
+                    <div className="eb-label col-md-3">
                       <label for="">Book Images: </label>
                     </div>
-                    <div className="col-9">
+                    <div className="col-md-9">
                       <label for="coverImg">
                         <input
                           type="file"
-                          onChange={handleOnChange}
                           name="coverImg"
+                          onChange={handleOnChange}
                           id="coverImg"
                           style={{ display: "none" }}
+                          required
                         />
-
                         <img
                           id="img-coverImg"
-                          src={coverImgPreview}
+                          src={coverImgPreview!=""? coverImgPreview: 'https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png'}
                           style={{
                             objectFit: "contain",
                             width: "100px",
@@ -875,13 +312,13 @@ function EditOneBook(props) {
                         <input
                           type="file"
                           name="img1"
-                          id="img1"
                           onChange={handleOnChange}
+                          id="img1"
                           style={{ display: "none" }}
                         />
                         <img
                           id="img-img1"
-                          src={imgPreview1}
+                          src={imgPreview1!=""? imgPreview1: 'https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png'}
                           style={{
                             objectFit: "contain",
                             width: "100px",
@@ -900,7 +337,7 @@ function EditOneBook(props) {
                         />
                         <img
                           id="img-img2"
-                          src={imgPreview2}
+                          src={imgPreview2!=""? imgPreview2: 'https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png'}
                           style={{
                             objectFit: "contain",
                             width: "100px",
@@ -919,7 +356,7 @@ function EditOneBook(props) {
                         />
                         <img
                           id="img-img3"
-                          src={imgPreview3}
+                          src={imgPreview3!=""? imgPreview3: 'https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png'}
                           style={{
                             objectFit: "contain",
                             width: "100px",
@@ -931,11 +368,12 @@ function EditOneBook(props) {
                     </div>
                   </div>
                   <div id="book-title" className="row eb-label-input-prop">
-                    <div className="eb-label col-3">
-                      <label for="">Book Title: </label>
+                    <div className="eb-label col-md-3">
+                      <label for="">Book Title*: </label>
                     </div>
-                    <div className="col-9">
+                    <div className="col-md-9">
                       <input
+                      required
                         style={{ width: "100%" }}
                         type="text"
                         id="bookTitle"
@@ -950,11 +388,12 @@ function EditOneBook(props) {
                     id="book-description"
                     className="row eb-label-input-prop"
                   >
-                    <div className="eb-label col-3">
-                      <label for="">Description: </label>
+                    <div className="eb-label col-md-3">
+                      <label for="">Description*: </label>
                     </div>
-                    <div className="col-9">
+                    <div className="col-md-9">
                       <textarea
+                      required
                         rows="1"
                         id="description"
                         value={data.description}
@@ -965,11 +404,12 @@ function EditOneBook(props) {
                     </div>
                   </div>
                   <div id="book-isbn" className="row eb-label-input-prop">
-                    <div className="eb-label col-3">
-                      <label for="">ISBN: </label>
+                    <div className="eb-label col-md-3">
+                      <label for="">ISBN*: </label>
                     </div>
-                    <div className="col-9">
+                    <div className="col-md-9">
                       <input
+                      required
                         style={{ width: "100%" }}
                         type="text"
                         name="isbn"
@@ -978,11 +418,12 @@ function EditOneBook(props) {
                     </div>
                   </div>
                   <div id="book-price" className="row eb-label-input-prop">
-                    <div className="eb-label col-3">
-                      <label for="">Price: </label>
+                    <div className="eb-label col-md-3">
+                      <label for="">Price*: </label>
                     </div>
-                    <div className="col-5">
+                    <div className="col-md-5">
                       <input
+                      required
                         style={{ width: "100%" }}
                         type="text"
                         id="price"
@@ -992,14 +433,15 @@ function EditOneBook(props) {
                         placeholder="Enter Price"
                       />
                     </div>
-                    <div className="col-4"></div>
+                    <div className="col-md-4"></div>
                   </div>
                   <div id="book-year" className="row eb-label-input-prop">
-                    <div className="eb-label col-3">
-                      <label for="">Year Published: </label>
+                    <div className="eb-label col-md-3">
+                      <label for="">Year Published*: </label>
                     </div>
-                    <div className="col-5">
+                    <div className="col-md-5">
                       <input
+                      required
                         style={{ width: "100%" }}
                         type="text"
                         id="year"
@@ -1009,14 +451,15 @@ function EditOneBook(props) {
                         placeholder="Enter Year Published"
                       />
                     </div>
-                    <div className="col-4"></div>
+                    <div className="col-md-4"></div>
                   </div>
                   <div id="book-category" className="row eb-label-input-prop">
-                    <div className="eb-label col-3">
-                      <label for="">Category: </label>
+                    <div className="eb-label col-md-3">
+                      <label for="">Category*: </label>
                     </div>
-                    <div className="col-5">
+                    <div className="col-md-5">
                       <select
+                      required
                         className="eb-select"
                         style={{ width: "100%" }}
                         name="category"
@@ -1024,21 +467,23 @@ function EditOneBook(props) {
                         onChange={handleOnChange}
                         value={data.category}
                       >
-                        <option value="none" defaultValue disabled hidden>
+                        <option value="none" defaultValue hidden>
                           Select a Categories
                         </option>
-                        <option value="Art">Art</option>
-                        <option value="Fiction">Fiction</option>
+                        {allCategories.map(category => {
+                  return (<option value={category} key={category}>{category}</option>)
+                })}
                       </select>
                     </div>
-                    <div className="col-4"></div>
+                    <div className="col-md-4"></div>
                   </div>
                   <div id="book-language" className="row eb-label-input-prop">
-                    <div className="eb-label col-3">
-                      <label for="">Language: </label>
+                    <div className="eb-label col-md-3">
+                      <label for="">Language*: </label>
                     </div>
-                    <div className="col-5">
+                    <div className="col-md-5">
                       <select
+                      required
                         className="eb-select"
                         style={{ width: "100%" }}
                         name="bookLanguage"
@@ -1046,14 +491,17 @@ function EditOneBook(props) {
                         id="bookLanguage"
                         value={data.bookLanguage}
                       >
-                        <option value="none" defaultValue disabled hidden>
+                        <option value="none" defaultValue hidden>
                           Select a Language
                         </option>
-                        <option value="Chinese">Chinese</option>
-                        <option value="English">English</option>
+                        {allLanguages.map(language=>{
+                          return (<option value={language} key={language}>
+                            {language}
+                          </option>)
+                        })}
                       </select>
                     </div>
-                    <div className="col-4"></div>
+                    <div className="col-md-4"></div>
                   </div>
                 </div>
               </section>
@@ -1064,11 +512,12 @@ function EditOneBook(props) {
                     Personal Information:{" "}
                   </h3>
                   <div id="contact-hp" className="row eb-label-input-prop">
-                    <div className="eb-label col-3">
-                      <label for="">States: </label>
+                    <div className="eb-label col-md-3">
+                      <label for="">States*: </label>
                     </div>
-                    <div className="col-5">
+                    <div className="col-md-5">
                       <select
+                      required
                         className="eb-select"
                         style={{ width: " 100%" }}
                         value={data.states ? data.states : ""}
@@ -1076,7 +525,7 @@ function EditOneBook(props) {
                         onChange={handleOnChange}
                         id="states"
                       >
-                        <option defaultValue disabled>
+                        <option defaultValue hidden>
                           Select a States
                         </option>
                         {states.map((state) => {
@@ -1088,27 +537,30 @@ function EditOneBook(props) {
                         })}
                       </select>
                     </div>
-                    <div className="col-4"></div>
+                    <div className="col-md-4"></div>
                   </div>
                   <div id="contact-wechat" className="row eb-label-input-prop">
-                    <div className="eb-label col-3">
-                      <label for="">Area Location: </label>
+                    <div className="eb-label col-md-3">
+                      <label for="">Area Location*: </label>
                     </div>
-                    <div className="col-5">
+                    <div className="col-md-5">
                       <select
+                      required
                         className="eb-select"
                         style={{ width: " 100%" }}
                         name="areaLocations"
                         value={
-                          areasToShow.includes(data.areaLocations)
+                          areasToShow && areasToShow.includes(data.areaLocations)
                             ? data.areaLocations
                             : data.areaLocations
                         }
                         onChange={handleOnChange}
                         id="areaLocations"
                       >
-                        <option>test</option>
-                        {areasToShow.map((location) => {
+                        <option defaultValue hidden>
+                          Select a Location
+                        </option>
+                        {areasToShow && areasToShow.map((location) => {
                           return (
                             <option key={location} value={location}>
                               {location}
@@ -1117,7 +569,7 @@ function EditOneBook(props) {
                         })}
                       </select>
                     </div>
-                    <div className="col-4"></div>
+                    <div className="col-md-4"></div>
                   </div>
                 </div>
               </section>
@@ -1128,11 +580,12 @@ function EditOneBook(props) {
                     Contact Information:{" "}
                   </h3>
                   <div id="contact-hp" className="row eb-label-input-prop">
-                    <div className="eb-label col-3">
-                      <label for="">H/P Number: </label>
+                    <div className="eb-label col-md-3">
+                      <label for="">H/P Number*: </label>
                     </div>
-                    <div className="col-5">
+                    <div className="col-md-5">
                       <input
+                      required
                         style={{ width: "100%" }}
                         type="text"
                         id="contactNumber"
@@ -1141,13 +594,13 @@ function EditOneBook(props) {
                         onChange={handleOnChange}
                       />
                     </div>
-                    <div className="col-4"></div>
+                    <div className="col-md-4"></div>
                   </div>
                   <div id="contact-wechat" className="row eb-label-input-prop">
-                    <div className="eb-label col-3">
+                    <div className="eb-label col-md-3">
                       <label for="">WeChat: </label>
                     </div>
-                    <div className="col-5">
+                    <div className="col-md-5">
                       <input
                         style={{ width: "100%" }}
                         type="text"
@@ -1158,16 +611,16 @@ function EditOneBook(props) {
                         placeholder="Enter if you have one!"
                       />
                     </div>
-                    <div className="col-4"></div>
+                    <div className="col-md-4"></div>
                   </div>
                   <div
                     id="contact-whatsapp"
                     className="row eb-label-input-prop"
                   >
-                    <div className="eb-label col-3">
+                    <div className="eb-label col-md-3">
                       <label for="">Whatsapp: </label>
                     </div>
-                    <div className="col-5">
+                    <div className="col-md-5">
                       <input
                         style={{ width: "100%" }}
                         type="text"
@@ -1178,16 +631,16 @@ function EditOneBook(props) {
                         placeholder="Enter if you have one!"
                       />
                     </div>
-                    <div className="col-4"></div>
+                    <div className="col-md-4"></div>
                   </div>
                   <div
                     id="contact-messenger"
                     className="row eb-label-input-prop"
                   >
-                    <div className="eb-label col-3">
+                    <div className="eb-label col-md-3">
                       <label for="">Messenger: </label>
                     </div>
-                    <div className="col-5">
+                    <div className="col-md-5">
                       <input
                         style={{ width: "100%" }}
                         type="text"
@@ -1198,16 +651,16 @@ function EditOneBook(props) {
                         placeholder="Enter if you have one!"
                       />
                     </div>
-                    <div className="col-4"></div>
+                    <div className="col-md-4"></div>
                   </div>
                   <div
                     id="contact-instagram"
                     className="row eb-label-input-prop"
                   >
-                    <div className="eb-label col-3">
+                    <div className="eb-label col-md-3">
                       <label for="">Instagram: </label>
                     </div>
-                    <div className="col-5">
+                    <div className="col-md-5">
                       <input
                         style={{ width: "100%" }}
                         type="text"
@@ -1218,20 +671,20 @@ function EditOneBook(props) {
                         placeholder="Enter link if you have one!"
                       />
                     </div>
-                    <div className="col-4"></div>
+                    <div className="col-md-4"></div>
                   </div>
                 </div>
               </section>
               <section id="buttons">
                 <div className="row">
-                  <div className="col-3"></div>
-                  <div className="col-3">
+                  <div className="col-md-3"></div>
+                  <div className="col-md-3">
                     <button className="eb-secondary-btn">Delete</button>
                   </div>
-                  <div className="col-3">
+                  <div className="col-md-3">
                     <button className="eb-secondary-btn">Sold</button>
                   </div>
-                  <div className="col-3">
+                  <div className="col-md-3">
                     <button className="eb-primary-btn" type="submit">
                       Update
                     </button>

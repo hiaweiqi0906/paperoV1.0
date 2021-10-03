@@ -19,18 +19,16 @@ export default function useBookSearch(query, pageNumber) {
     else if (query === "@@@@userInfo")
       url = `http://localhost:5000/users/info&page=${pageNumber}`;
     else if (query.includes("@@@@preferredBooks")) {
-      // url = `http://localhost:5000/preferredBookAll&page=${pageNumber}`;
       const arrStr = query.split('@')
       url = `http://localhost:5000/preferredBookSearch?${arrStr[0]}&page=${pageNumber}`;
 
     } else if (query.includes("@@@@uploadedRecently")){
-      // url = `http://localhost:5000/preferredBookAll&page=${pageNumber}`;
       const arrStr = query.split('@')
       url = `http://localhost:5000/uploadedRecentlySearch?${arrStr[0]}&page=${pageNumber}`;
 
     } else if (query.includes("@@@@userOtherInfo")) {
-      let email = query.substring(17);
-      url = `http://localhost:5000/users/info&email=:${email}&page=${pageNumber}`;
+      const arrStr = query.split('@')
+      url = `http://localhost:5000/users/info&id=${arrStr[0]}&page=${pageNumber}`;
     } else if (query.includes("search=")) {
       url = `http://localhost:5000/trySearch?${query}&page=${pageNumber}`;
     } else url = `http://localhost:5000/search=${query}&page=${pageNumber}`;
@@ -62,6 +60,7 @@ export default function useBookSearch(query, pageNumber) {
       })
       .catch((err) => {
         if (axios.isCancel(err)) return;
+        setLoading(false)
         setError(true);
       });
     return () => cancel();

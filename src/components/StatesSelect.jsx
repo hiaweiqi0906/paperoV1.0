@@ -38,13 +38,6 @@ function StatesSelect(props) {
           {states.map((state)=>{
               return <option key={state} value={state}>{state}</option>
           })}
-        {/* <%var options = [ "Simpang Ampat", "Butterworth" ];
-            htmlFor ( var i = 0; i < options.length; i++ )
-            {
-                var selected = ( user.location == options[i]) ? "selected" : "";
-                %><option value="<%=options[ i ]%>" <%=selected %>><%=options[ i ] %></option><%
-            }
-            %> */}
       </select>
     </>
   );

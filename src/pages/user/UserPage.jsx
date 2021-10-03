@@ -11,6 +11,7 @@ import UserFavourite from "./UserFavourite";
 import UserInfo from "./UserInfo";
 import EditOneBook from "./EditOneBook";
 import OtherUserInfo from "./OtherUserInfo";
+import LoadingIllustration from "../shop/LoadingIllustration";
 import axios from "axios";
 
 function UserPage() {
@@ -65,13 +66,13 @@ function UserPage() {
           <Route exact path="/user/edit/:bookId">
             <EditOneBook userInfo={userInfo} />
           </Route>
-          <Route path="/user/:email" children={<OtherUserInfo />} />
+          
           <Route path="/">
             <Redirect to="/" />
           </Route>
         </Switch>
       ) : (
-        <div style={{ height: "500px" }}></div>
+        <div style={{ height: "500px", marginTop: '100px' }}><LoadingIllustration /></div>
       )}
     </Router>
   );

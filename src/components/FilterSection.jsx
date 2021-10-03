@@ -4,6 +4,39 @@ export default function FilterSection(props) {
   // search
   //query
 
+  const [filterDisplay, setFilterDisplay] = useState({ display: "none" });
+  const allCategories = [
+    "Arts & Music",
+    "Biography",
+    "Business",
+    "Comics",
+    "Computers & Tech",
+    "Cooking",
+    "Edu & Reference",
+    "Entertainment",
+    "Health & Fitness",
+    "History",
+    "Hobbies & Crafts",
+    "Home & Garden",
+    "Horror",
+    "Kids",
+    "Literature & Fiction",
+    "Medical",
+    "Mysteries",
+    "Parenting",
+    "Religion",
+    "Romance",
+    "Sci-Fi & Fantasy",
+    "Science & Math",
+    "Self Help & Improvements",
+    "Social Sciences",
+    "Sports",
+    "Teen",
+    "Travel",
+    "True Crime",
+    "Westerns",
+  ];
+
   const [searchQuery, setSearchQuery] = useState({
     search: props.filter.search ? props.filter.search : "",
     states: props.filter.states ? props.filter.states : "",
@@ -14,9 +47,26 @@ export default function FilterSection(props) {
     maxPrice: props.filter.maxPrice ? props.filter.maxPrice : "",
   });
 
+  function handleChangeFilterDisplay(){
+    if(filterDisplay.display != 'none') setFilterDisplay({display: 'none'})
+    else setFilterDisplay({display: 'block'})
+  }
+
   const [area, setArea] = useState(
     props.filter.location ? props.filter.location : ""
   );
+  const allLanguages = [
+    "Chinese",
+    "English",
+    "Bahasa Melayu",
+    "Bahasa Indonesia",
+    "Vietnamese",
+    "Thai",
+    "Portugese",
+    "B. Arab",
+    "Others",
+  ];
+
   const [states, setStates] = useState([
     "Johor",
     "Kedah",
@@ -722,7 +772,6 @@ export default function FilterSection(props) {
     for (const [key, value] of Object.entries(searchQuery)) {
       query += `${key}=${value}&`;
     }
-    console.log("http://localhost:5000/search/" + query);
     setSearchQuery({
       search: props.filter.search ? props.filter.search : "",
       states: props.filter.states ? props.filter.states : "",
@@ -734,16 +783,11 @@ export default function FilterSection(props) {
     });
     if (props.type === "searchResult")
       window.location.pathname = `/search/${query}`;
-      else if (props.type === "preferredBooks") {
-        // query+='@@@@preferredBooks'
-        // console.log('query', query)
-        window.location.pathname = `/preferredBooks/${query}`;
-      }
-      else if (props.type === "uploadedRecently") {
-        // query+='@@@@preferredBooks'
-        // console.log('query', query)
-        window.location.pathname = `/uploadedRecently/${query}`;
-      }
+    else if (props.type === "preferredBooks") {
+      window.location.pathname = `/preferredBooks/${query}`;
+    } else if (props.type === "uploadedRecently") {
+      window.location.pathname = `/uploadedRecently/${query}`;
+    }
   }
 
   function handleOnChange(e) {
@@ -770,7 +814,7 @@ export default function FilterSection(props) {
       <div
         style={{
           width: "70vw",
-          margin: "0 auto",
+          margin: "90px auto 0",
           backgroundColor: "white",
           padding: "15px",
           borderRadius: "5px",
@@ -779,7 +823,10 @@ export default function FilterSection(props) {
         <h3 className="uf-h3 uf-section-title" style={{ margin: "0px" }}>
           Search filter
         </h3>
-        <div style={{ padding: "0 5%" }}>
+        <div
+          className="filter-laptop"
+          style={{ padding: "0 5%"}}
+        >
           <div className="row gx-2 filter filter-margin-top-30">
             <div className="col-10">
               <input
@@ -813,7 +860,7 @@ export default function FilterSection(props) {
                 name="states"
                 id="states"
               >
-                <option defaultValue disabled>
+                <option defaultValue hidden>
                   States
                 </option>
                 <option value="">Whole Malaysia</option>
@@ -838,7 +885,9 @@ export default function FilterSection(props) {
                   name="location"
                   id="location"
                 >
-                  <option>Location</option>
+                  <option defaultValue hidden>
+                    Location
+                  </option>
                   {areasToShow
                     ? areasToShow.map((location) => {
                         return (
@@ -883,9 +932,16 @@ export default function FilterSection(props) {
                 value={searchQuery.category}
                 onChange={handleOnChange}
               >
-                <option>Category</option>
-                <option value="Art">Art</option>
-                <option value="Fiction">Fiction</option>
+                <option defaultValue hidden>
+                  Category
+                </option>
+                {allCategories.map((category) => {
+                  return (
+                    <option value={category} key={category}>
+                      {category}
+                    </option>
+                  );
+                })}
               </select>
             </div>
             <div className="filter-label col-2">
@@ -898,9 +954,16 @@ export default function FilterSection(props) {
                 value={searchQuery.bookLanguage}
                 onChange={handleOnChange}
               >
-                <option>Language</option>
-                <option value="Chinese">Chinese</option>
-                <option value="English">English</option>
+                <option defaultValue hidden>
+                  Language
+                </option>
+                {allLanguages.map((language) => {
+                  return (
+                    <option value={language} key={language}>
+                      {language}
+                    </option>
+                  );
+                })}
               </select>
             </div>
             <div className="filter-label col-4">
@@ -930,6 +993,193 @@ export default function FilterSection(props) {
                     id="maxPrice"
                   />
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="filter-phone" style={{ padding: "0 5%" }}>
+          
+            <div className="row">
+              <div className="col-12">
+                <button
+                  className="filter-primary-btn"
+                  style={{ marginTop: "15px" }}
+                  onClick={handleChangeFilterDisplay}
+                >
+                  Open Filter
+                </button>
+              </div>
+            </div>
+            <div style={filterDisplay}><div className="row gx-2 filter filter-margin-top-30">
+              <div className="col-md-10">
+                <input
+                  style={{ width: "100%" }}
+                  type="text"
+                  onChange={handleOnChange}
+                  name="search"
+                  id="search"
+                  value={searchQuery.search}
+                />
+              </div>
+            </div>
+            <div className="row gx-2 filter filter-margin-top-30">
+              <div className="filter-label filter-laptop-select col-md-2">
+                <select
+                  value={searchQuery.states}
+                  onChange={handleOnChange}
+                  className="filter-select"
+                  style={{ width: "100%", marginBottom: "10px" }}
+                  type="text"
+                  name="states"
+                  id="states"
+                >
+                  <option defaultValue hidden>
+                    States
+                  </option>
+                  <option value="">Whole Malaysia</option>
+                  {states.map((state) => {
+                    return (
+                      <option key={state} value={state}>
+                        {state}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+
+              <div className="filter-label filter-laptop-select col-md-2">
+                {searchQuery.states != "" ? (
+                  <select
+                    className="filter-select"
+                    style={{ width: "100%", marginBottom: "10px" }}
+                    type="text"
+                    value={searchQuery.location}
+                    onChange={handleOnChange}
+                    name="location"
+                    id="location"
+                  >
+                    <option defaultValue hidden>
+                      Location
+                    </option>
+                    {areasToShow
+                      ? areasToShow.map((location) => {
+                          return (
+                            <option key={location} value={location}>
+                              {location}
+                            </option>
+                          );
+                        })
+                      : ""}
+                  </select>
+                ) : (
+                  <select
+                    className="filter-select"
+                    style={{ width: "100%", marginBottom: "10px" }}
+                    disabled
+                    type="text"
+                    value={searchQuery.location}
+                    onChange={handleOnChange}
+                    name="location"
+                    id="location"
+                  >
+                    <option>Location</option>
+                    {areasToShow
+                      ? areasToShow.map((location) => {
+                          return (
+                            <option key={location} value={location}>
+                              {location}
+                            </option>
+                          );
+                        })
+                      : ""}
+                  </select>
+                )}
+              </div>
+              <div className="filter-label filter-laptop-select col-md-2">
+                <select
+                  className="filter-select"
+                  style={{ width: "100%", marginBottom: "10px" }}
+                  type="text"
+                  name="category"
+                  id="category"
+                  value={searchQuery.category}
+                  onChange={handleOnChange}
+                >
+                  <option defaultValue hidden>
+                    Category
+                  </option>
+                  {allCategories.map((category) => {
+                    return (
+                      <option value={category} key={category}>
+                        {category}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className="filter-label filter-laptop-select col-md-2">
+                <select
+                  className="filter-select"
+                  style={{ width: "100%", marginBottom: "10px" }}
+                  type="text"
+                  name="bookLanguage"
+                  id="bookLanguage"
+                  value={searchQuery.bookLanguage}
+                  onChange={handleOnChange}
+                >
+                  <option defaultValue hidden>
+                    Language
+                  </option>
+                  {allLanguages.map((language) => {
+                    return (
+                      <option value={language} key={language}>
+                        {language}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className="filter-label filter-laptop-select col-md-4">
+                <div className="row">
+                  <div className="col-md-5 col-5">
+                    <input
+                      style={{ width: "100%", marginBottom: "10px" }}
+                      placeholder="Price from..."
+                      type="text"
+                      name="minPrice"
+                      id="minPrice"
+                      value={searchQuery.minPrice}
+                      onChange={handleOnChange}
+                    />
+                  </div>
+                  <div
+                    className="col-md-1 col-1"
+                    style={{ margin: "0px -10px" }}
+                  >
+                    -
+                  </div>
+                  <div className="col-md-5 col-5">
+                    <input
+                      style={{ width: "100%" }}
+                      placeholder="Price to..."
+                      type="text"
+                      name="maxPrice"
+                      value={searchQuery.maxPrice}
+                      onChange={handleOnChange}
+                      id="maxPrice"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-2">
+                <button
+                  className="filter-primary-btn"
+                  style={{ width: "100%" }}
+                  type="submit"
+                  onClick={onSearch}
+                >
+                  Search
+                </button>
               </div>
             </div>
           </div>
