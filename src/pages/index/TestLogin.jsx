@@ -115,7 +115,7 @@ function TestLogin() {
                   </div>
                   <div className="col-md-6 text-align-fgt-pswd">
 
-                  <a href="/resetPassword">Fotgot Password? </a>
+                  <a href="/resetPassword">Forgot Password? </a>
                   </div>
                 </div>
               </section>

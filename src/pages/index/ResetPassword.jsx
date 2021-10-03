@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import PasswordResetIllustration from "../shop/PasswordResetIllustration";
-
+import ErrorIllustration from "../shop/ErrorIllustration";
 
 function ResetPassword() {
   const { userId, token } = useParams();
@@ -43,7 +43,7 @@ function ResetPassword() {
   }
   return (
     <div>
-        {successful ? (
+        { !errorOccured? successful ? (
           <PasswordResetIllustration />
         ) : (
           <div className="container">
@@ -95,8 +95,8 @@ function ResetPassword() {
             </div>
           </form>
         </div>
-        )}
-        {errorOccured && <h1>Something's Wrong</h1>}
+        ) :  <ErrorIllustration />}
+        {errorOccured && <ErrorIllustration />}
       </div>
 
   );

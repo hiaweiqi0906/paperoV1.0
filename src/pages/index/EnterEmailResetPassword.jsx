@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import EmailSentIllustration from "../shop/EmailSentIllustration";
+import ErrorIllustration from "../shop/ErrorIllustration";
 
 function EnterEmailResetPassword() {
   const [userInfo, setUserInfo] = useState({ email: "" });
@@ -36,7 +37,7 @@ function EnterEmailResetPassword() {
   }
   return (
     <div>
-      {successful ? (
+      {!errorOccured ? successful ? (
         <EmailSentIllustration />
       ) : (
         <div className="container">
@@ -88,8 +89,7 @@ function EnterEmailResetPassword() {
             </div>
           </form>
         </div>
-      )}
-      {errorOccured && <h1>User not exist or Something's wrong!</h1>}
+      ) : <ErrorIllustration/>}
     </div>
   );
 }

@@ -986,7 +986,7 @@ function UserSetting(props) {
                       </div>
                       <div className="col-md-4">
                         <select
-                          required
+                          required className="us-select"
                           style={{ width: " 100%" }}
                           value={userInfo.gender ? userInfo.gender : ""}
                           name="gender"
