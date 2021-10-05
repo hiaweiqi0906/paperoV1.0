@@ -13,23 +13,25 @@ export default function useBookSearch(query, pageNumber) {
   }, [query]);
 
   useEffect(() => {
-    if (query === "") url = `http://localhost:5000/allBooks&page=${pageNumber}`;
+    if (query === "")
+      url = `https://papero-dev.herokuapp.com/allBooks&page=${pageNumber}`;
     else if (query === "@@@@userFavourite")
-      url = `http://localhost:5000/users/favourites&page=${pageNumber}`;
+      url = `https://papero-dev.herokuapp.com/users/favourites&page=${pageNumber}`;
     else if (query === "@@@@userInfo")
-      url = `http://localhost:5000/users/info&page=${pageNumber}`;
+      url = `https://papero-dev.herokuapp.com/users/info&page=${pageNumber}`;
     else if (query.includes("@@@@preferredBooks")) {
       const arrStr = query.split("@");
-      url = `http://localhost:5000/preferredBookSearch?${arrStr[0]}&page=${pageNumber}`;
+      url = `https://papero-dev.herokuapp.com/preferredBookSearch?${arrStr[0]}&page=${pageNumber}`;
     } else if (query.includes("@@@@uploadedRecently")) {
       const arrStr = query.split("@");
-      url = `http://localhost:5000/uploadedRecentlySearch?${arrStr[0]}&page=${pageNumber}`;
+      url = `https://papero-dev.herokuapp.com/uploadedRecentlySearch?${arrStr[0]}&page=${pageNumber}`;
     } else if (query.includes("@@@@userOtherInfo")) {
       const arrStr = query.split("@");
-      url = `http://localhost:5000/users/info&id=${arrStr[0]}&page=${pageNumber}`;
+      url = `https://papero-dev.herokuapp.com/users/info&id=${arrStr[0]}&page=${pageNumber}`;
     } else if (query.includes("search=")) {
-      url = `http://localhost:5000/trySearch?${query}&page=${pageNumber}`;
-    } else url = `http://localhost:5000/search=${query}&page=${pageNumber}`;
+      url = `https://papero-dev.herokuapp.com/trySearch?${query}&page=${pageNumber}`;
+    } else
+      url = `https://papero-dev.herokuapp.com/search=${query}&page=${pageNumber}`;
     setLoading(true);
     setError(false);
     let cancel;

@@ -27,7 +27,7 @@ function ResetPassword() {
     };
     axios
       .post(
-        `http://localhost:5000/users/resetPassword/${userId}/${token}`,
+        `https://papero-dev.herokuapp.com/users/resetPassword/${userId}/${token}`,
         userInfo,
         config
       )

@@ -824,7 +824,7 @@ function UploadBook(props) {
       },
     };
     axios
-      .get("http://localhost:5000/users/retrieveInfo", config)
+      .get("https://papero-dev.herokuapp.com/users/retrieveInfo", config)
       .then((res) => {
         setUserInfo({ ...res.data, areaLocations: res.data.location });
         setData({
@@ -899,11 +899,14 @@ function UploadBook(props) {
         formData.append("wechatLink", data.wechatLink);
         formData.append("language", data.language);
 
-        const res = await fetch(`http://localhost:5000/sellers/upload`, {
-          method: "POST",
-          body: formData,
-          credentials: "include",
-        });
+        const res = await fetch(
+          `https://papero-dev.herokuapp.com/sellers/upload`,
+          {
+            method: "POST",
+            body: formData,
+            credentials: "include",
+          }
+        );
         if (res.ok) {
           setData({
             coverImg: "",
@@ -1068,7 +1071,7 @@ function UploadBook(props) {
                         type="text"
                         id="title"
                         value={data.title}
-                        minLength='20'
+                        minLength="20"
                         onChange={handleOnChange}
                         name="title"
                         placeholder="Enter Title"
@@ -1140,7 +1143,7 @@ function UploadBook(props) {
                         type="number"
                         id="year"
                         name="year"
-                        minLength='4'
+                        minLength="4"
                         value={data.year}
                         onChange={handleOnChange}
                         placeholder="Enter Year Published"
@@ -1288,7 +1291,7 @@ function UploadBook(props) {
                     <div className="col-md-5">
                       <input
                         required
-                        minLength='9'
+                        minLength="9"
                         style={{ width: "100%" }}
                         type="number"
                         id="contactNumber"

@@ -68,7 +68,7 @@ export default function UserInfo() {
       },
     };
     axios
-      .get("http://localhost:5000/users/retrieveInfo", config)
+      .get("https://papero-dev.herokuapp.com/users/retrieveInfo", config)
       .then((res) => {
         setUserInfo({ ...res.data });
       })

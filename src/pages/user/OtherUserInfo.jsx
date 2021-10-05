@@ -68,7 +68,7 @@ export default function OtherUserInfo() {
     };
     axios
       .post(
-        "http://localhost:5000/reportSeller&id=" + userInfo._id,
+        "https://papero-dev.herokuapp.com/reportSeller&id=" + userInfo._id,
         reports,
         config
       )
@@ -109,7 +109,10 @@ export default function OtherUserInfo() {
       },
     };
     axios
-      .get("http://localhost:5000/users/retrieveOthersInfo/" + id, config)
+      .get(
+        "https://papero-dev.herokuapp.com/users/retrieveOthersInfo/" + id,
+        config
+      )
       .then((res) => {
         setUserInfo({ ...res.data });
       })

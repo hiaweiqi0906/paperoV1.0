@@ -5,7 +5,7 @@ import axios from "axios";
 export default function UploadedRecentlyBookRow() {
   const [books, setBooks] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:5000/recentUpload").then((res) => {
+    axios.get("https://papero-dev.herokuapp.com/recentUpload").then((res) => {
       setBooks(res.data);
     });
   }, [books.length]);

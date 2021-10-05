@@ -3,9 +3,11 @@ import axios from "axios";
 export default function HorizontalAds() {
   const [adsUri, setAdsUri] = useState("");
   useEffect(() => {
-    axios.get("http://localhost:5000/getHorizontalAds").then((res) => {
-      setAdsUri(res.data.uri);
-    });
+    axios
+      .get("https://papero-dev.herokuapp.com/getHorizontalAds")
+      .then((res) => {
+        setAdsUri(res.data.uri);
+      });
   }, [adsUri]);
   return (
     <>

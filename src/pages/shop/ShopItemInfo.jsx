@@ -20,7 +20,7 @@ function ShopItemInfo(props) {
   const [blurStyle, setBlurStyle] = useState({});
 
   useEffect(() => {
-    axios.get("http://localhost:5000/view/" + id).then((res) => {
+    axios.get("https://papero-dev.herokuapp.com/view/" + id).then((res) => {
       setBook(res.data.book);
       setUserInfo(res.data.user);
     });
@@ -52,7 +52,11 @@ function ShopItemInfo(props) {
       },
     };
     axios
-      .post("http://localhost:5000/reportBook&id=" + book._id, reports, config)
+      .post(
+        "https://papero-dev.herokuapp.com/reportBook&id=" + book._id,
+        reports,
+        config
+      )
       .then((res) => {
         if (res.status === "200") {
         } else if (res.status === "401") {
@@ -78,7 +82,10 @@ function ShopItemInfo(props) {
       },
     };
     axios
-      .get("http://localhost:5000/users/addFavourites&id=" + book._id, config)
+      .get(
+        "https://papero-dev.herokuapp.com/users/addFavourites&id=" + book._id,
+        config
+      )
       .then((res) => {
         if (res.data.statusCode === "200") {
         } else if (res.data.statusCode === "401") {

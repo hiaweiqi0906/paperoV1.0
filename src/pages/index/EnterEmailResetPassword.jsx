@@ -24,7 +24,11 @@ function EnterEmailResetPassword() {
       },
     };
     axios
-      .post(`http://localhost:5000/users/resetPassword`, userInfo, config)
+      .post(
+        `https://papero-dev.herokuapp.com/users/resetPassword`,
+        userInfo,
+        config
+      )
       .then((res) => {
         setErrorOccured(false);
         setSuccessful(true);

@@ -751,7 +751,11 @@ function UserSetting(props) {
       };
 
       axios
-        .post("http://localhost:5000/users/changePassword", password, config)
+        .post(
+          "https://papero-dev.herokuapp.com/users/changePassword",
+          password,
+          config
+        )
         .then((res) => {
           if (res.status === 200) {
             if (res.data.msg === "Password Changed") {
@@ -783,7 +787,7 @@ function UserSetting(props) {
       },
     };
     axios
-      .get("http://localhost:5000/users/retrieveInfo", config)
+      .get("https://papero-dev.herokuapp.com/users/retrieveInfo", config)
       .then((res) => {
         setUserInfo({
           ...res.data,
@@ -830,11 +834,14 @@ function UserSetting(props) {
         formData.append("wechatLink", userInfo.wechatLink);
         formData.append("instagramLink", userInfo.instagramLink);
 
-        const res = await fetch("http://localhost:5000/sellers/test", {
-          method: "POST",
-          body: formData,
-          credentials: "include",
-        });
+        const res = await fetch(
+          "https://papero-dev.herokuapp.com/sellers/test",
+          {
+            method: "POST",
+            body: formData,
+            credentials: "include",
+          }
+        );
         let data = await res.json();
         if (res.ok) {
           if (data.msg !== "Updated") {
@@ -844,8 +851,7 @@ function UserSetting(props) {
           }
         } else {
         }
-      } catch (error) {
-      }
+      } catch (error) {}
     }
   };
 
@@ -864,7 +870,6 @@ function UserSetting(props) {
     setUserInfo((prevValue) => {
       return { ...prevValue, [name]: value };
     });
-
   }
 
   return (
@@ -1057,7 +1062,7 @@ function UserSetting(props) {
                         <input
                           style={{ width: " 100%" }}
                           type="number"
-                          minLength='9'
+                          minLength="9"
                           id="noTel"
                           name="noTel"
                           onChange={handleOnChange}

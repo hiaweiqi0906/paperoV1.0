@@ -6,7 +6,7 @@ export default function OtherBooksFromSeller(props) {
   const [books, setBooks] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/othersFromSeller-${props.email}`)
+      .get(`https://papero-dev.herokuapp.com/othersFromSeller-${props.email}`)
       .then((res) => {
         setBooks(res.data);
       });

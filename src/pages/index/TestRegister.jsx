@@ -28,7 +28,7 @@ function TestRegister() {
     };
 
     axios
-      .post("http://localhost:5000/users/register", userInfo, config)
+      .post("https://papero-dev.herokuapp.com/users/register", userInfo, config)
       .then((res) => {
         if (res.status === 200) {
           window.location.pathname = "/login";

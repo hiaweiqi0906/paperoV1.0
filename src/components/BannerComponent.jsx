@@ -4,7 +4,7 @@ import axios from "axios";
 export default function BannerComponent() {
   const [ads, setAds] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:5000/getBanner").then((res) => {
+    axios.get("https://papero-dev.herokuapp.com/getBanner").then((res) => {
       setAds(res.data);
     });
   }, [ads.length]);

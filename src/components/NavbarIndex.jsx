@@ -16,7 +16,7 @@ function NavbarIndex(props) {
       },
     };
     axios
-      .get("http://localhost:5000/users/checkIsLoggedIn", config)
+      .get("https://papero-dev.herokuapp.com/users/checkIsLoggedIn", config)
       .then((res) => {
         if (res.status === 200) {
         } else if (res.status === 400) {
@@ -37,7 +37,7 @@ function NavbarIndex(props) {
     };
 
     axios
-      .get("http://localhost:5000/users/logout", config)
+      .get("https://papero-dev.herokuapp.com/users/logout", config)
       .then((res) => {
         localStorage.clear();
         isAuthenticated = false;
@@ -308,12 +308,13 @@ function NavbarIndex(props) {
         ) : (
           <>
             <div className="navbar-bg navbar-desktop">
-              <a
-                href="/"
-                style={{ color: "inherit", textDecoration: "inherit" }}
-              >
-                <div className="row" style={{ height: "64px" }}>
+              <div className="row" style={{ height: "64px" }}>
+                
                   <div className="col-md-2 navbar-center-align">
+                  <a
+                  href="/"
+                  style={{ color: "inherit", textDecoration: "inherit" }}
+                >
                     <div className="row">
                       <div className="col-md-3" style={{ marginRight: "10px" }}>
                         <img
@@ -326,62 +327,61 @@ function NavbarIndex(props) {
                         <h1 className="nav-logo-h1">PAPERO</h1>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="col-md-7 navbar-center-align">
-                    <form action="">
-                      <div
-                        className="row search-area"
-                        style={{ width: "80%", margin: "0px auto" }}
-                      >
-                        <div className="col-md-11">
-                          <div>
-                            <input
-                              type="text"
-                              name=""
-                              className="search-area-text-input"
-                              id=""
-                              style={{
-                                width: "100%",
-                                border: "none",
-                                borderColor: "transparent",
-                                height: "40px",
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <div className="col-md-1" style={{ margin: "auto" }}>
-                          <button
-                            type="submit"
+                  </a></div>
+                
+                <div className="col-md-7 navbar-center-align">
+                  <form action="">
+                    <div
+                      className="row search-area"
+                      style={{ width: "80%", margin: "0px auto" }}
+                    >
+                      <div className="col-md-11">
+                        <div>
+                          <input
+                            type="text"
+                            name=""
+                            className="search-area-text-input"
+                            id=""
                             style={{
-                              backgroundColor: "transparent",
-                              backgroundRepeat: "no-repeat",
-                              cursor: "pointer",
-                              overflow: "hidden",
-                              outline: "none",
+                              width: "100%",
                               border: "none",
+                              borderColor: "transparent",
+                              height: "40px",
                             }}
-                          >
-                            <i className="fas fa-search"></i>
-                          </button>
+                          />
                         </div>
                       </div>
-                    </form>
-                  </div>
-
-                  <div className="col-md-3 navbar-center-align">
-                    <button className="navbar-link navbar-upload-book" href="#">
-                      <i className="fas fa-book"></i> Upload Book
-                    </button>
-                    <a className="navbar-link" href="#" href="/login">
-                      Login
-                    </a>
-                    <a className="navbar-link" href="#" href="/register">
-                      Register
-                    </a>
-                  </div>
+                      <div className="col-md-1" style={{ margin: "auto" }}>
+                        <button
+                          type="submit"
+                          style={{
+                            backgroundColor: "transparent",
+                            backgroundRepeat: "no-repeat",
+                            cursor: "pointer",
+                            overflow: "hidden",
+                            outline: "none",
+                            border: "none",
+                          }}
+                        >
+                          <i className="fas fa-search"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-              </a>
+
+                <div className="col-md-3 navbar-center-align">
+                  <button className="navbar-link navbar-upload-book" href="#">
+                    <i className="fas fa-book"></i> Upload Book
+                  </button>
+                  <a className="navbar-link" href="#" href="/login">
+                    Login
+                  </a>
+                  <a className="navbar-link" href="#" href="/register">
+                    Register
+                  </a>
+                </div>
+              </div>
             </div>
             <div className="navbar-bg navbar-mobile" style={{ height: "auto" }}>
               <div className="row" style={{ height: "64px" }}>

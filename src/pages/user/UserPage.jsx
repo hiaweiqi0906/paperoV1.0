@@ -30,7 +30,7 @@ function UserPage() {
     };
 
     axios
-      .get("http://localhost:5000/users/checkIsLoggedIn", config)
+      .get("https://papero-dev.herokuapp.com/users/checkIsLoggedIn", config)
       .then((res) => {
         if (res.status === 200) {
           userInfo = res.data.user;

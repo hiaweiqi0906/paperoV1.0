@@ -5,7 +5,7 @@ import axios from "axios";
 export default function PreferredBookRow() {
   const [books, setBooks] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:5000/preferredBook").then((res) => {
+    axios.get("https://papero-dev.herokuapp.com/preferredBook").then((res) => {
       setBooks(res.data);
     });
   }, [books.length]);

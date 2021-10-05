@@ -3,7 +3,7 @@ import axios from "axios";
 export default function VerticalAds() {
   const [adsUri, setAdsUri] = useState("");
   useEffect(() => {
-    axios.get("http://localhost:5000/getVerticalAds").then((res) => {
+    axios.get("https://papero-dev.herokuapp.com/getVerticalAds").then((res) => {
       setAdsUri(res.data.uri);
     });
   }, [adsUri]);

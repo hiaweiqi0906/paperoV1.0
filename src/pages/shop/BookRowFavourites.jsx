@@ -14,7 +14,8 @@ function BookRowFavourites(props) {
     };
     axios
       .post(
-        "http://localhost:5000/users/removeFavourites&id=" + props.bookId,
+        "https://papero-dev.herokuapp.com/users/removeFavourites&id=" +
+          props.bookId,
         {},
         config
       )
@@ -41,23 +42,24 @@ function BookRowFavourites(props) {
               />
             </div>
             <div className="uhp-item-title-and-uhp-price">
-              <p className="uhp-slot-title">
-                {props.books.bookTitle}
-              </p>
+              <p className="uhp-slot-title">{props.books.bookTitle}</p>
               <div className="row">
                 <div className="col-9">
                   <p className="uhp-price">RM {props.books.price}</p>
                 </div>
                 <div className="col-3">
                   <form onSubmit={handleOnRemove}>
-                    <button type="submit" style={{
-                            backgroundColor: "transparent",
-                            backgroundRepeat: "no-repeat",
-                            cursor: "pointer",
-                            overflow: "hidden",
-                            outline: "none",
-                            border: "none",
-                          }}>
+                    <button
+                      type="submit"
+                      style={{
+                        backgroundColor: "transparent",
+                        backgroundRepeat: "no-repeat",
+                        cursor: "pointer",
+                        overflow: "hidden",
+                        outline: "none",
+                        border: "none",
+                      }}
+                    >
                       <i
                         style={{ borderRadius: "2px", color: "#91091e" }}
                         className="fas fa-trash"

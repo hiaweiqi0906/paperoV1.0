@@ -797,7 +797,7 @@ function EditOneBook(props) {
       },
     };
     axios
-      .get("http://localhost:5000/view/" + bookId, config)
+      .get("https://papero-dev.herokuapp.com/view/" + bookId, config)
       .then((res) => {
         setData({
           ...res.data.book,
@@ -877,7 +877,7 @@ function EditOneBook(props) {
           formData.append("publishingCompany", data.publishingCompany);
 
           const res = await fetch(
-            `http://localhost:5000/sellers/edit/${bookId}`,
+            `https://papero-dev.herokuapp.com/sellers/edit/${bookId}`,
             {
               method: "POST",
               body: formData,
@@ -925,11 +925,15 @@ function EditOneBook(props) {
           },
         };
         axios
-          .post("http://localhost:5000/sellers/edit/" + bookId, data, config)
+          .post(
+            "https://papero-dev.herokuapp.com/sellers/edit/" + bookId,
+            data,
+            config
+          )
           .then((res) => {
             // console.log(res.data.book);
             // if (res.data.book.msg === "Book Updated") {
-              window.location.pathname = "/";
+            window.location.pathname = "/";
             // } else if (res.data.book.statusCode === "401") {
             //   window.location.pathname = "/";
             // }
@@ -944,7 +948,7 @@ function EditOneBook(props) {
       <div className="container">
         <section id="eb-main-upload-part">
           <div className="eb-main-upload-part">
-          {errorMsg != "" && (
+            {errorMsg != "" && (
               <div
                 className="alert alert-warning alert-dismissible fade show"
                 role="alert"
@@ -967,7 +971,6 @@ function EditOneBook(props) {
                         <input
                           type="file"
                           name="coverImg"
-                          
                           onChange={handleOnChange}
                           id="coverImg"
                           style={{ display: "none" }}
@@ -980,7 +983,7 @@ function EditOneBook(props) {
                               : "https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png"
                           }
                           style={{
-                            border: '1px solid black',
+                            border: "1px solid black",
                             objectFit: "contain",
                             width: "100px",
                             height: "100px",
@@ -1071,7 +1074,7 @@ function EditOneBook(props) {
                         id="bookTitle"
                         value={data.bookTitle}
                         onChange={handleOnChange}
-                        minLength='20'
+                        minLength="20"
                         name="bookTitle"
                         placeholder="Enter Title"
                       />
@@ -1140,7 +1143,7 @@ function EditOneBook(props) {
                         type="number"
                         id="year"
                         name="year"
-                        minLength='4'
+                        minLength="4"
                         value={data.year}
                         onChange={handleOnChange}
                         placeholder="Enter Year Published"
@@ -1394,13 +1397,13 @@ function EditOneBook(props) {
                   </div>
                 </div>
                 {errorMsg != "" && (
-              <div
-                className="alert alert-warning alert-dismissible fade show"
-                role="alert"
-              >
-                <strong>Uh oh!</strong> {errorMsg}
-              </div>
-            )}
+                  <div
+                    className="alert alert-warning alert-dismissible fade show"
+                    role="alert"
+                  >
+                    <strong>Uh oh!</strong> {errorMsg}
+                  </div>
+                )}
               </section>
             </form>
           </div>
