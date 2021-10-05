@@ -23,7 +23,6 @@ function MultipleType(props) {
     }
   });
   query += "@@@@" + props.type;
-  console.log(query);
   const [pageNumber, setPageNumber] = useState(1);
 
   const [num, setNum] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
@@ -39,14 +38,11 @@ function MultipleType(props) {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setPageNumber((prevValue) => {
-            console.log(prevValue);
             return prevValue + 1;
           });
-          console.log(pageNumber);
         }
       });
       if (node) observer.current.observe(node);
-      console.log(node);
     },
     [loading, hasMore]
   );

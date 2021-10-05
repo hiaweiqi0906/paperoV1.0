@@ -762,7 +762,6 @@ export default function FilterSection(props) {
   const [areasToShow, setAreasToShow] = useState(
     areaLocations[states.indexOf(searchQuery.states)]
   );
-  console.log(areasToShow);
   let query = "";
 
   function onSearch() {

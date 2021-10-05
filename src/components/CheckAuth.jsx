@@ -15,7 +15,6 @@ class Auth {
   }
 
   isAuthenticated() {
-    console.log("here ", this.authenticated);
     return this.authenticated;
   }
 }

@@ -28,7 +28,6 @@ function BookRowEditable(props) {
           </div>
           <div className="uhp-item-title-and-uhp-price">
             <p className="uhp-slot-title">
-              {props.books.bookTitle}aaa aaaa aaaaaaaaa aaaaaaaaa aaaaaa
               {props.books.bookTitle}
             </p>
             <div className="row">
@@ -37,9 +36,17 @@ function BookRowEditable(props) {
               </div>
               <div className="col-md-3 col-4">
                 <form action={"/user/edit/" + props.books._id}>
-                <button type="submit" >
+                <button type="submit" style={{
+                            backgroundColor: "transparent",
+                            backgroundRepeat: "no-repeat",
+                            cursor: "pointer",
+                            overflow: "hidden",
+                            outline: "none",
+                            border: "none",
+                          }}>
                   <i
                     style={{ borderRadius: "2px", color: "#91091e", zIndex: '3' }}
+                    
                     className="fas fa-pencil-alt"
                   ></i>
                 </button>

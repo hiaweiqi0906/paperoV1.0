@@ -43,62 +43,67 @@ function ResetPassword() {
   }
   return (
     <div>
-        { !errorOccured? successful ? (
+      {!errorOccured ? (
+        successful ? (
           <PasswordResetIllustration />
         ) : (
           <div className="container">
-          <form onSubmit={onSubmit}>
-            <div className="row register-form-style">
-              <div className="col-md-7 col-12">
-                <div className="register-illu">
-                  <img
-                    src="https://res.cloudinary.com/papero/image/upload/v1633152484/undraw_Forgot_password_re_hxwm_r5nxhh.svg"
-                    className="img-register"
-                    alt=""
-                  />
+            <form onSubmit={onSubmit}>
+              <div className="row register-form-style">
+                <div className="col-md-7 col-12">
+                  <div className="register-illu">
+                    <img
+                      src="https://res.cloudinary.com/papero/image/upload/v1633152484/undraw_Forgot_password_re_hxwm_r5nxhh.svg"
+                      className="img-register"
+                      alt=""
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="col-md-5 col-12">
-                <section id="register-form">
-                  <h2 className="ii-h2 ">Reset Password</h2>
-                  <div style={{ margin: "50px 0" }}>
-                    <div className="row" style={{ marginBottom: "10px" }}>
-                      <div className="col-md-12  col-12">
-                        <label className="ii-h3" for="email">
-                          New Password:{" "}
-                        </label>
-                      </div>
-                      <div className="col-md-12 col-12">
-                        <input
-                          style={{ width: "100%" }}
-                          type="password"
-                          onChange={onChange}
-                          value={userInfo.password}
-                          name="password"
-                          id=""
-                        />
+                <div className="col-md-5 col-12">
+                  <section id="register-form">
+                    <h2 className="ii-h2 ">Reset Password</h2>
+                    <div style={{ margin: "50px 0" }}>
+                      <div className="row" style={{ marginBottom: "10px" }}>
+                        <div className="col-md-12  col-12">
+                          <label className="ii-h3" for="email">
+                            New Password:{" "}
+                          </label>
+                        </div>
+                        <div className="col-md-12 col-12">
+                          <input
+                            style={{ width: "100%" }}
+                            type="password"
+                            onChange={onChange}
+                            value={userInfo.password}
+                            name="password"
+                            id=""
+                          />
+                        </div>
                       </div>
                     </div>
 
-                    
-                  </div>
-
-                  <button
-                    type="submit"
-                    className=" us-primary-btn"
-                    style={{ width: "50%", display: "block", margin: "0 auto" }}
-                  >
-                    Reset
-                  </button>
-                </section>
+                    <button
+                      type="submit"
+                      className=" us-primary-btn"
+                      style={{
+                        width: "50%",
+                        display: "block",
+                        margin: "0 auto",
+                      }}
+                    >
+                      Reset
+                    </button>
+                  </section>
+                </div>
               </div>
-            </div>
-          </form>
-        </div>
-        ) :  <ErrorIllustration />}
-        {errorOccured && <ErrorIllustration />}
-      </div>
-
+            </form>
+          </div>
+        )
+      ) : (
+        <ErrorIllustration />
+      )}
+      {errorOccured && <ErrorIllustration />}
+    </div>
   );
 }
 

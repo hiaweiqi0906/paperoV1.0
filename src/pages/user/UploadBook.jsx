@@ -826,7 +826,6 @@ function UploadBook(props) {
     axios
       .get("http://localhost:5000/users/retrieveInfo", config)
       .then((res) => {
-        console.log("ok");
         setUserInfo({ ...res.data, areaLocations: res.data.location });
         setData({
           coverImg: "",
@@ -871,7 +870,6 @@ function UploadBook(props) {
       !data.contactNumber
     ) {
       setErrorMsg("Please Enter All Required Fields! ");
-      console.log(data);
       return false;
     }
 
@@ -900,7 +898,6 @@ function UploadBook(props) {
         formData.append("messengerLink", data.messengerLink);
         formData.append("wechatLink", data.wechatLink);
         formData.append("language", data.language);
-        console.log(data);
 
         const res = await fetch(`http://localhost:5000/sellers/upload`, {
           method: "POST",
@@ -933,7 +930,6 @@ function UploadBook(props) {
           });
           setIsNotPosted(false);
           window.location.pathname = "/";
-          console.log("ok");
         }
       } catch (error) {
         console.log(error);
@@ -947,6 +943,14 @@ function UploadBook(props) {
       <div className="container">
         <section id="ub-main-upload-part">
           <div className="ub-main-upload-part">
+            {errorMsg != "" && (
+              <div
+                className="alert alert-warning alert-dismissible fade show"
+                role="alert"
+              >
+                <strong>Uh oh!</strong> {errorMsg}
+              </div>
+            )}
             <form encType="multipart/form-data" onSubmit={handleSubmit}>
               <section id="ub-basic-info">
                 <div className="ub-basic-info">
@@ -965,12 +969,16 @@ function UploadBook(props) {
                           onChange={handleOnChange}
                           id="coverImg"
                           style={{ display: "none" }}
-                          required
                         />
                         <img
                           id="img-coverImg"
-                          src={coverImgPreview!=""? coverImgPreview: 'https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png'}
+                          src={
+                            coverImgPreview != ""
+                              ? coverImgPreview
+                              : "https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png"
+                          }
                           style={{
+                            border: "1px solid black",
                             objectFit: "contain",
                             width: "100px",
                             height: "100px",
@@ -988,7 +996,11 @@ function UploadBook(props) {
                         />
                         <img
                           id="img-img1"
-                          src={imgPreview1!=""? imgPreview1: 'https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png'}
+                          src={
+                            imgPreview1 != ""
+                              ? imgPreview1
+                              : "https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png"
+                          }
                           style={{
                             objectFit: "contain",
                             width: "100px",
@@ -1007,7 +1019,11 @@ function UploadBook(props) {
                         />
                         <img
                           id="img-img2"
-                          src={imgPreview2!=""? imgPreview2: 'https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png'}
+                          src={
+                            imgPreview2 != ""
+                              ? imgPreview2
+                              : "https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png"
+                          }
                           style={{
                             objectFit: "contain",
                             width: "100px",
@@ -1026,7 +1042,11 @@ function UploadBook(props) {
                         />
                         <img
                           id="img-img3"
-                          src={imgPreview3!=""? imgPreview3: 'https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png'}
+                          src={
+                            imgPreview3 != ""
+                              ? imgPreview3
+                              : "https://res.cloudinary.com/papero/image/upload/v1633250625/uploadimg_jcudmy.png"
+                          }
                           style={{
                             objectFit: "contain",
                             width: "100px",
@@ -1043,11 +1063,12 @@ function UploadBook(props) {
                     </div>
                     <div className="col-md-9">
                       <input
-                      required
+                        required
                         style={{ width: "100%" }}
                         type="text"
                         id="title"
                         value={data.title}
+                        minLength='20'
                         onChange={handleOnChange}
                         name="title"
                         placeholder="Enter Title"
@@ -1080,8 +1101,8 @@ function UploadBook(props) {
                     </div>
                     <div className="col-md-9">
                       <input
-                      placeholder="Enter ISBN (without '-')"
-                      required
+                        placeholder="Enter ISBN (without '-')"
+                        required
                         style={{ width: "100%" }}
                         type="text"
                         name="bookTitle"
@@ -1095,10 +1116,11 @@ function UploadBook(props) {
                     </div>
                     <div className="col-md-5">
                       <input
-                      required
+                        required
                         style={{ width: "100%" }}
-                        type="text"
+                        type="number"
                         id="price"
+                        step="0.01"
                         value={data.price}
                         onChange={handleOnChange}
                         name="price"
@@ -1113,11 +1135,12 @@ function UploadBook(props) {
                     </div>
                     <div className="col-md-5">
                       <input
-                      required
+                        required
                         style={{ width: "100%" }}
-                        type="text"
+                        type="number"
                         id="year"
                         name="year"
+                        minLength='4'
                         value={data.year}
                         onChange={handleOnChange}
                         placeholder="Enter Year Published"
@@ -1131,7 +1154,7 @@ function UploadBook(props) {
                     </div>
                     <div className="col-md-5">
                       <select
-                      required
+                        required
                         className="ub-select"
                         style={{ width: "100%" }}
                         name="categories"
@@ -1158,7 +1181,7 @@ function UploadBook(props) {
                     </div>
                     <div className="col-md-5">
                       <select
-                      required
+                        required
                         className="ub-select"
                         style={{ width: "100%" }}
                         name="language"
@@ -1193,7 +1216,7 @@ function UploadBook(props) {
                     </div>
                     <div className="col-md-5">
                       <select
-                      required
+                        required
                         className="ub-select"
                         style={{ width: " 100%" }}
                         value={data.states ? data.states : ""}
@@ -1221,7 +1244,7 @@ function UploadBook(props) {
                     </div>
                     <div className="col-md-5">
                       <select
-                      required
+                        required
                         className="ub-select"
                         style={{ width: " 100%" }}
                         name="areaLocations"
@@ -1237,15 +1260,14 @@ function UploadBook(props) {
                         <option defaultValue hidden>
                           Select a Location
                         </option>{" "}
-                        {
-                          areasToShow &&
+                        {areasToShow &&
                           areasToShow.map((location) => {
-                          return (
-                            <option key={location} value={location}>
-                              {location}
-                            </option>
-                          );
-                        })}
+                            return (
+                              <option key={location} value={location}>
+                                {location}
+                              </option>
+                            );
+                          })}
                       </select>
                     </div>
                     <div className="col-md-4"></div>
@@ -1265,9 +1287,10 @@ function UploadBook(props) {
                     </div>
                     <div className="col-md-5">
                       <input
-                      required
+                        required
+                        minLength='9'
                         style={{ width: "100%" }}
-                        type="text"
+                        type="number"
                         id="contactNumber"
                         name="contactNumber"
                         placeholder="Enter Contact Number"
@@ -1365,6 +1388,14 @@ function UploadBook(props) {
                     </button>
                   </div>
                 </div>
+                {errorMsg != "" && (
+                  <div
+                    className="alert alert-warning alert-dismissible fade show"
+                    role="alert"
+                  >
+                    <strong>Uh oh!</strong> {errorMsg}
+                  </div>
+                )}
               </section>
             </form>
           </div>

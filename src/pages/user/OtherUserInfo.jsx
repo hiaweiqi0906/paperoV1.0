@@ -12,9 +12,9 @@ export default function OtherUserInfo() {
   const [pageNumber, setPageNumber] = useState(1);
   const authToken = localStorage.getItem("authToken") || "empty";
   const [blurStyle, setBlurStyle] = useState({});
-  const [reportShow, setReportShow] = useState({display: 'none'});
-  const [reportSelection1, setReportSelection1] = useState('');
-  const [reportSelection2, setReportSelection2] = useState('');
+  const [reportShow, setReportShow] = useState({ display: "none" });
+  const [reportSelection1, setReportSelection1] = useState("");
+  const [reportSelection2, setReportSelection2] = useState("");
 
   const { id } = useParams();
   let query = id + "@@@@userOtherInfo";
@@ -34,7 +34,6 @@ export default function OtherUserInfo() {
     instagramLink: "",
   });
 
-  console.log(query);
   const { books, loading, error, hasMore } = useBookSearch(query, pageNumber);
   if (books.length === 0) noResult = true;
 
@@ -46,27 +45,21 @@ export default function OtherUserInfo() {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setPageNumber((prevValue) => {
-            console.log(prevValue);
             return prevValue + 1;
           });
-          console.log(pageNumber);
         }
       });
       if (node) observer.current.observe(node);
-      console.log(node);
     },
     [loading, hasMore]
   );
-  function handleOnShowReportSection(){
-    if(reportShow.display === 'none')
-      setReportShow({display: 'block'})
-    else
-    setReportShow({display: 'none'})
-
+  function handleOnShowReportSection() {
+    if (reportShow.display === "none") setReportShow({ display: "block" });
+    else setReportShow({ display: "none" });
   }
 
-  function handleOnSubmitReports(){
-    const reports = {details: reportSelection1+', '+reportSelection2}
+  function handleOnSubmitReports() {
+    const reports = { details: reportSelection1 + ", " + reportSelection2 };
     const config = {
       withCredentials: true,
       headers: {
@@ -74,24 +67,25 @@ export default function OtherUserInfo() {
       },
     };
     axios
-      .post("http://localhost:5000/reportSeller&id=" + userInfo._id, reports, config)
+      .post(
+        "http://localhost:5000/reportSeller&id=" + userInfo._id,
+        reports,
+        config
+      )
       .then((res) => {
         if (res.status === "200") {
-          console.log('reported');
         } else if (res.status === "401") {
-          console.log('not reported');
           // window.location.pathname = "/"
         }
       })
       .catch((err) => console.log(err));
   }
 
-  function handleOnChangeReports(e){
-    const name= e.target.name
-    const value = e.target.value
-    if(name==='reportSelection1') setReportSelection1(value)
-    else setReportSelection2(value)
-    console.log(value)
+  function handleOnChangeReports(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    if (name === "reportSelection1") setReportSelection1(value);
+    else setReportSelection2(value);
   }
 
   function handleOnUnblur() {
@@ -138,7 +132,11 @@ export default function OtherUserInfo() {
                       marginRight: "auto",
                     }}
                     className="si-userAvatar"
-                    src={userInfo.avatarUri!=""? userInfo.avatarUri: 'https://res.cloudinary.com/papero/image/upload/v1633250954/user_tbyq9p.png'}
+                    src={
+                      userInfo.avatarUri != ""
+                        ? userInfo.avatarUri
+                        : "https://res.cloudinary.com/papero/image/upload/v1633250954/user_tbyq9p.png"
+                    }
                     alt=""
                   />
                 </div>
@@ -240,14 +238,9 @@ export default function OtherUserInfo() {
                 </div>
               </div>
 
-              <div
-                className="col-md-3 si-center-vertical si-btn-groups-parent"
-                
-              >
+              <div className="col-md-3 si-center-vertical si-btn-groups-parent">
                 <div>
-                  <div
-                    className="si-btn-groups"
-                  >
+                  <div className="si-btn-groups">
                     <button
                       id="btn-show-contact"
                       onClick={handleOnUnblur}
@@ -255,9 +248,10 @@ export default function OtherUserInfo() {
                     >
                       Show Contact info
                     </button>
-                    <button className="si-secondary-btn"
+                    <button
+                      className="si-secondary-btn"
                       onClick={handleOnShowReportSection}
-                      >
+                    >
                       Report Inappropriate User
                     </button>
                   </div>
@@ -267,40 +261,53 @@ export default function OtherUserInfo() {
           </div>
           <div className=" ii-main-info ii-border ii-pd-10" style={reportShow}>
             <form onSubmit={handleOnSubmitReports}>
-            <hr/>
-            <div className="row">
-              <div className="col-md-6" style={{ marginBottom: "10px" }}>
-                <strong>Report Inappropriate Seller</strong>
+              <hr />
+              <div className="row">
+                <div className="col-md-6" style={{ marginBottom: "10px" }}>
+                  <strong>Report Inappropriate Seller</strong>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-md-2">Reasons:</div>
-              <div className="col-md-3">
-                <select name="reportReasons" id="" value={reportSelection1} onChange={handleOnChangeReports} style={{ width: "100%" }}>
-                  <option value="">Misleading</option>
-                </select>
+              <div className="row">
+                <div className="col-md-2">Reasons:</div>
+                <div className="col-md-3">
+                  <select
+                    name="reportReasons"
+                    id=""
+                    value={reportSelection1}
+                    onChange={handleOnChangeReports}
+                    style={{ width: "100%" }}
+                  >
+                    <option value="">Misleading</option>
+                  </select>
+                </div>
+                <div className="col-md-1"></div>
+                <div className="col-md-2">Other reasons:</div>
+                <div className="col-md-4" style={{ marginBottom: "30px" }}>
+                  <input
+                    type="text"
+                    name=""
+                    id=""
+                    value={reportSelection2}
+                    onChange={handleOnChangeReports}
+                    style={{ width: "100%" }}
+                  />
+                </div>
               </div>
-              <div className="col-md-1"></div>
-              <div className="col-md-2">Other reasons:</div>
-              <div className="col-md-4" style={{ marginBottom: "30px" }}>
-                <input type="text" name="" id=""  value={reportSelection2} onChange={handleOnChangeReports}  style={{ width: "100%" }} />
-              </div>
-            </div>
 
-            <div className="row">
-              <div className="col-md-10"></div>
-              <div className="col-md-2" style={{ textAlign: "right" }}>
-                <button
-                  type="submit"
-                  className="ii-primary-btn"
-                  style={{ width: "100%" }}
-                >
-                  Report
-                </button>
+              <div className="row">
+                <div className="col-md-10"></div>
+                <div className="col-md-2" style={{ textAlign: "right" }}>
+                  <button
+                    type="submit"
+                    className="ii-primary-btn"
+                    style={{ width: "100%" }}
+                  >
+                    Report
+                  </button>
+                </div>
               </div>
-            </div>
-          </form></div>
-
+            </form>
+          </div>
         </section>
         <section id="other-books">
           <div className="si-other-books-from-this-seller">

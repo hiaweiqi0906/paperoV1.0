@@ -26,14 +26,11 @@ export default function UserFavourite() {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setPageNumber((prevValue) => {
-            console.log(prevValue);
             return prevValue + 1;
           });
-          console.log(pageNumber);
         }
       });
       if (node) observer.current.observe(node);
-      console.log(node);
     },
     [loading, hasMore]
   );

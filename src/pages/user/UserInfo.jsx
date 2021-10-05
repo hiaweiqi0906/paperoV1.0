@@ -39,14 +39,11 @@ export default function UserInfo() {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setPageNumber((prevValue) => {
-            console.log(prevValue);
             return prevValue + 1;
           });
-          console.log(pageNumber);
         }
       });
       if (node) observer.current.observe(node);
-      console.log(node);
     },
     [loading, hasMore]
   );
@@ -73,7 +70,6 @@ export default function UserInfo() {
     axios
       .get("http://localhost:5000/users/retrieveInfo", config)
       .then((res) => {
-        console.log("here", res.data);
         setUserInfo({ ...res.data });
       })
       .catch((err) => console.log(err));
@@ -95,17 +91,25 @@ export default function UserInfo() {
                       marginRight: "auto",
                     }}
                     className="uhp-userAvatar"
-                    src={userInfo.avatarUri!=""? userInfo.avatarUri: 'https://res.cloudinary.com/papero/image/upload/v1633250954/user_tbyq9p.png'}
+                    src={
+                      userInfo.avatarUri != ""
+                        ? userInfo.avatarUri
+                        : "https://res.cloudinary.com/papero/image/upload/v1633250954/user_tbyq9p.png"
+                    }
                     alt=""
                   />
                 </div>
               </div>
               <div className="col-md-4 uhp-center-vertical">
                 <div className="info-spacing">
-                  <h3 className="uhp-h3">{userInfo.firstName} {userInfo.lastName}</h3>
+                  <h3 className="uhp-h3">
+                    {userInfo.firstName} {userInfo.lastName}
+                  </h3>
                 </div>
                 <div className="info-spacing">
-                  <h3 className="uhp-h3">Location: {userInfo.location}, {userInfo.states}</h3>
+                  <h3 className="uhp-h3">
+                    Location: {userInfo.location}, {userInfo.states}
+                  </h3>
                 </div>
                 <div className="info-spacing">
                   <h3 className="uhp-h3">Joined: one month ago...</h3>
@@ -115,7 +119,9 @@ export default function UserInfo() {
                 <h3 className="uhp-h3">Contact Num: </h3>
                 <div className="uhp-blurred-contact-info" style={blurStyle}>
                   <div className="uhp-all-contact">
-                    <p style={{ marginBottom: "5px" }}>H/P Num: 0{userInfo.noTel}</p>
+                    <p style={{ marginBottom: "5px" }}>
+                      H/P Num: 0{userInfo.noTel}
+                    </p>
                     <div className="row">
                       {userInfo.instagramLink != "" ? (
                         <div className="col-md-2 col-3 dropup">
@@ -187,19 +193,13 @@ export default function UserInfo() {
                         </div>
                       )}
                     </div>
-
                   </div>
                 </div>
               </div>
 
-              <div
-                className="col-md-3 si-btn-groups-parent uhp-center-vertical"
-                
-              >
+              <div className="col-md-3 si-btn-groups-parent uhp-center-vertical">
                 <div>
-                  <div
-                    className="si-btn-groups"
-                  >
+                  <div className="si-btn-groups">
                     <button
                       id="btn-show-contact"
                       onClick={handleOnUnblur}
@@ -207,7 +207,6 @@ export default function UserInfo() {
                     >
                       Show Contact info
                     </button>
-                    
                   </div>
                 </div>
               </div>

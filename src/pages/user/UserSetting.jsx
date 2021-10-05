@@ -740,7 +740,7 @@ function UserSetting(props) {
   }
 
   function handleOnSubmitPassword(e) {
-    e.preventDefault()
+    e.preventDefault();
     if (checkPassword()) {
       const config = {
         withCredentials: true,
@@ -759,9 +759,7 @@ function UserSetting(props) {
             } else {
               setPasswordError(res.data.msg);
             }
-            console.log(res.data);
           } else {
-            console.log("not ok", res.data);
           }
         })
         .catch((err) => console.log(err));
@@ -787,8 +785,6 @@ function UserSetting(props) {
     axios
       .get("http://localhost:5000/users/retrieveInfo", config)
       .then((res) => {
-        console.log("ok");
-        console.log(res.data);
         setUserInfo({
           ...res.data,
           areaLocations: res.data.location,
@@ -833,7 +829,6 @@ function UserSetting(props) {
         formData.append("messengerLink", userInfo.messengerLink);
         formData.append("wechatLink", userInfo.wechatLink);
         formData.append("instagramLink", userInfo.instagramLink);
-        console.log(userInfo);
 
         const res = await fetch("http://localhost:5000/sellers/test", {
           method: "POST",
@@ -847,39 +842,9 @@ function UserSetting(props) {
           } else {
             window.location.pathname = "/";
           }
-          // console.log(data)
-          // handle data
-
-          // setData({
-          //   coverImg: "",
-          //   img1: "",
-          //   img2: "",
-          //   title: "",
-          //   price: "",
-          //   description: "",
-          //   categories: "",
-          //   uploadedBy: "",
-          //   publishingCompany: "",
-          //   language: "",
-          //   isbn: 0,
-          //   coverType: "",
-          //   year: "",
-          //   quantity: 1,
-          //   states: "",
-          //   location: "",
-          //   contactNumber: "",
-          //   whatsappLink: "",
-          //   messengerLink: "",
-          //   wechatLink: "",
-          //   instagramLink: "",
-          // });
-          // setIsNotPosted(false);
-          // window.location.pathname = "/";
         } else {
-          console.log("not ok");
         }
       } catch (error) {
-        console.log(error);
       }
     }
   };
@@ -900,7 +865,6 @@ function UserSetting(props) {
       return { ...prevValue, [name]: value };
     });
 
-    console.log(userInfo);
   }
 
   return (
@@ -909,6 +873,14 @@ function UserSetting(props) {
         <div className="container">
           <section id="us-main-upload-part">
             <div className="us-main-upload-part">
+              {error != "" && (
+                <div
+                  className="alert alert-warning alert-dismissible fade show"
+                  role="alert"
+                >
+                  <strong>Uh oh!</strong> {error}
+                </div>
+              )}
               <form encType="multipart/form-data" onSubmit={handleSubmitInfo}>
                 <section id="us-basic-info">
                   <div className="us-basic-info">
@@ -928,7 +900,11 @@ function UserSetting(props) {
                           <img
                             id="img-coverImg"
                             className="us-img-coverImg"
-                            src={avatarUri!=""? avatarUri: 'https://res.cloudinary.com/papero/image/upload/v1633250954/user_tbyq9p.png'}
+                            src={
+                              avatarUri != ""
+                                ? avatarUri
+                                : "https://res.cloudinary.com/papero/image/upload/v1633250954/user_tbyq9p.png"
+                            }
                           />
                         </label>
                       </div>
@@ -986,7 +962,8 @@ function UserSetting(props) {
                       </div>
                       <div className="col-md-4">
                         <select
-                          required className="us-select"
+                          required
+                          className="us-select"
                           style={{ width: " 100%" }}
                           value={userInfo.gender ? userInfo.gender : ""}
                           name="gender"
@@ -1079,7 +1056,8 @@ function UserSetting(props) {
                       <div className="col-md-6">
                         <input
                           style={{ width: " 100%" }}
-                          type="text"
+                          type="number"
+                          minLength='9'
                           id="noTel"
                           name="noTel"
                           onChange={handleOnChange}

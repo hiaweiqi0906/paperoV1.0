@@ -4,12 +4,10 @@ import axios from "axios";
 
 export default function OtherBooksFromSeller(props) {
   const [books, setBooks] = useState([]);
-  console.log(props.email)
   useEffect(() => {
     axios
       .get(`http://localhost:5000/othersFromSeller-${props.email}`)
       .then((res) => {
-        console.log(res.data)
         setBooks(res.data);
       });
   }, [props.email]);

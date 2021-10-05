@@ -8,7 +8,7 @@ export default function UploadedRecentlyBookRow() {
     axios.get("http://localhost:5000/recentUpload").then((res) => {
       setBooks(res.data);
     });
-  },[books.length]);
+  }, [books.length]);
 
   return (
     <>
@@ -19,13 +19,16 @@ export default function UploadedRecentlyBookRow() {
               <h3 className="sid-h3 sid-section-title">Uploaded Recently</h3>
             </div>
             <div className="col">
-            <a href="/uploadedRecently" style={{ textDecoration: "inherit", color: "inherit" }}>
-              <h3
-                className="sid-h3 sid-section-title"
-                style={{ textAlign: "right" }}
+              <a
+                href="/uploadedRecently"
+                style={{ textDecoration: "inherit", color: "inherit" }}
               >
-                See More
-              </h3>
+                <h3
+                  className="sid-h3 sid-section-title"
+                  style={{ textAlign: "right" }}
+                >
+                  See More
+                </h3>
               </a>
             </div>
           </div>

@@ -19,15 +19,13 @@ export default function useBookSearch(query, pageNumber) {
     else if (query === "@@@@userInfo")
       url = `http://localhost:5000/users/info&page=${pageNumber}`;
     else if (query.includes("@@@@preferredBooks")) {
-      const arrStr = query.split('@')
+      const arrStr = query.split("@");
       url = `http://localhost:5000/preferredBookSearch?${arrStr[0]}&page=${pageNumber}`;
-
-    } else if (query.includes("@@@@uploadedRecently")){
-      const arrStr = query.split('@')
+    } else if (query.includes("@@@@uploadedRecently")) {
+      const arrStr = query.split("@");
       url = `http://localhost:5000/uploadedRecentlySearch?${arrStr[0]}&page=${pageNumber}`;
-
     } else if (query.includes("@@@@userOtherInfo")) {
-      const arrStr = query.split('@')
+      const arrStr = query.split("@");
       url = `http://localhost:5000/users/info&id=${arrStr[0]}&page=${pageNumber}`;
     } else if (query.includes("search=")) {
       url = `http://localhost:5000/trySearch?${query}&page=${pageNumber}`;
@@ -51,20 +49,15 @@ export default function useBookSearch(query, pageNumber) {
         setBooks((prevBooks) => {
           return [...prevBooks, ...res.data];
         });
-        console.log("books", books);
         setHasMore(res.data.length > 0);
-        console.log(hasMore);
         setLoading(false);
-
-        console.log(res.data);
       })
       .catch((err) => {
         if (axios.isCancel(err)) return;
-        setLoading(false)
+        setLoading(false);
         setError(true);
       });
     return () => cancel();
   }, [query, pageNumber]);
-  console.log(loading);
   return { loading, error, books, hasMore };
 }

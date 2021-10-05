@@ -13,9 +13,9 @@ function ShopItemInfo(props) {
   const [userInfo, setUserInfo] = useState({});
   const authToken = localStorage.getItem("authToken") || "empty";
   const { id } = useParams();
-  const [reportShow, setReportShow] = useState({display: 'none'});
-  const [reportSelection1, setReportSelection1] = useState('');
-  const [reportSelection2, setReportSelection2] = useState('');
+  const [reportShow, setReportShow] = useState({ display: "none" });
+  const [reportSelection1, setReportSelection1] = useState("");
+  const [reportSelection2, setReportSelection2] = useState("");
 
   const [blurStyle, setBlurStyle] = useState({});
 
@@ -38,16 +38,13 @@ function ShopItemInfo(props) {
     });
   }
 
-  function handleOnShowReportSection(){
-    if(reportShow.display === 'none')
-      setReportShow({display: 'block'})
-    else
-    setReportShow({display: 'none'})
-
+  function handleOnShowReportSection() {
+    if (reportShow.display === "none") setReportShow({ display: "block" });
+    else setReportShow({ display: "none" });
   }
 
-  function handleOnSubmitReports(){
-    const reports = {details: reportSelection1+', '+reportSelection2}
+  function handleOnSubmitReports() {
+    const reports = { details: reportSelection1 + ", " + reportSelection2 };
     const config = {
       withCredentials: true,
       headers: {
@@ -58,25 +55,21 @@ function ShopItemInfo(props) {
       .post("http://localhost:5000/reportBook&id=" + book._id, reports, config)
       .then((res) => {
         if (res.status === "200") {
-          console.log('reported');
         } else if (res.status === "401") {
-          console.log('not reported');
           // window.location.pathname = "/"
         }
       })
       .catch((err) => console.log(err));
   }
 
-  function handleOnChangeReports(e){
-    const name= e.target.name
-    const value = e.target.value
-    if(name==='reportSelection1') setReportSelection1(value)
-    else setReportSelection2(value)
-    console.log(value)
+  function handleOnChangeReports(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    if (name === "reportSelection1") setReportSelection1(value);
+    else setReportSelection2(value);
   }
 
   function handleOnSubmitFavouriteList(e) {
-    console.log("clicked");
     const config = {
       withCredentials: true,
       headers: {
@@ -88,7 +81,6 @@ function ShopItemInfo(props) {
       .get("http://localhost:5000/users/addFavourites&id=" + book._id, config)
       .then((res) => {
         if (res.data.statusCode === "200") {
-          console.log("res.data");
         } else if (res.data.statusCode === "401") {
           // window.location.pathname = "/"
         }
@@ -186,7 +178,9 @@ function ShopItemInfo(props) {
                         className="ii-all-contact"
                         style={{ padding: "0px", border: "none" }}
                       >
-                         <h3 className="ii-h3">H/P Num: 0{book.contactNumber}</h3>
+                        <h3 className="ii-h3">
+                          H/P Num: 0{book.contactNumber}
+                        </h3>
                         <div className="row">
                           {book.instagramLink != "" ? (
                             <div className="col-md-2 col-3 dropup">
@@ -302,39 +296,53 @@ function ShopItemInfo(props) {
           </div>
           <div className=" ii-main-info ii-border ii-pd-10" style={reportShow}>
             <form onSubmit={handleOnSubmitReports}>
-            <hr/>
-            <div className="row">
-              <div className="col-md-6" style={{ marginBottom: "10px" }}>
-                <strong>Report Inappropriate Ads</strong>
+              <hr />
+              <div className="row">
+                <div className="col-md-6" style={{ marginBottom: "10px" }}>
+                  <strong>Report Inappropriate Ads</strong>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-md-2">Reasons:</div>
-              <div className="col-md-3">
-                <select name="reportReasons" id="" value={reportSelection1} onChange={handleOnChangeReports} style={{ width: "100%" }}>
-                  <option value="">Misleading</option>
-                </select>
+              <div className="row">
+                <div className="col-md-2">Reasons:</div>
+                <div className="col-md-3">
+                  <select
+                    name="reportReasons"
+                    id=""
+                    value={reportSelection1}
+                    onChange={handleOnChangeReports}
+                    style={{ width: "100%" }}
+                  >
+                    <option value="">Misleading</option>
+                  </select>
+                </div>
+                <div className="col-md-1"></div>
+                <div className="col-md-2">Other reasons:</div>
+                <div className="col-md-4" style={{ marginBottom: "30px" }}>
+                  <input
+                    type="text"
+                    name=""
+                    id=""
+                    value={reportSelection2}
+                    onChange={handleOnChangeReports}
+                    style={{ width: "100%" }}
+                  />
+                </div>
               </div>
-              <div className="col-md-1"></div>
-              <div className="col-md-2">Other reasons:</div>
-              <div className="col-md-4" style={{ marginBottom: "30px" }}>
-                <input type="text" name="" id=""  value={reportSelection2} onChange={handleOnChangeReports}  style={{ width: "100%" }} />
-              </div>
-            </div>
 
-            <div className="row">
-              <div className="col-md-10"></div>
-              <div className="col-md-2" style={{ textAlign: "right" }}>
-                <button
-                  type="submit"
-                  className="ii-primary-btn"
-                  style={{ width: "100%" }}
-                >
-                  Report
-                </button>
+              <div className="row">
+                <div className="col-md-10"></div>
+                <div className="col-md-2" style={{ textAlign: "right" }}>
+                  <button
+                    type="submit"
+                    className="ii-primary-btn"
+                    style={{ width: "100%" }}
+                  >
+                    Report
+                  </button>
+                </div>
               </div>
-            </div>
-          </form></div>
+            </form>
+          </div>
         </section>
         <section id="ii-description-seller-ads">
           <div className="ii-description-seller-ads">
@@ -364,7 +372,11 @@ function ShopItemInfo(props) {
                           marginRight: "auto",
                         }}
                         className="ii-userAvatar"
-                        src={userInfo.avatarUri!=""? userInfo.avatarUri : 'https://res.cloudinary.com/papero/image/upload/v1633250954/user_tbyq9p.png'}
+                        src={
+                          userInfo.avatarUri != ""
+                            ? userInfo.avatarUri
+                            : "https://res.cloudinary.com/papero/image/upload/v1633250954/user_tbyq9p.png"
+                        }
                         alt=""
                       />
                     </div>
@@ -377,7 +389,10 @@ function ShopItemInfo(props) {
                     </div>
                     <div className="info-spacing">
                       <h3 className="ii-h3">
-                        Location: {userInfo.location && userInfo.states ? `${userInfo.location}, ${userInfo.states}` : 'Malaysia'}
+                        Location:{" "}
+                        {userInfo.location && userInfo.states
+                          ? `${userInfo.location}, ${userInfo.states}`
+                          : "Malaysia"}
                       </h3>
                     </div>
                     <div className="info-spacing">
@@ -385,8 +400,22 @@ function ShopItemInfo(props) {
                     </div>
                   </div>
                   <div className="col-md-3 center-vertical">
-                    <form action={`/otherUser/${userInfo._id}`} style={{marginTop: '30px'}}>
-                      <button className="ii-primary-btn" style={{width: "100%", display: 'block', margin: 'auto'}} type="submit"> Seller Info </button>
+                    <form
+                      action={`/otherUser/${userInfo._id}`}
+                      style={{ marginTop: "30px" }}
+                    >
+                      <button
+                        className="ii-primary-btn"
+                        style={{
+                          width: "100%",
+                          display: "block",
+                          margin: "auto",
+                        }}
+                        type="submit"
+                      >
+                        {" "}
+                        Seller Info{" "}
+                      </button>
                     </form>
                   </div>
                 </div>

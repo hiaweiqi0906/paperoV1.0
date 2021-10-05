@@ -26,7 +26,6 @@ function App() {
   const authToken = localStorage.getItem("authToken") || 'empty';
   const [userInfo, setUserInfo] = useState({});
   let userInfos
-  console.log('loaded app.js')
 
   async function loadUserInfo() {
     if (authToken) {
@@ -41,13 +40,10 @@ function App() {
       await axios
         .get("http://localhost:5000/users/checkIsLoggedIn", config)
         .then((res) => {
-          console.log(res.status)
           if (res.status === 200) {
             // userInfos = (res.data.user)
             // if (!userInfo) setUserInfo(userInfos)
-            console.log('200')
           } else if (res.status === '400') {
-            console.log('400')
             localStorage.clear()
             window.location.pathname = "/"
           }
@@ -72,7 +68,7 @@ function App() {
         <ForwardRoutes path="/register" component={TestRegister} />
         <ForwardRoutes exact path="/resetPassword" component={EnterEmailResetPassword} />
         <ForwardRoutes path="/resetPassword/:userId/:token" component={ResetPassword} />
-        <Route path="/otherUser/:id" children={<OtherUserInfo />} />        
+        <Route path="/otherUser/:id" children={<OtherUserInfo />} />
         <ProtectedRoute path="/user" component={UserPage} />
         <Route path="/view/:id" children={<ShopItemInfo />} />
         <Route exact path="/" children={<ShopIndex />} />

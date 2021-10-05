@@ -32,7 +32,6 @@ function TestRegister() {
       .then((res) => {
         if (res.status === 200) {
           window.location.pathname = "/login";
-          console.log("ok");
           setUserInfo({
             email: "",
             password: "",
@@ -41,7 +40,6 @@ function TestRegister() {
             lastName: "",
           });
         } else {
-          console.log("not ok", res.data);
         }
       })
       .catch((err) => console.log(err));
@@ -97,8 +95,8 @@ function TestRegister() {
                           <input
                             style={{ width: "100%" }}
                             type="text"
-                        required
-                        name="firstName"
+                            required
+                            name="firstName"
                             id=""
                             onChange={onChange}
                             value={userInfo.firstName}
@@ -118,8 +116,8 @@ function TestRegister() {
                         </div>
                         <div className="col-md-12 col-12">
                           <input
-                        required
-                        style={{ width: "100%" }}
+                            required
+                            style={{ width: "100%" }}
                             type="text"
                             name="lastName"
                             onChange={onChange}

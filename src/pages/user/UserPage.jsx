@@ -32,11 +32,8 @@ function UserPage() {
     axios
       .get("http://localhost:5000/users/checkIsLoggedIn", config)
       .then((res) => {
-        console.log("status", res.status);
         if (res.status === 200) {
-          console.log(res.data);
           userInfo = res.data.user;
-          console.log(userInfo);
           setIsLoggedIn(true);
         } else if (res.data.statusCode === "401") {
           localStorage.clear();
@@ -66,13 +63,15 @@ function UserPage() {
           <Route exact path="/user/edit/:bookId">
             <EditOneBook userInfo={userInfo} />
           </Route>
-          
+
           <Route path="/">
             <Redirect to="/" />
           </Route>
         </Switch>
       ) : (
-        <div style={{ height: "500px", marginTop: '100px' }}><LoadingIllustration /></div>
+        <div style={{ height: "500px", marginTop: "100px" }}>
+          <LoadingIllustration />
+        </div>
       )}
     </Router>
   );

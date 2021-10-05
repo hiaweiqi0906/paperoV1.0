@@ -25,14 +25,11 @@ function ShopIndex() {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setPageNumber((prevValue) => {
-            console.log(prevValue);
             return prevValue + 1;
           });
-          console.log(pageNumber);
         }
       });
       if (node) observer.current.observe(node);
-      console.log(node);
     },
     [loading, hasMore]
   );
@@ -46,15 +43,11 @@ function ShopIndex() {
           Authorization: `Bearer ${authToken}`,
         },
       };
-      console.log("here");
       axios
         .get("http://localhost:5000/users/checkIsLoggedIn", config)
         .then((res) => {
-          console.log(res.status);
           if (res.status === 200) {
-            console.log("200");
           } else if (res.status === 400) {
-            console.log("400");
             localStorage.clear();
             window.location.pathname = "/";
           }
@@ -113,9 +106,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div
-                        className="sid-slot-img-category"
-                      >
+                      <div className="sid-slot-img-category">
                         <i
                           class="fas fa-palette fa-3x"
                           style={{ width: "auto", margin: "0 auto" }}
@@ -133,14 +124,8 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div
-                        className="sid-slot-img-category"
-                       
-                      >
-                        <i
-                          class="fas fa-atlas fa-3x"
-                          
-                        ></i>
+                      <div className="sid-slot-img-category">
+                        <i class="fas fa-atlas fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
                         <p className="sid-categories-text">Biography</p>
@@ -154,7 +139,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-briefcase fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -169,7 +154,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-bolt fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -184,7 +169,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-tv fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -199,7 +184,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-cookie-bite fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -214,7 +199,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-university fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -229,7 +214,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-gamepad fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -244,7 +229,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-clinic-medical fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -259,7 +244,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-hourglass-half fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -274,7 +259,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-mitten fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -289,7 +274,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-seedling fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -306,7 +291,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-ghost fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -321,7 +306,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-baby fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -336,7 +321,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-broom fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -353,7 +338,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-pills fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -368,7 +353,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-binoculars fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -383,7 +368,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-chalkboard-teacher fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -398,7 +383,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-star-and-crescent fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -413,7 +398,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-hand-holding-heart fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -428,7 +413,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-helicopter fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -443,7 +428,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-drafting-compass fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -458,7 +443,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-hands-helping fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -475,7 +460,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-user-friends fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -495,7 +480,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-basketball-ball fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -510,7 +495,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-child fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -525,7 +510,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-suitcase-rolling fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -540,7 +525,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-user-secret fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">
@@ -555,7 +540,7 @@ function ShopIndex() {
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
-                      <div className="sid-slot-img-category"> 
+                      <div className="sid-slot-img-category">
                         <i class="fas fa-hat-cowboy fa-3x"></i>
                       </div>
                       <div className="sid-item-title-and-sid-price">

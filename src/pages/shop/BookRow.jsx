@@ -17,7 +17,7 @@ function BookRow(props) {
           </div>
           <div className="sid-item-title-and-sid-price">
             <p className="sid-slot-title">
-              {props.books.bookTitle} aaa aaaa aaaaa aaa
+              {props.books.bookTitle}
             </p>
             <p className="sid-price">RM {props.books.price}</p>
           </div>

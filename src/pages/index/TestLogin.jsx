@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {
-  Redirect,
-} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 function TestLogin() {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -24,11 +22,9 @@ function TestLogin() {
         if (res.status === 200) {
           localStorage.setItem("authToken", res.data.authToken);
           window.location.pathname = "/";
-          console.log("ok");
           setIsLoggedIn(true);
           setUser({ email: "", password: "" });
         } else {
-          console.log("not ok", res.data);
           setIsLoggedIn(false);
         }
       })
@@ -46,11 +42,8 @@ function TestLogin() {
   return (
     <>
       <div className="container">
-        <form  onSubmit={handleFormSubmit}>
-          <div
-            className="row register-form-style"
-            
-          >
+        <form onSubmit={handleFormSubmit}>
+          <div className="row register-form-style">
             <div className="col-md-7 col-12">
               <div className="register-illu">
                 <img
@@ -76,7 +69,7 @@ function TestLogin() {
                         type="email"
                         onChange={handleOnChange}
                         value={user.email}
-                      name="email"
+                        name="email"
                         id=""
                       />
                     </div>
@@ -94,12 +87,12 @@ function TestLogin() {
                         type="password"
                         onChange={handleOnChange}
                         value={user.password}
-                      name="password"
+                        name="password"
                         id=""
                       />
                     </div>
                   </div>
-                                  </div>
+                </div>
 
                 <button
                   type="submit"
@@ -108,14 +101,12 @@ function TestLogin() {
                 >
                   Log In
                 </button>
-                <div style={{marginTop: '50px'}} className="row">
+                <div style={{ marginTop: "50px" }} className="row">
                   <div className="col-md-6">
-
-                  <a href="/register">Register account!</a> 
+                    <a href="/register">Register account!</a>
                   </div>
                   <div className="col-md-6 text-align-fgt-pswd">
-
-                  <a href="/resetPassword">Forgot Password? </a>
+                    <a href="/resetPassword">Forgot Password? </a>
                   </div>
                 </div>
               </section>

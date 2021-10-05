@@ -18,7 +18,10 @@ export default function PreferredBookRow() {
             <h3 className="sid-h3 sid-section-title">Preferred Book</h3>
           </div>
           <div className="col">
-            <a href="/preferredBooks" style={{ textDecoration: "inherit", color: "inherit" }}>
+            <a
+              href="/preferredBooks"
+              style={{ textDecoration: "inherit", color: "inherit" }}
+            >
               <h3
                 className="sid-h3 sid-section-title"
                 style={{ textAlign: "right" }}
