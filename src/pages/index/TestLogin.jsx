@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 function TestLogin() {
   const [user, setUser] = useState({ email: "", password: "" });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [incorrect, setIncorrect] = useState(false);
 
   function handleFormSubmit(e) {
     e.preventDefault();
@@ -28,7 +29,9 @@ function TestLogin() {
           setIsLoggedIn(false);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setIncorrect(true)
+        console.log(err)});
   }
 
   function handleOnChange(e) {
@@ -56,6 +59,15 @@ function TestLogin() {
             <div className="col-md-5 col-12">
               <section id="register-form">
                 <h2 className="ii-h2 ">Log In</h2>
+
+                {incorrect && (
+                      <div
+                        className="alert alert-warning alert-dismissible fade show"
+                        role="alert"
+                      >
+                        <strong>Uh oh!</strong> Username or Password Incorrect!
+                      </div>
+                    )}
                 <div style={{ margin: "50px 0" }}>
                   <div className="row" style={{ marginBottom: "10px" }}>
                     <div className="col-md-12  col-12">

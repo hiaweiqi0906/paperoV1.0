@@ -217,7 +217,7 @@ function NavbarIndex(props) {
 
               <div className="hidden-menu" id="myLinks" style={hiddenStyle}>
                 <div className="col-12 navbar-center-align">
-                  <form action="">
+                  <form  onSubmit={handleOnSubmit}>
                     <div
                       className="row search-area"
                       style={{ width: "80%", margin: "0px auto" }}
@@ -330,7 +330,7 @@ function NavbarIndex(props) {
                   </a></div>
                 
                 <div className="col-md-7 navbar-center-align">
-                  <form action="">
+                  <form  onSubmit={handleOnSubmit}>
                     <div
                       className="row search-area"
                       style={{ width: "80%", margin: "0px auto" }}
@@ -427,7 +427,7 @@ function NavbarIndex(props) {
 
               <div className="hidden-menu" id="myLinks" style={hiddenStyle}>
                 <div className="col-12 navbar-center-align">
-                  <form action="">
+                  <form  onSubmit={handleOnSubmit}>
                     <div
                       className="row search-area"
                       style={{ width: "80%", margin: "0px auto" }}
