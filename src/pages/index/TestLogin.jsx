@@ -64,6 +64,7 @@ function TestLogin() {
                       <div
                         className="alert alert-warning alert-dismissible fade show"
                         role="alert"
+                        style={{marginBottom: '-50px'}}
                       >
                         <strong>Uh oh!</strong> Username or Password Incorrect!
                       </div>

@@ -226,9 +226,11 @@ function NavbarIndex(props) {
                         <div>
                           <input
                             type="text"
-                            name=""
                             className="search-area-text-input"
-                            id=""
+                            onChange={handleOnChange}
+                            name="searchbar"
+                            value={query}
+                            id="searchbar"
                             style={{
                               width: "100%",
                               border: "none",
@@ -339,9 +341,11 @@ function NavbarIndex(props) {
                         <div>
                           <input
                             type="text"
-                            name=""
+                            onChange={handleOnChange}
+                            name="searchbar"
+                            value={query}
+                            id="searchbar"
                             className="search-area-text-input"
-                            id=""
                             style={{
                               width: "100%",
                               border: "none",
@@ -436,9 +440,11 @@ function NavbarIndex(props) {
                         <div>
                           <input
                             type="text"
-                            name=""
+                            onChange={handleOnChange}
+                            name="searchbar"
+                            value={query}
+                            id="searchbar"
                             className="search-area-text-input"
-                            id=""
                             style={{
                               width: "100%",
                               border: "none",
