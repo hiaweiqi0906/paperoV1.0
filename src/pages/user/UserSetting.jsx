@@ -24,7 +24,8 @@ function UserSetting(props) {
     "Selangor",
     "Terengganu",
   ]);
-
+  const [errorArr, setErrorArr] = useState([]);
+  let errArr = [];
   const [passwordError, setPasswordError] = useState("");
   const [areaLocations, setAreaLocations] = useState([
     [
@@ -810,7 +811,19 @@ function UserSetting(props) {
       !userInfo.areaLocations ||
       userInfo.areaLocations == "test"
     ) {
-      setError("Please Enter All Required Fields! ");
+      setError("Please Enter All Required Fields!");
+      return false;
+    }
+
+    if (
+      (userInfo.messengerLink != "" &&
+        !userInfo.messengerLink.includes("http")) ||
+      (userInfo.instagramLink != "" &&
+        !userInfo.instagramLink.includes("http")) ||
+      (userInfo.wechatLink != "" && !userInfo.wechatLink.includes("http")) ||
+      (userInfo.whatsappLink != "" && !userInfo.whatsappLink.includes("http"))
+    ) {
+      setError("All social media should be link(s)");
       return false;
     }
     return true;
@@ -898,6 +911,7 @@ function UserSetting(props) {
                           <input
                             type="file"
                             name="coverImg"
+                            accept="image/*"
                             id="coverImg"
                             onChange={handleOnChange}
                             style={{ display: "none" }}
@@ -927,6 +941,7 @@ function UserSetting(props) {
                           style={{ width: " 100%" }}
                           type="text"
                           id="firstName"
+                          placeholder="First Name"
                           name="firstName"
                           value={userInfo.firstName ? userInfo.firstName : ""}
                           onChange={handleOnChange}
@@ -942,6 +957,7 @@ function UserSetting(props) {
                           id="lastName"
                           required
                           name="lastName"
+                          placeholder="Last Name"
                           onChange={handleOnChange}
                           value={userInfo.lastName ? userInfo.lastName : ""}
                         />
@@ -1064,6 +1080,7 @@ function UserSetting(props) {
                           type="number"
                           minLength="9"
                           id="noTel"
+                          placeholder="Phone Number"
                           name="noTel"
                           onChange={handleOnChange}
                           value={userInfo.noTel ? userInfo.noTel : ""}
@@ -1085,6 +1102,7 @@ function UserSetting(props) {
                           id="wechatLink"
                           onChange={handleOnChange}
                           name="wechatLink"
+                          placeholder="Enter if you have one!"
                           value={userInfo.wechatLink ? userInfo.wechatLink : ""}
                         />
                       </div>
@@ -1103,6 +1121,7 @@ function UserSetting(props) {
                           type="text"
                           id="whatsappLink"
                           name="whatsappLink"
+                          placeholder="Enter if you have one!"
                           onChange={handleOnChange}
                           value={
                             userInfo.whatsappLink ? userInfo.whatsappLink : ""
@@ -1124,6 +1143,7 @@ function UserSetting(props) {
                           type="text"
                           id="messengerLink"
                           name="messengerLink"
+                          placeholder="Enter if you have one!"
                           onChange={handleOnChange}
                           value={
                             userInfo.messengerLink ? userInfo.messengerLink : ""
@@ -1145,6 +1165,7 @@ function UserSetting(props) {
                           type="text"
                           id="instagramLink"
                           name="instagramLink"
+                          placeholder="Enter if you have one!"
                           onChange={handleOnChange}
                           value={
                             userInfo.instagramLink ? userInfo.instagramLink : ""

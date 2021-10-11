@@ -9,6 +9,10 @@ function UploadBook(props) {
   const [imgPreview1, setImgPreview1] = useState("");
   const [imgPreview2, setImgPreview2] = useState("");
   const [imgPreview3, setImgPreview3] = useState("");
+  const [errorArr, setErrorArr] = useState([]);
+  const [loadingStyle, setLoadingStyle] = useState({ display: "none" });
+  const [loadingNoneStyle, setLoadingNoneStyle] = useState({ display: "flex" });
+  let errArr = [];
   const [states, setStates] = useState([
     "Johor",
     "Kedah",
@@ -757,7 +761,7 @@ function UploadBook(props) {
     uploadedBy: "",
     publishingCompany: "",
     language: "",
-    isbn: 0,
+    isbn: "",
     coverType: "",
     year: "",
     quantity: 1,
@@ -838,7 +842,7 @@ function UploadBook(props) {
           uploadedBy: res.data.email,
           publishingCompany: "",
           language: "",
-          isbn: 0,
+          isbn: "",
           coverType: "",
           year: "",
           quantity: 1,
@@ -856,9 +860,11 @@ function UploadBook(props) {
   }, [userInfo._id]);
 
   function checkNoEmpty() {
+    errArr = [];
     if (
       !data.coverImg ||
       !data.title ||
+      !data.isbn ||
       !data.price ||
       !data.description ||
       !data.categories ||
@@ -869,16 +875,45 @@ function UploadBook(props) {
       !data.areaLocations ||
       !data.contactNumber
     ) {
-      setErrorMsg("Please Enter All Required Fields! ");
-      return false;
+      errArr = [...errArr, "Please enter all required(*) fields"];
+    }
+    if (data.title.length < 20) {
+      errArr = [...errArr, "Title should be min 20 characters"];
     }
 
-    return true;
+    if (!data.coverImg) {
+      errArr = [...errArr, "Should insert 1 cover image"];
+    }
+    if (data.isbn.includes("-")) {
+      data.isbn.replace("-", "");
+    }
+
+    if (
+      (data.messengerLink != "" && !data.messengerLink.includes("http")) ||
+      (data.instagramLink != "" && !data.instagramLink.includes("http")) ||
+      (data.wechatLink != "" && !data.wechatLink.includes("http")) ||
+      (data.whatsappLink != "" && !data.whatsappLink.includes("http"))
+    ) {
+      errArr = [...errArr, "All social media should be link(s)"];
+    }
+
+    if (data.isbn.length != 13) {
+      errArr = [...errArr, "ISBN should be 13 characters (without -)"];
+    }
+
+    if (data.year.length != 4) {
+      errArr = [...errArr, "Year published entered invalid"];
+    }
+
+    setErrorArr(errArr);
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (checkNoEmpty()) {
+    checkNoEmpty();
+    if (errArr.length === 0) {
+      setLoadingStyle({ display: "flex" });
+      setLoadingNoneStyle({ display: "none" });
       try {
         let formData = new FormData();
         formData.append("coverImg", data.coverImg);
@@ -889,6 +924,7 @@ function UploadBook(props) {
         formData.append("description", data.description);
         formData.append("categories", data.categories);
         formData.append("states", data.states);
+        formData.append("isbn", data.isbn);
         formData.append("year", data.year);
         formData.append("price", data.price);
         formData.append("location", data.areaLocations);
@@ -919,7 +955,7 @@ function UploadBook(props) {
             uploadedBy: "",
             publishingCompany: "",
             language: "",
-            isbn: 0,
+            isbn: "",
             coverType: "",
             year: "",
             quantity: 1,
@@ -946,14 +982,17 @@ function UploadBook(props) {
       <div className="container">
         <section id="ub-main-upload-part">
           <div className="ub-main-upload-part">
-            {errorMsg != "" && (
-              <div
-                className="alert alert-warning alert-dismissible fade show"
-                role="alert"
-              >
-                <strong>Uh oh!</strong> {errorMsg}
-              </div>
-            )}
+            {errorArr.map((err, index) => {
+              return (
+                <div
+                  key={index}
+                  className="alert alert-warning alert-dismissible fade show"
+                  role="alert"
+                >
+                  <strong>Uh oh!</strong> {err}
+                </div>
+              );
+            })}
             <form encType="multipart/form-data" onSubmit={handleSubmit}>
               <section id="ub-basic-info">
                 <div className="ub-basic-info">
@@ -968,6 +1007,7 @@ function UploadBook(props) {
                       <label for="coverImg">
                         <input
                           type="file"
+                          accept="image/*"
                           name="coverImg"
                           onChange={handleOnChange}
                           id="coverImg"
@@ -993,6 +1033,7 @@ function UploadBook(props) {
                         <input
                           type="file"
                           name="img1"
+                          accept="image/*"
                           onChange={handleOnChange}
                           id="img1"
                           style={{ display: "none" }}
@@ -1016,6 +1057,7 @@ function UploadBook(props) {
                         <input
                           type="file"
                           name="img2"
+                          accept="image/*"
                           onChange={handleOnChange}
                           id="img2"
                           style={{ display: "none" }}
@@ -1039,6 +1081,7 @@ function UploadBook(props) {
                         <input
                           type="file"
                           name="img3"
+                          accept="image/*"
                           onChange={handleOnChange}
                           id="img3"
                           style={{ display: "none" }}
@@ -1072,9 +1115,10 @@ function UploadBook(props) {
                         id="title"
                         value={data.title}
                         minLength="20"
+                        maxLength="40"
                         onChange={handleOnChange}
                         name="title"
-                        placeholder="Enter Title"
+                        placeholder="Enter Title (min 20 characters, max 40 characters)"
                       />
                     </div>
                   </div>
@@ -1107,9 +1151,11 @@ function UploadBook(props) {
                         placeholder="Enter ISBN (without '-')"
                         required
                         style={{ width: "100%" }}
-                        type="text"
-                        name="bookTitle"
-                        id="bookTitle"
+                        type="number"
+                        value={data.isbn}
+                        onChange={handleOnChange}
+                        name="isbn"
+                        id="isbn"
                       />
                     </div>
                   </div>
@@ -1382,11 +1428,44 @@ function UploadBook(props) {
                   </div>
                 </div>
               </section>
+
               <section id="buttons">
-                <div className="row">
+                <div className="row" style={loadingNoneStyle}>
                   <div className="col-md-9"></div>
                   <div className="col-md-3">
                     <button className="ub-primary-btn" type="submit">
+                      Publish
+                    </button>
+                  </div>
+                </div>
+
+                <div className="row" style={loadingStyle}>
+                  <div className="col-md-6"></div>
+                  <div className="col-md-3">
+                    <div className="row">
+                      <div className="col-md-4">
+                        <img
+                          style={{
+                            width: "30px",
+                            display: "block",
+                            textAlign: "right",
+                          }}
+                          src="https://res.cloudinary.com/papero/image/upload/c_crop,h_54/v1633658908/200_xbc604.gif"
+                          alt=""
+                        />
+                      </div>
+                      <div className="col-md-8 ub-label">
+                        <label for="">Uploading... </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <button
+                      className="ub-primary-btn"
+                      type="submit"
+                      disabled
+                      style={{ background: "#804e55" }}
+                    >
                       Publish
                     </button>
                   </div>

@@ -160,7 +160,7 @@ function ShopItemInfo(props) {
               </div>
               <div className="all-info col-md-7">
                 <div className="title ii-mg-top">
-                  <p className="ii-small-p ">ISBN: 1111-111-1111</p>
+                  <p className="ii-small-p ">ISBN: {book.isbn}</p>
                   <h2 className="ii-h2 ">{book.bookTitle}</h2>
                 </div>
                 <div className="ii-price">
@@ -201,7 +201,10 @@ function ShopItemInfo(props) {
                               style={{ pointerEvents: "none" }}
                             >
                               <a>
-                                <i className="fab fa-instagram dropbtn"></i>
+                                <i
+                                  className="fab fa-instagram dropbtn"
+                                  style={{ color: "#9d9d9d " }}
+                                ></i>
                               </a>
                             </div>
                           )}
@@ -237,7 +240,10 @@ function ShopItemInfo(props) {
                               style={{ pointerEvents: "none" }}
                             >
                               <a>
-                                <i className="fab fa-whatsapp dropbtn"></i>
+                                <i
+                                  className="fab fa-whatsapp dropbtn"
+                                  style={{ color: "#9d9d9d " }}
+                                ></i>
                               </a>
                             </div>
                           )}
@@ -254,7 +260,10 @@ function ShopItemInfo(props) {
                               style={{ pointerEvents: "none" }}
                             >
                               <a>
-                                <i className="fab fa-facebook-messenger dropbtn"></i>
+                                <i
+                                  className="fab fa-facebook-messenger dropbtn"
+                                  style={{ color: "#9d9d9d " }}
+                                ></i>
                               </a>
                             </div>
                           )}

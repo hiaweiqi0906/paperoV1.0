@@ -43,7 +43,11 @@ function NavbarIndex(props) {
         isAuthenticated = false;
         window.location.pathname = "/";
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        localStorage.clear();
+        isAuthenticated = false;
+        console.log(err);
+      });
   }
 
   function handleOnSubmit(e) {
@@ -217,7 +221,7 @@ function NavbarIndex(props) {
 
               <div className="hidden-menu" id="myLinks" style={hiddenStyle}>
                 <div className="col-12 navbar-center-align">
-                  <form  onSubmit={handleOnSubmit}>
+                  <form onSubmit={handleOnSubmit}>
                     <div
                       className="row search-area"
                       style={{ width: "80%", margin: "0px auto" }}
@@ -267,7 +271,10 @@ function NavbarIndex(props) {
                   style={{ marginTop: "15px", paddingBottom: "15px" }}
                 >
                   <div className="col-6 navbar-center-align">
-                    <a className="navbar-link navbar-upload-book" href="#">
+                    <a
+                      className="navbar-link navbar-upload-book"
+                      href="/user/upload"
+                    >
                       <i className="fas fa-book"></i> Upload Book
                     </a>
                   </div>
@@ -282,22 +289,22 @@ function NavbarIndex(props) {
                     </button>
                     <ul className="dropdown-menu dropdown-menu-end">
                       <li>
-                        <a className="dropdown-item" href="#">
+                        <a className="dropdown-item" href="/user/setting">
                           Setting
                         </a>
                       </li>
                       <li>
-                        <a className="dropdown-item" href="#">
+                        <a className="dropdown-item" href="/user/info">
                           My Books
                         </a>
                       </li>
                       <li>
-                        <a className="dropdown-item" href="#">
+                        <a className="dropdown-item" href="/user/favourite">
                           Favourites
                         </a>
                       </li>
                       <li>
-                        <a className="dropdown-item" href="#">
+                        <a className="dropdown-item" onClick={handleLogOut}>
                           Log Out
                         </a>
                       </li>
@@ -311,12 +318,11 @@ function NavbarIndex(props) {
           <>
             <div className="navbar-bg navbar-desktop">
               <div className="row" style={{ height: "64px" }}>
-                
-                  <div className="col-md-2 navbar-center-align">
+                <div className="col-md-2 navbar-center-align">
                   <a
-                  href="/"
-                  style={{ color: "inherit", textDecoration: "inherit" }}
-                >
+                    href="/"
+                    style={{ color: "inherit", textDecoration: "inherit" }}
+                  >
                     <div className="row">
                       <div className="col-md-3" style={{ marginRight: "10px" }}>
                         <img
@@ -329,10 +335,11 @@ function NavbarIndex(props) {
                         <h1 className="nav-logo-h1">PAPERO</h1>
                       </div>
                     </div>
-                  </a></div>
-                
+                  </a>
+                </div>
+
                 <div className="col-md-7 navbar-center-align">
-                  <form  onSubmit={handleOnSubmit}>
+                  <form onSubmit={handleOnSubmit}>
                     <div
                       className="row search-area"
                       style={{ width: "80%", margin: "0px auto" }}
@@ -375,13 +382,16 @@ function NavbarIndex(props) {
                 </div>
 
                 <div className="col-md-3 navbar-center-align">
-                  <button className="navbar-link navbar-upload-book" href="#">
+                  <a
+                    className="navbar-link navbar-upload-book"
+                    href="/user/upload"
+                  >
                     <i className="fas fa-book"></i> Upload Book
-                  </button>
-                  <a className="navbar-link" href="#" href="/login">
+                  </a>
+                  <a className="navbar-link" href="/login">
                     Login
                   </a>
-                  <a className="navbar-link" href="#" href="/register">
+                  <a className="navbar-link" href="/register">
                     Register
                   </a>
                 </div>
@@ -431,7 +441,7 @@ function NavbarIndex(props) {
 
               <div className="hidden-menu" id="myLinks" style={hiddenStyle}>
                 <div className="col-12 navbar-center-align">
-                  <form  onSubmit={handleOnSubmit}>
+                  <form onSubmit={handleOnSubmit}>
                     <div
                       className="row search-area"
                       style={{ width: "80%", margin: "0px auto" }}
@@ -481,13 +491,16 @@ function NavbarIndex(props) {
                   style={{ marginTop: "15px", paddingBottom: "15px" }}
                 >
                   <div className="col-md-6 col-12 navbar-center-align">
-                    <a className="navbar-link navbar-upload-book" href="#">
+                    <a
+                      className="navbar-link navbar-upload-book"
+                      href="/user/upload"
+                    >
                       <i className="fas fa-book"></i> Upload Book
                     </a>
-                    <a className="navbar-link" href="#" href="/login">
+                    <a className="navbar-link" href="/login">
                       Login
                     </a>
-                    <a className="navbar-link" href="#" href="/register">
+                    <a className="navbar-link" href="/register">
                       Register
                     </a>
                   </div>

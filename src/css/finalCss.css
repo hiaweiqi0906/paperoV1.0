@@ -15,7 +15,7 @@
   background-color: #91091e;
   width: 100%;
   border-radius: 10px;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -59,7 +59,7 @@
   width: 100%;
   padding: 10px 0px;
   border-radius: 10px;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -76,7 +76,7 @@
   border: 1px solid #91091e;
   border-radius: 10px;
   margin-top: 5px;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -86,7 +86,7 @@
 }
 
 .eb-h3 {
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -234,7 +234,7 @@ input[type="file"] {
   background-color: #91091e;
   padding: 10px 0px;
   border-radius: 10px;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 30px;
@@ -252,7 +252,7 @@ input[type="file"] {
   border: 1px solid #91091e;
   border-radius: 10px;
   margin-top: 5px;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 30px;
@@ -316,7 +316,7 @@ input[type="file"] {
 }
 
 .ii-h3 {
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -328,12 +328,12 @@ input[type="file"] {
 }
 
 .ii-h1 {
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-weight: 600;
 }
 
 .ii-h2 {
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 30px;
   font-style: normal;
   font-weight: 500;
@@ -373,7 +373,7 @@ input[type="file"] {
 }
 
 .ii-section-title {
-  font-family: Montserrat;
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -384,7 +384,7 @@ input[type="file"] {
 
 .ii-slot-title {
   display: inline;
-  font-family: Montserrat;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -497,7 +497,7 @@ input[type="file"] {
   width: 100%;
   padding: 10px 0px;
   border-radius: 10px;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -522,7 +522,7 @@ input[type="file"] {
   border: 1px solid #91091e;
   border-radius: 10px;
   margin-top: 5px;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -564,7 +564,7 @@ input[type="file"] {
 }
 
 .si-h3 {
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -591,7 +591,7 @@ input[type="file"] {
 
 .si-slot-title {
   display: inline;
-  font-family: Montserrat;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -606,7 +606,7 @@ input[type="file"] {
 }
 
 .si-section-title {
-  font-family: Montserrat;
+  font-family: 'Montserrat', sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
@@ -658,7 +658,7 @@ body {
   background: #ededed80;
   padding: 0px 9vw;
   margin-top: 90px;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -669,7 +669,7 @@ body {
 /* body {
   background: #ededed80;
   padding: 90px 9% 0;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -679,7 +679,7 @@ body {
 } */
 
 .sid-h3 {
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -691,7 +691,7 @@ body {
 }
 
 .sid-section-title {
-  font-family: Montserrat;
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -702,7 +702,7 @@ body {
 
 .sid-slot-title {
   display: inline;
-  font-family: Montserrat;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -773,7 +773,7 @@ body {
 
 .sid-categories-text {
   display: inline;
-  font-family: Montserrat;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -803,7 +803,7 @@ body {
   width: 100%;
   padding: 10px 0px;
   border-radius: 10px;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -813,7 +813,7 @@ body {
 }
 
 .ub-h3 {
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -890,7 +890,7 @@ input[type="file"] {
 }
 
 .uf-h3 {
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -907,7 +907,7 @@ input[type="file"] {
 
 .uf-slot-title {
   display: inline;
-  font-family: Montserrat;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -922,7 +922,7 @@ input[type="file"] {
 }
 
 .uf-section-title {
-  font-family: Montserrat;
+  font-family: 'Montserrat', sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
@@ -958,7 +958,7 @@ input[type="file"] {
   width: 100%;
   padding: 10px 0px;
   border-radius: 10px;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -979,7 +979,7 @@ input[type="file"] {
   border: 1px solid #91091e;
   border-radius: 10px;
   margin-top: 5px;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -1029,7 +1029,7 @@ input[type="file"] {
 }
 
 .uhp-h3 {
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -1056,7 +1056,7 @@ input[type="file"] {
 
 .uhp-slot-title {
   display: inline;
-  font-family: Montserrat;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -1071,7 +1071,7 @@ input[type="file"] {
 }
 
 .uhp-section-title {
-  font-family: Montserrat;
+  font-family: 'Montserrat', sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
@@ -1099,7 +1099,7 @@ input[type="file"] {
   width: 100%;
   padding: 10px 0px;
   border-radius: 10px;
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -1125,7 +1125,7 @@ input[type="file"] {
 }
 
 .us-h3 {
-  font-family: "Montserrat";
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -1228,7 +1228,7 @@ input[type="file"] {
   .ii-h3,
   .si-h3,
   .uhp-h3 {
-    font-family: "Montserrat";
+    font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     font-style: normal;
     font-weight: 400;
@@ -1240,7 +1240,7 @@ input[type="file"] {
   }
 
   .ii-section-title {
-    font-family: Montserrat;
+    font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     font-style: normal;
     font-weight: 400;

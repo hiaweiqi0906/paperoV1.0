@@ -765,6 +765,9 @@ export default function FilterSection(props) {
   let query = "";
 
   function onSearch() {
+    if(searchQuery['search']===''){
+      query+='search=&'
+    }
     Object.keys(searchQuery).forEach((key) =>
       searchQuery[key] === "" ? delete searchQuery[key] : {}
     );

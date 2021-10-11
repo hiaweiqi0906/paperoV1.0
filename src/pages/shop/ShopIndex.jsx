@@ -100,6 +100,55 @@ function ShopIndex() {
             </div>
             <div className="">
               <div className="row g-2 margin-top-30">
+              <div className="col-md-1 col-3">
+                  <a
+                    href="/search/search=&category=SPM Books"
+                    style={{ color: "inherit", textDecoration: "inherit" }}
+                  >
+                    <div className="sid-categories-slot first-col" style={{background: '#c47e89', borderRadius: '5px'}}>
+                      <div className="sid-slot-img-category">
+                        <i
+                          class="fas fa-palette fa-3x"
+                          style={{ width: "auto", margin: "0 auto" }}
+                        ></i>
+                      </div>
+                      <div className="sid-item-title-and-sid-price">
+                        <p className="sid-categories-text">SPM Books</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div className="col-md-1 col-3">
+                  <a
+                    href="/search/search=&category=STPM Books"
+                    style={{ color: "inherit", textDecoration: "inherit" }}
+                  >
+                    <div className="sid-categories-slot first-col" style={{background: '#c47e89', borderRadius: '5px'}}>
+                      <div className="sid-slot-img-category">
+                        <i class="fas fa-atlas fa-3x"></i>
+                      </div>
+                      <div className="sid-item-title-and-sid-price">
+                        <p className="sid-categories-text">STPM Books</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div className="col-md-1 col-3">
+                  <a
+                    href="/search/search=&category=Matrikulasi Books"
+                    style={{ color: "inherit", textDecoration: "inherit" }}
+                  >
+                    <div className="sid-categories-slot first-col" style={{background: '#c47e89', borderRadius: '5px'}}>
+                      <div className="sid-slot-img-category">
+                        <i class="fas fa-briefcase fa-3x"></i>
+                      </div>
+                      <div className="sid-item-title-and-sid-price">
+                        <p className="sid-categories-text">Matrikulasi Books</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
                 <div className="col-md-1 col-3">
                   <a
                     href="/search/search=&category=Arts %26 Music"
@@ -238,7 +287,10 @@ function ShopIndex() {
                     </div>
                   </a>
                 </div>
-                <div className="col-md-1 col-3">
+                
+              </div>
+              <div className="row g-2 margin-top-30">
+              <div className="col-md-1 col-3">
                   <a
                     href="/search/search=&category=History"
                     style={{ color: "inherit", textDecoration: "inherit" }}
@@ -283,8 +335,7 @@ function ShopIndex() {
                     </div>
                   </a>
                 </div>
-              </div>
-              <div className="row g-2 margin-top-30">
+                
                 <div className="col-md-1 col-3">
                   <a
                     href="/search/search=&category=Horror"
@@ -422,6 +473,11 @@ function ShopIndex() {
                     </div>
                   </a>
                 </div>
+                
+              </div>
+              <div className="row g-2 margin-top-30" style={triggerDisplay}>
+                <div className="col-md-1 col-3 disappear-mobile"></div>
+                <div className="col-md-1 col-3 disappear-mobile"></div>
                 <div className="col-md-1 col-3">
                   <a
                     href="/search/search=&category=Science %26 Math"
@@ -439,7 +495,7 @@ function ShopIndex() {
                 </div>
                 <div className="col-md-1 col-3">
                   <a
-                    href="/search/search=&category=Self Help %26 Improments"
+                    href="/search/search=&category=Self Help %26 Improvements"
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="sid-categories-slot first-col">
@@ -469,11 +525,6 @@ function ShopIndex() {
                     </div>
                   </a>
                 </div>
-              </div>
-              <div className="row g-2 margin-top-30" style={triggerDisplay}>
-                <div className="col-md-1 col-3 disappear-mobile"></div>
-                <div className="col-md-1 col-3 disappear-mobile"></div>
-                <div className="col-md-1 col-3 disappear-mobile"></div>
                 <div className="col-md-1 col-3">
                   <a
                     href="/search/search=&category=Sports"

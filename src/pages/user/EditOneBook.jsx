@@ -11,6 +11,10 @@ function EditOneBook(props) {
   const [imgPreview1, setImgPreview1] = useState("");
   const [imgPreview2, setImgPreview2] = useState("");
   const [imgPreview3, setImgPreview3] = useState("");
+  const [errorArr, setErrorArr] = useState([]);
+  const [loadingStyle, setLoadingStyle] = useState({ display: "none" });
+  const [loadingNoneStyle, setLoadingNoneStyle] = useState({ display: "flex" });
+  let errArr = [];
   const [states, setStates] = useState([
     "Johor",
     "Kedah",
@@ -747,6 +751,27 @@ function EditOneBook(props) {
   ]);
   const [areasToShow, setAreasToShow] = useState([]);
 
+  const handleOnDelete = async (e) => {
+    e.preventDefault();
+    setLoadingStyle({ display: "flex" });
+    setLoadingNoneStyle({ display: "none" });
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    await axios
+      .delete(
+        "https://papero-dev.herokuapp.com/sellers/delete/" + bookId,
+        config
+      )
+      .then((res) => {
+        window.location.pathname = "/";
+      })
+      .catch((err) => console.log(err));
+  };
+
   const [errorMsg, setErrorMsg] = useState("");
   const [data, setData] = useState({
     _id: "",
@@ -754,8 +779,9 @@ function EditOneBook(props) {
     uploadedBy: "",
     coverImg: "",
     img1: "",
+    year: "",
     img2: "",
-    imgUri: [],
+    imageUri: [],
   });
 
   function handleOnChange(e) {
@@ -805,47 +831,77 @@ function EditOneBook(props) {
           coverImg: "",
           img1: "",
           img2: "",
+          ["contactNumber"]: "0" + res.data.book.contactNumber,
+          ["year"]: res.data.book.year.toString(),
         });
         setAreasToShow(areaLocations[states.indexOf(res.data.book.states)]);
         setCoverImgPreview(res.data.book.coverImgUri);
 
-        res.data.book.imgUri[0]
-          ? setImgPreview1(res.data.book.imgUri[0])
+        res.data.book.imageUri[0]
+          ? setImgPreview1(res.data.book.imageUri[0])
           : setImgPreview1("");
-        res.data.book.imgUri[1]
-          ? setImgPreview2(res.data.book.imgUri[1])
+        res.data.book.imageUri[1]
+          ? setImgPreview2(res.data.book.imageUri[1])
           : setImgPreview2("");
-        res.data.book.imgUri[2]
-          ? setImgPreview3(res.data.book.imgUri[2])
+        res.data.book.imageUri[2]
+          ? setImgPreview3(res.data.book.imageUri[2])
           : setImgPreview3("");
       })
       .catch((err) => console.log(err));
   }, [data._id]);
 
   function checkNoEmpty() {
+    errArr = [];
     if (
       !data.bookTitle ||
+      !data.isbn ||
       !data.price ||
       !data.description ||
       !data.category ||
+      !data.year ||
       !data.bookLanguage ||
       !data.states ||
       data.areaLocations == "test" ||
       !data.areaLocations ||
       !data.contactNumber
     ) {
-      setErrorMsg("Please Enter All Required Fields! ");
-      return false;
+      errArr = [...errArr, "Please enter all required(*) fields"];
+    }
+    if (data.bookTitle.length < 20) {
+      errArr = [...errArr, "Title should be min 20 characters"];
     }
 
-    return true;
+    if (data.isbn.includes("-")) {
+      data.isbn.replace("-", "");
+    }
+
+    if (
+      (data.messengerLink != "" && !data.messengerLink.includes("http")) ||
+      (data.instagramLink != "" && !data.instagramLink.includes("http")) ||
+      (data.wechatLink != "" && !data.wechatLink.includes("http")) ||
+      (data.whatsappLink != "" && !data.whatsappLink.includes("http"))
+    ) {
+      errArr = [...errArr, "All social media should be link(s)"];
+    }
+
+    if (data.isbn.length != 13) {
+      errArr = [...errArr, "ISBN should be 13 characters (without -)"];
+    }
+
+    if (data.year.length != 4) {
+      errArr = [...errArr, "Year published entered invalid"];
+    }
+
+    setErrorArr(errArr);
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(data.uploadedBy);
     if (data.coverImg || data.img1 || data.img2) {
-      if (checkNoEmpty()) {
+      checkNoEmpty();
+      if (errArr.length === 0) {
+        setLoadingStyle({ display: "flex" });
+        setLoadingNoneStyle({ display: "none" });
         try {
           let formData = new FormData();
           // formData.append("coverImg", data.coverImg);
@@ -896,7 +952,7 @@ function EditOneBook(props) {
               uploadedBy: "",
               publishingCompany: "",
               language: "",
-              isbn: 0,
+              isbn: "",
               coverType: "",
               year: "",
               quantity: 1,
@@ -916,7 +972,10 @@ function EditOneBook(props) {
         }
       }
     } else {
-      if (checkNoEmpty()) {
+      checkNoEmpty();
+      if (errArr.length === 0) {
+        setLoadingStyle({ display: "flex" });
+        setLoadingNoneStyle({ display: "none" });
         data.location = data.areaLocations;
         const config = {
           withCredentials: true,
@@ -948,14 +1007,17 @@ function EditOneBook(props) {
       <div className="container">
         <section id="eb-main-upload-part">
           <div className="eb-main-upload-part">
-            {errorMsg != "" && (
-              <div
-                className="alert alert-warning alert-dismissible fade show"
-                role="alert"
-              >
-                <strong>Uh oh!</strong> {errorMsg}
-              </div>
-            )}
+            {errorArr.map((err, index) => {
+              return (
+                <div
+                  key={index}
+                  className="alert alert-warning alert-dismissible fade show"
+                  role="alert"
+                >
+                  <strong>Uh oh!</strong> {err}
+                </div>
+              );
+            })}
             <form encType="multipart/form-data" onSubmit={handleSubmit}>
               <section id="eb-basic-info">
                 <div className="eb-basic-info">
@@ -972,6 +1034,7 @@ function EditOneBook(props) {
                           type="file"
                           name="coverImg"
                           onChange={handleOnChange}
+                          accept="image/*"
                           id="coverImg"
                           style={{ display: "none" }}
                         />
@@ -997,6 +1060,7 @@ function EditOneBook(props) {
                           name="img1"
                           onChange={handleOnChange}
                           id="img1"
+                          accept="image/*"
                           style={{ display: "none" }}
                         />
                         <img
@@ -1020,6 +1084,7 @@ function EditOneBook(props) {
                           name="img2"
                           onChange={handleOnChange}
                           id="img2"
+                          accept="image/*"
                           style={{ display: "none" }}
                         />
                         <img
@@ -1043,6 +1108,7 @@ function EditOneBook(props) {
                           name="img3"
                           onChange={handleOnChange}
                           id="img3"
+                          accept="image/*"
                           style={{ display: "none" }}
                         />
                         <img
@@ -1107,7 +1173,10 @@ function EditOneBook(props) {
                       <input
                         required
                         style={{ width: "100%" }}
-                        type="text"
+                        type="number"
+                        value={data.isbn}
+                        placeholder="Enter ISBN (without '-')"
+                        onChange={handleOnChange}
                         name="isbn"
                         id="isbn"
                       />
@@ -1296,7 +1365,7 @@ function EditOneBook(props) {
                         type="number"
                         id="contactNumber"
                         name="contactNumber"
-                        value={"0" + data.contactNumber}
+                        value={data.contactNumber ? data.contactNumber : ""}
                         onChange={handleOnChange}
                       />
                     </div>
@@ -1382,13 +1451,23 @@ function EditOneBook(props) {
                 </div>
               </section>
               <section id="buttons">
-                <div className="row">
+                <div className="row" style={loadingNoneStyle}>
                   <div className="col-md-3"></div>
                   <div className="col-md-3">
-                    <button className="eb-secondary-btn">Delete</button>
+                    <button
+                      onClick={handleOnDelete}
+                      className="eb-secondary-btn"
+                    >
+                      Delete
+                    </button>
                   </div>
                   <div className="col-md-3">
-                    <button className="eb-secondary-btn">Sold</button>
+                    <button
+                      onClick={handleOnDelete}
+                      className="eb-secondary-btn"
+                    >
+                      Sold
+                    </button>
                   </div>
                   <div className="col-md-3">
                     <button className="eb-primary-btn" type="submit">
@@ -1396,6 +1475,54 @@ function EditOneBook(props) {
                     </button>
                   </div>
                 </div>
+                <div className="row" style={loadingStyle}>
+                  <div className="col-md-3">
+                    <div className="row">
+                      <div className="col-md-4">
+                        <img
+                          style={{
+                            width: "30px",
+                            display: "block",
+                            textAlign: "right",
+                          }}
+                          src="https://res.cloudinary.com/papero/image/upload/c_crop,h_54/v1633658908/200_xbc604.gif"
+                          alt=""
+                        />
+                      </div>
+                      <div className="col-md-8 ub-label">
+                        <label for="">Updating... </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <button
+                      style={{ background: "#804e55" }}
+                      onClick={handleOnDelete}
+                      className="eb-secondary-btn"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                  <div className="col-md-3">
+                    <button
+                      style={{ background: "#804e55" }}
+                      onClick={handleOnDelete}
+                      className="eb-secondary-btn"
+                    >
+                      Sold
+                    </button>
+                  </div>
+                  <div className="col-md-3">
+                    <button
+                      className="eb-primary-btn"
+                      style={{ background: "#804e55" }}
+                      type="submit"
+                    >
+                      Update
+                    </button>
+                  </div>
+                </div>
+
                 {errorMsg != "" && (
                   <div
                     className="alert alert-warning alert-dismissible fade show"

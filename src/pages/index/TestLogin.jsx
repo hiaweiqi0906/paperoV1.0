@@ -30,8 +30,9 @@ function TestLogin() {
         }
       })
       .catch((err) => {
-        setIncorrect(true)
-        console.log(err)});
+        setIncorrect(true);
+        console.log(err);
+      });
   }
 
   function handleOnChange(e) {
@@ -61,14 +62,14 @@ function TestLogin() {
                 <h2 className="ii-h2 ">Log In</h2>
 
                 {incorrect && (
-                      <div
-                        className="alert alert-warning alert-dismissible fade show"
-                        role="alert"
-                        style={{marginBottom: '-50px'}}
-                      >
-                        <strong>Uh oh!</strong> Username or Password Incorrect!
-                      </div>
-                    )}
+                  <div
+                    className="alert alert-warning alert-dismissible fade show"
+                    role="alert"
+                    style={{ marginBottom: "-50px" }}
+                  >
+                    <strong>Uh oh!</strong> Username or Password Incorrect!
+                  </div>
+                )}
                 <div style={{ margin: "50px 0" }}>
                   <div className="row" style={{ marginBottom: "10px" }}>
                     <div className="col-md-12  col-12">

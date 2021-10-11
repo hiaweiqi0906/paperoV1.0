@@ -226,12 +226,11 @@ export default function UserInfo() {
                   books.map((book, index) => {
                     if (books.length === index + 1) {
                       return (
-                        <BookRowEditable
-                          ref={lastBookElementRef}
-                          bookId={book._id}
-                          books={book}
-                          key={book._id}
-                        />
+                        <React.Fragment key={book._id}>
+                          <BookRowEditable bookId={book._id} books={book} />
+
+                          <div ref={lastBookElementRef}></div>
+                        </React.Fragment>
                       );
                     }
                     return (

@@ -10,7 +10,7 @@ function TestRegister() {
     lastName: "",
   });
 
-  const [errorMsg, setErrorMsg] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
   function onChange(e) {
     const { name, value } = e.target;
     setUserInfo((prevValue) => {
@@ -30,7 +30,7 @@ function TestRegister() {
     axios
       .post("https://papero-dev.herokuapp.com/users/register", userInfo, config)
       .then((res) => {
-        if (res.status === 200) {
+        if (res.data.msg === "registered") {
           window.location.pathname = "/login";
           setUserInfo({
             email: "",
@@ -40,6 +40,7 @@ function TestRegister() {
             lastName: "",
           });
         } else {
+          setErrorMsg(res.data.msg);
         }
       })
       .catch((err) => console.log(err));
@@ -61,6 +62,15 @@ function TestRegister() {
             <div className="col-md-5 col-12">
               <section id="register-form">
                 <h2 className="ii-h2 ">Register</h2>
+                {errorMsg != "" && (
+                  <div
+                    className="alert alert-warning alert-dismissible fade show"
+                    role="alert"
+                    style={{ marginBottom: "-50px" }}
+                  >
+                    <strong>Uh oh!</strong> {errorMsg}
+                  </div>
+                )}
                 <div style={{ margin: "50px 0" }}>
                   <div className="row" style={{ marginBottom: "10px" }}>
                     <div className="col-md-12  col-12">
