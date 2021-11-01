@@ -6,6 +6,9 @@ export default function FilterSection(props) {
 
   const [filterDisplay, setFilterDisplay] = useState({ display: "none" });
   const allCategories = [
+    "SPM Books",
+    "STPM Books",
+    "Matrikulasi Books",
     "Arts & Music",
     "Biography",
     "Business",

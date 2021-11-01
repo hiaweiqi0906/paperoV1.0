@@ -23,12 +23,14 @@ export default function OtherBooksFromSeller(props) {
               </h3>
             </div>
             <div className="col">
+              <a href={`/otherUser/${props._id}`}
+              style={{ textDecoration: "inherit", color: "inherit" }}>
               <h3
                 className="ii-h3 ii-section-title"
                 style={{ textAlign: "right" }}
               >
                 See More
-              </h3>
+              </h3></a>
             </div>
           </div>
         </div>

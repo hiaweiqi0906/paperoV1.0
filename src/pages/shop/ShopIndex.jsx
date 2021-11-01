@@ -504,7 +504,7 @@ function ShopIndex() {
                       </div>
                       <div className="sid-item-title-and-sid-price">
                         <p className="sid-categories-text">
-                          Self Help & Improments
+                          Self Help & Improvements
                         </p>
                       </div>
                     </div>
@@ -604,9 +604,9 @@ function ShopIndex() {
             </div>
           </div>
         </section>
-        <section id="preferred-book">
+        {/* <section id="preferred-book">
           <PreferredBookRow />
-        </section>
+        </section> */}
         <section id="uploaded-recently">
           <UploadedRecentlyBookRow />
         </section>

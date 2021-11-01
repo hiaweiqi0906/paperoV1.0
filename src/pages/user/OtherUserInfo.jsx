@@ -179,14 +179,16 @@ export default function OtherUserInfo() {
                           style={{ pointerEvents: "none" }}
                         >
                           <a href={userInfo.instagramLink} target="_blank">
-                            <i className="fab fa-instagram dropbtn"></i>
+                            <i className="fab fa-instagram dropbtn" style={{ color: "#9d9d9d " }}></i>
                           </a>
                         </div>
                       )}
                       {userInfo.wechatLink != "" ? (
                         <div className="col-md-2 col-3 dropup">
                           <a href={userInfo.wechatLink} target="_blank">
-                            <i className="fab fa-weixin dropbtn"></i>
+                            <i
+                              className="fab fa-weixin dropbtn"
+                            ></i>
                           </a>
                         </div>
                       ) : (
@@ -215,7 +217,10 @@ export default function OtherUserInfo() {
                           style={{ pointerEvents: "none" }}
                         >
                           <a href={userInfo.whatsappLink} target="_blank">
-                            <i className="fab fa-whatsapp dropbtn"></i>
+                            <i
+                              className="fab fa-whatsapp dropbtn"
+                              style={{ color: "#9d9d9d " }}
+                            ></i>
                           </a>
                         </div>
                       )}
@@ -232,7 +237,10 @@ export default function OtherUserInfo() {
                           style={{ pointerEvents: "none" }}
                         >
                           <a href={userInfo.messengerLink} target="_blank">
-                            <i className="fab fa-facebook-messenger dropbtn"></i>
+                            <i
+                              className="fab fa-facebook-messenger dropbtn"
+                              style={{ color: "#9d9d9d " }}
+                            ></i>
                           </a>
                         </div>
                       )}
@@ -280,7 +288,35 @@ export default function OtherUserInfo() {
                     onChange={handleOnChangeReports}
                     style={{ width: "100%" }}
                   >
-                    <option value="">Misleading</option>
+                    <option defaultValue hidden>
+                      Select an Option
+                    </option>
+                    <option value="Misleading">Misleading</option>
+                    <option value="Spam">Spam</option>
+                    <option value="Nudity or sexual activity">
+                      Nudity or sexual activity
+                    </option>
+                    <option value="Hate speech or symbols">
+                      Hate speech or symbols
+                    </option>
+                    <option value="Racist language or activity">
+                      Racist language or activity
+                    </option>
+                    <option value="Violence or dangerous organizations">
+                      Violence or dangerous organizations
+                    </option>
+                    <option value="Bullying or harassment">
+                      Bullying or harassment
+                    </option>
+                    <option value="Selling illegal or regulated goods">
+                      Selling illegal or regulated goods
+                    </option>
+                    <option value="Intellectual property violations">
+                      Intellectual property violations
+                    </option>
+                    <option value="Suicide or self-injury">
+                      Suicide or self-injury
+                    </option>
                   </select>
                 </div>
                 <div className="col-md-1"></div>

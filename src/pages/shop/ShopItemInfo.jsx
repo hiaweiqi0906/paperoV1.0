@@ -27,6 +27,9 @@ function ShopItemInfo(props) {
   }, [book.bookTitle]);
 
   function handleOnUnblur() {
+    alert(
+      `PAPERO MY is an online platform for second hand book listing, we're not responsible to any scams or frauds or misleading ads. Please contact seller and order from him/her at your own risk!\n\nTo lower the risk of being scammed, ask the books details, few photos and communicate with sellers before you order anything from him/her.\n\nDo not give any of your personal details to anyone! Thanks for using PAPERO MY!`
+    );
     setBlurStyle({
       WebkitFilter: "blur(0px)",
       MozFilter: "blur(0px)",
@@ -43,7 +46,8 @@ function ShopItemInfo(props) {
     else setReportShow({ display: "none" });
   }
 
-  function handleOnSubmitReports() {
+  function handleOnSubmitReports(e) {
+    e.preventDefault()
     const reports = { details: reportSelection1 + ", " + reportSelection2 };
     const config = {
       withCredentials: true,
@@ -51,17 +55,14 @@ function ShopItemInfo(props) {
         "Content-Type": "application/json",
       },
     };
-    axios
-      .post(
+    axios.post(
         "https://papero-dev.herokuapp.com/reportBook&id=" + book._id,
         reports,
         config
       )
       .then((res) => {
-        if (res.status === "200") {
-        } else if (res.status === "401") {
-          // window.location.pathname = "/"
-        }
+        
+        window.location.reload()
       })
       .catch((err) => console.log(err));
   }
@@ -322,13 +323,41 @@ function ShopItemInfo(props) {
                 <div className="col-md-2">Reasons:</div>
                 <div className="col-md-3">
                   <select
-                    name="reportReasons"
+                    name="reportSelection1"
                     id=""
                     value={reportSelection1}
                     onChange={handleOnChangeReports}
                     style={{ width: "100%" }}
                   >
-                    <option value="">Misleading</option>
+                    <option defaultValue hidden>
+                      Select an Option
+                    </option>
+                    <option value="Misleading">Misleading</option>
+                    <option value="Spam">Spam</option>
+                    <option value="Nudity or sexual activity">
+                      Nudity or sexual activity
+                    </option>
+                    <option value="Hate speech or symbols">
+                      Hate speech or symbols
+                    </option>
+                    <option value="Racist language or activity">
+                      Racist language or activity
+                    </option>
+                    <option value="Violence or dangerous organizations">
+                      Violence or dangerous organizations
+                    </option>
+                    <option value="Bullying or harassment">
+                      Bullying or harassment
+                    </option>
+                    <option value="Selling illegal or regulated goods">
+                      Selling illegal or regulated goods
+                    </option>
+                    <option value="Intellectual property violations">
+                      Intellectual property violations
+                    </option>
+                    <option value="Suicide or self-injury">
+                      Suicide or self-injury
+                    </option>
                   </select>
                 </div>
                 <div className="col-md-1"></div>
@@ -336,7 +365,7 @@ function ShopItemInfo(props) {
                 <div className="col-md-4" style={{ marginBottom: "30px" }}>
                   <input
                     type="text"
-                    name=""
+                    name="reportSelection2"
                     id=""
                     value={reportSelection2}
                     onChange={handleOnChangeReports}
@@ -441,7 +470,7 @@ function ShopItemInfo(props) {
           </div>
         </section>
         <section id="other-books-from-seller">
-          <OtherBooksFromSeller email={book.uploadedBy} />
+          <OtherBooksFromSeller email={book.uploadedBy} _id={userInfo._id}/>
         </section>
         <section id="preferred-book">
           <PreferredBookRow />

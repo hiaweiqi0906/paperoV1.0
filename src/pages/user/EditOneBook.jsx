@@ -45,6 +45,9 @@ function EditOneBook(props) {
     "Others",
   ];
   const allCategories = [
+    "SPM Books",
+    "STPM Books",
+    "Matrikulasi Books",
     "Arts & Music",
     "Biography",
     "Business",

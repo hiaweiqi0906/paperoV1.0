@@ -32,6 +32,9 @@ function UploadBook(props) {
     "Terengganu",
   ]);
   const allCategories = [
+    "SPM Books",
+    "STPM Books",
+    "Matrikulasi Books",
     "Arts & Music",
     "Biography",
     "Business",

@@ -128,7 +128,7 @@ function NavbarIndex(props) {
                             border: "none",
                           }}
                         >
-                          <i className="fas fa-search"></i>
+                          <i className="fas fa-search"  style={{color: '#91091e'}}></i>
                         </button>
                       </div>
                     </div>
@@ -259,7 +259,7 @@ function NavbarIndex(props) {
                             border: "none",
                           }}
                         >
-                          <i className="fas fa-search"></i>
+                          <i className="fas fa-search"  style={{color: '#91091e'}}></i>
                         </button>
                       </div>
                     </div>
@@ -374,7 +374,7 @@ function NavbarIndex(props) {
                             border: "none",
                           }}
                         >
-                          <i className="fas fa-search"></i>
+                          <i className="fas fa-search"  style={{color: '#91091e'}}></i>
                         </button>
                       </div>
                     </div>
@@ -479,7 +479,7 @@ function NavbarIndex(props) {
                             border: "none",
                           }}
                         >
-                          <i className="fas fa-search"></i>
+                          <i className="fas fa-search"  style={{color: '#91091e'}}></i>
                         </button>
                       </div>
                     </div>

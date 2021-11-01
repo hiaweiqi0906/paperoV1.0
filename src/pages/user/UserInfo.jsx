@@ -135,7 +135,7 @@ export default function UserInfo() {
                           style={{ pointerEvents: "none" }}
                         >
                           <a href={userInfo.instagramLink} target="_blank">
-                            <i className="fab fa-instagram dropbtn"></i>
+                            <i className="fab fa-instagram dropbtn"style={{ color: "#9d9d9d " }}></i>
                           </a>
                         </div>
                       )}
@@ -171,7 +171,8 @@ export default function UserInfo() {
                           style={{ pointerEvents: "none" }}
                         >
                           <a href={userInfo.whatsappLink} target="_blank">
-                            <i className="fab fa-whatsapp dropbtn"></i>
+                            <i className="fab fa-whatsapp dropbtn"
+                            style={{ color: "#9d9d9d " }}></i>
                           </a>
                         </div>
                       )}
@@ -188,7 +189,8 @@ export default function UserInfo() {
                           style={{ pointerEvents: "none" }}
                         >
                           <a href={userInfo.messengerLink} target="_blank">
-                            <i className="fab fa-facebook-messenger dropbtn"></i>
+                            <i className="fab fa-facebook-messenger dropbtn"
+                            style={{ color: "#9d9d9d " }}></i>
                           </a>
                         </div>
                       )}

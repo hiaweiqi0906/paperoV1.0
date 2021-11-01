@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function BannerComponent() {
-  const [ads, setAds] = useState([]);
+  const predefinedLinks = [{imgUri: 'https://res.cloudinary.com/papero/image/upload/v1635499772/banner_1_bjzu8m.jpg'}, {imgUri: 'https://res.cloudinary.com/papero/image/upload/v1635499772/banner_2_w2pz2h.jpg'}]
+  const [ads, setAds] = useState([...predefinedLinks]);
+
   useEffect(() => {
     axios.get("https://papero-dev.herokuapp.com/getBanner").then((res) => {
-      setAds(res.data);
+      setAds([...res.data, ...predefinedLinks]);
     });
   }, [ads.length]);
   return (
